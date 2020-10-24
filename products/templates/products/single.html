@@ -1,0 +1,27 @@
+{% extends "base.html"%}
+{% block page_content %}
+{% load static %}
+<div class="container">
+  <div class="row m-auto col-12">
+    <h2 class="display-4 col-12 text-center">{{ single_product.title|capfirst }}</h2>
+
+    <div class="col-md-5 mb-2">
+      {% for image in single_product.productimage_set.all %}
+        <img class="img-responsive" src="/media/{{ image.image }}" alt="">
+      {% endfor %}
+    </div>
+    <div class="col-md-7">
+      <p>Content: {{ single_product.title|capfirst }}</p>
+      <p>Price: €{{ single_product.price }}</p>
+      {{single_product.variation_set.sizes}}
+      <select class="" name="size">
+        {% for variation in single_product.variation_set.all %}
+          <option value="{{variation.title}}">{{variation.title}} €{{variation.price}}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,179 @@
+{% load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap 4 Website Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="https://kit.fontawesome.com/758fa7d06e.js" crossorigin="anonymous"></script>
+  <style>
+  .fakeimg {
+    height: 200px;
+    background: #aaa;
+  }
+  </style>
+</head>
+<body>
+<!-- start main-container-->
+<div class="container-fluid main-container">
+  <header class="row main-header">
+    <div class="container">
+      <div class="row w-100">
+        <nav class="navbar navbar-expand-lg navbar-light w-100">
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+            <div class="col-md-5">
+              <ul class="navbar-nav mr-auto mt-2 mt-lg-0 social-media">
+                <li class="nav-item active">
+                  <a class="nav-link" href="#"><i class="fa fa-facebook-square" aria-hidden="true"></i> <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#"><i class="fa fa-twitter-square" aria-hidden="true"></i></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#"><i class="fab fa-instagram-square"></i></a>
+                </li>
+              </ul>
+            </div>
+            <div class="col-md-3">
+              <a class="logo" href="#">
+                <img src="{% static 'images/logo.png'%}" alt="">
+              </a>
+            </div>
+            <div class="col-md-4">
+              <form class="form-inline my-2 my-lg-0">
+                <input class="form-control w-50 mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Search</button>
+                <div class=""><br>
+                  <a class="text-info" href="#">Login </a> | <a class="text-info" href="#">Create Account</a>
+                </div>
+
+              </form>
+            </div>
+
+          </div>
+        </nav>
+
+      </div><!-- end main-header-->
+    </div>
+  </header><!-- end header -->
+  <div class="row main-nav">
+    <div class="container">
+      <div class="row text-center">
+        <nav class="navbar navbar-expand-lg navbar-light m-auto">
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav nav-ul">
+              <li class="nav-item">
+                <a class="nav-link" href="#">HOME</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">CELEBRATION CAKES</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">CUPCAKES</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">GIFT CAKES</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">CORPORATE CAKES</a>
+              </li>
+              <!-- Dropdown -->
+              <li class="nav-item dropdown">
+                <button type="button" class="btn text-info dropdown-toggle" data-toggle="dropdown">
+                  <i class="fa fa-shopping-cart" aria-hidden="true"></i> <span class="badge badge-light">9</span>
+                </button>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" href="#">Link 1</a>
+                  <a class="dropdown-item" href="#">Link 2</a>
+                  <a class="dropdown-item" href="#">Link 3</a>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </div>
+    </div>
+
+  </div> <!-- end main-nav -->
+  {% block page_content%}
+
+  {% endblock %}
+  <section class="row footer-nav bg-light">
+    <div class="container">
+      <div class="row">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light m-auto">
+          <ul class="navbar-nav nav-ul">
+              <li class="nav-item">
+                <a class="nav-link" href="#">About</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Faq</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Contact</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Delivery Service</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Privavy Policy</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Terms & Conditions</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Sitemap</a>
+              </li>
+            </ul>
+        </nav>
+      </div>
+    </div>
+  </section>
+  <footer>
+    <div class="container">
+      <div class="row p-5">
+        <div class="col-4">
+          <img class="w-50" src="{% static 'images/logo.png'%}" alt="">
+        </div>
+        <div class="col-4">
+            <div class="h4 text-bold">
+              CakeCity
+            </div>
+            <hr>
+              <p>By combining personality and passion, we create breath-taking wedding cakes, corporate cakes and novelty cakes, that invariably become the focal point of any event’s décor</p>
+              <p>© 2020 CakeCity</p>
+
+        </div>
+        <div class="col-4">
+          <div class="h4 text-bold">
+            Contact
+          </div>
+          <hr>
+            <p>Call us:<br>
+                +353 87-763-8300<br>
+                E-mail:<br>
+                michael@creativecakes.ie<br>
+                Address:<br>
+                7 The Business Centre, Stadium Business Park, Blanchardstown, Dublin 15, D11 E625
+            </p>
+
+        </div>
+      </div>
+    </div>
+  </footer>
+</div><!-- end main-container-->
+
+
+</body>
+</html>

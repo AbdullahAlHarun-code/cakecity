@@ -1,0 +1,30 @@
+.main-container{
+    #background: #F8F1F1;
+    min-height: 100vh;
+    background: url("../images/bg.png") #F8F1F1;
+    background-size:cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+.main-header{
+  background: #f6cfca;
+  .jumbotron{
+    background-color: transparent !important;
+  }
+  .logo{
+    img{width:120px;}
+  }
+  .social-media{
+    li a {font-size:2rem;i{color:#17A2B8}}
+  }
+}
+.main-nav{
+  background:#E9C2BD;
+  .nav-ul{
+    .nav-item a{color:#17A2B8;font-weight:bold}
+  }
+
+}
+.deliver-section{
+  min-height:180px;
+}
