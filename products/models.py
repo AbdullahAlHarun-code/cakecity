@@ -2,6 +2,27 @@ from django.urls import reverse
 from django.db import models
 
 # Create your models here.
+
+# Cake Category
+CAKES_CATEGORY = (
+    ('0','Uncategorized'),
+    ('novelty','Novelty Cakes'),
+    ('wedding','Wedding Cakes'),
+    ('corporate','Corporate Cakes'),
+)
+
+class CakeCategory(models.Model):
+    category_name = models.CharField(max_length=120)
+    category = models.CharField(max_length=120, choices=CAKES_CATEGORY, default='0')
+    updated = models.DateTimeField(auto_now_add=False, auto_now=True)
+    active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.category_name
+
+    def __unicode__(self):
+        return self.category_name
+
 TIER_SIZE = (
     ('none','None'),
     ('1','1'),
@@ -30,9 +51,16 @@ size_choice_list = []
 for item in size_choices_object:
     size_choice_list.append(item)
 
+category_list_objects = CakeCategory.objects.all().values_list('category_name','category_name')
+category_choice_list = []
+for item in category_list_objects:
+    category_choice_list.append(item)
+
+
 class Product(models.Model):
     title = models.CharField(max_length=120)
     description = models.TextField(null=True, blank=True)
+    cake_category = models.CharField(max_length=120, choices=category_choice_list)
     tier = models.CharField(max_length=120, choices=TIER_SIZE, default='none')
     cake_size = models.ManyToManyField(CakeSizeCategory)
     price = models.DecimalField(decimal_places=2, max_digits=100)

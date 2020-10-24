@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Product, ProductImage, Flavour, Variation, CakeSizeCategory
+from .models import Product, CakeCategory, ProductImage, Flavour, Variation, CakeSizeCategory
 # Register your models here.
 
 class ProductImageAdmin(admin.StackedInline):
@@ -20,7 +20,7 @@ class ProductAdmin(admin.ModelAdmin):
     list_filter = ['create_date','title']
     search_fields = ['title', 'description']
     #list_editable = ["title"]
-    inlines = [ProductImageAdmin, ProductPriceVariation,]
+    inlines = [ProductPriceVariation, ProductImageAdmin,]
     class Meta:
         model = Product
 
@@ -44,3 +44,7 @@ class ProductFlavourVariation(admin.ModelAdmin):
     list_display = ['flavour_name','price', 'active']
     search_fields = ['flavour_name']
     list_editable = ["price"]
+
+@admin.register(CakeCategory)
+class CakeCategoryAdmin(admin.ModelAdmin):
+    list_display = ['category_name','category', 'active']
