@@ -15,7 +15,7 @@ class ProductPriceVariation(admin.StackedInline):
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ['title','create_date', 'updated']
+    list_display = ['title','cake_category', 'create_date', 'updated']
     list_display_links = ["title"]
     list_filter = ['create_date','title']
     search_fields = ['title', 'description']
@@ -33,7 +33,7 @@ class ProductImageAdmin(admin.ModelAdmin):
 
 @admin.register(Variation)
 class ProductPriceVariation(admin.ModelAdmin):
-    pass
+    list_display = ['size','price', 'active']
 
 @admin.register(CakeSizeCategory)
 class ProductCakeSizeCategory(admin.ModelAdmin):

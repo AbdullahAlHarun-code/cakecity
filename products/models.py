@@ -14,6 +14,7 @@ CAKES_CATEGORY = (
 class CakeCategory(models.Model):
     category_name = models.CharField(max_length=120)
     category = models.CharField(max_length=120, choices=CAKES_CATEGORY, default='0')
+    image = models.ImageField(upload_to='category/', null=True, blank=True)
     updated = models.DateTimeField(auto_now_add=False, auto_now=True)
     active = models.BooleanField(default=True)
 
@@ -67,11 +68,14 @@ class Product(models.Model):
     slug = models.SlugField(unique=True)
     create_date = models.DateTimeField(auto_now_add=True, auto_now=False)
     updated = models.DateTimeField(auto_now_add=False, auto_now=True)
-    active = models.BooleanField(default=True)
+    featured_cake = models.BooleanField(default=True)
+    active = models.BooleanField(default=False)
 
     class Meta:
         unique_together = ('title', 'slug')
-
+    # @property
+    # def category_name_display(self):
+    #     return "%s %s"%(CakeCategory.objects.filter(id=self.cake_category).category_name, '')
     def __unicode__(self):
         return self.title
     def get_price(self):
