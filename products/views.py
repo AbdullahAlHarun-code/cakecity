@@ -2,24 +2,44 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect, reverse
 from django.contrib import messages
 #from django.db.models import Q
-from .models import Product
+from .models import Product, CakeCategory
 #from .forms import PostForm
 # Create your views here.
+
+all_category = CakeCategory.objects.all()
+def product_category(request,p_cat):
+    category_items = CakeCategory.objects.all().filter(category=p_cat)
+    print(category_items)
+    context = {
+        'title':category_items[0].get_category_name_by_slug(),
+        'category_items':category_items,
+    }
+    return render(request, 'products/product-category.html',context)
+def category(request,cat):
+    category_item = get_object_or_404(CakeCategory, category_slug=cat)
+    #print(category_item.category)
+    products = ''
+    if category_item is not None:
+        #products = get_object_or_404(Product, cake_category=category_item.category_name)
+        products = Product.objects.all().filter(cake_category=category_item.category_name)
+    context = {
+        'title':'Testt title',
+        'category_item':category_item,
+        'products':products,
+    }
+    return render(request, 'products/category.html',context)
 def index(request):
-    loop_var1 = [1,2,3,4,5,6,7,8]
-    loop_var2 = [1,2,3,4,5]
+
     context = {
         'title':'Test title',
-        'loop1':loop_var1,
-        'loop2':loop_var2,
+        'all_category':all_category,
     }
     return render(request, 'web/home.html',context)
 def shop(request):
-    products = Product.objects.all()
     #images = PostImage.objects.filter(post=single_post)
     context = {
         'title':'All Cakes',
-        'products':products,
+        'all_category':all_category,
     }
     return render(request, 'products/shop.html',context)
 def single_product(request, slug):

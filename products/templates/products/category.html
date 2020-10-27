@@ -1,0 +1,32 @@
+{% extends "base.html"%}
+{% block page_content %}
+{% load static %}
+<div class="container">
+  <div class="row m-auto col-12">
+    <h2 class="display-4 col-12 text-center">{{category_item.category_name}}</h2>
+
+    <div class="row col-12 mb-2 pt-4">
+      {% if products%}
+      {% for product in products%}
+      <div class="card col-sm-3 mb-1">
+        <img src="/media/{{ product.productimage_set.all.first.image }}" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">{{ product.title|capfirst }}</h5>
+
+          {% for item in product.variation_set.all %}
+            <p>{{item.title|capfirst}}</p>
+          {% endfor %}
+
+          <a href="{{ product.get_absolute_url}}" class="btn btn-primary">Select Options</a>
+        </div>
+      </div>
+      {% endfor %}
+      {% else %}
+        <p>No cakes found !</p>
+      {% endif %}
+    </div>
+
+
+  </div>
+</div>
+{% endblock %}

@@ -21,8 +21,10 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     #path('accounts/', include('allauth.urls')),
+    #path('', include('web.urls')),
     path('', include('web.urls')),
-    path('shop/', include('products.urls')),
-]
+] 
+
+handler404 = 'web.views.error_404_view'
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

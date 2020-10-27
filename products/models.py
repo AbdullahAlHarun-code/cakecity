@@ -6,13 +6,14 @@ from django.db import models
 # Cake Category
 CAKES_CATEGORY = (
     ('0','Uncategorized'),
-    ('novelty','Novelty Cakes'),
-    ('wedding','Wedding Cakes'),
-    ('corporate','Corporate Cakes'),
+    ('novelty-cakes','Novelty Cakes'),
+    ('wedding-cakes','Wedding Cakes'),
+    ('corporate-cakes','Corporate Cakes'),
 )
 
 class CakeCategory(models.Model):
     category_name = models.CharField(max_length=120)
+    category_slug = models.SlugField(unique=True, max_length=150)
     category = models.CharField(max_length=120, choices=CAKES_CATEGORY, default='0')
     image = models.ImageField(upload_to='category/', null=True, blank=True)
     updated = models.DateTimeField(auto_now_add=False, auto_now=True)
@@ -21,6 +22,12 @@ class CakeCategory(models.Model):
     def __str__(self):
         return self.category_name
 
+    def get_category_name_by_slug(self):
+        category_title = ''
+        for x,y in CAKES_CATEGORY:
+            if x==self.category:
+                category_title = y
+        return category_title
     def __unicode__(self):
         return self.category_name
 
@@ -73,9 +80,16 @@ class Product(models.Model):
 
     class Meta:
         unique_together = ('title', 'slug')
-    # @property
-    # def category_name_display(self):
-    #     return "%s %s"%(CakeCategory.objects.filter(id=self.cake_category).category_name, '')
+    @property
+    def get_price_range(self):
+        variation_query = Variation.objects.filter(product=self.id)
+        price_range_array = []
+        for item_price in variation_query:
+            price_range_array.append(item_price.price)
+        if(len(price_range_array)>1):
+            sorted_price_range_array = sorted(price_range_array)
+            price_range_text = '€'+str(sorted_price_range_array[0])+' - €'+str(sorted_price_range_array[len(sorted_price_range_array)-1])
+        return "%s %s"%(price_range_text, '')
     def __unicode__(self):
         return self.title
     def get_price(self):
@@ -101,8 +115,8 @@ class ProductImage(models.Model):
 class VariationManager(models.Manager):
     def all(self):
         return super(VariationManager, self).filter(active=True)
-    # def sizes(self):
-    #     return self.all().filter(category='size')
+    def sizes(self):
+        return self.all().filter(size='size')
     # def colors(self):
     #     return self.all().filter(category='color')
 

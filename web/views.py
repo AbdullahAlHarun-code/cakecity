@@ -2,16 +2,21 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect, reverse
 from django.contrib import messages
 #from django.db.models import Q
-#from .models import Post, PostImage
+from products.models import Product, CakeCategory, ProductImage, Flavour, Variation, CakeSizeCategory
 #from .forms import PostForm
 # Create your views here.
+
+all_category = CakeCategory.objects.all()
+loop1 = [1,2,3,4,5,6]
+loop2 = [1,2,3,4,5,6]
+def error_404_view(request, exception):
+    print(request)
+    return render(request, '404.html')
 def index(request):
-    loop_var1 = [1,2,3,4,5,6,7,8]
-    loop_var2 = [1,2,3,4,5]
     context = {
         'title':'Test title',
-        'loop1':loop_var1,
-        'loop2':loop_var2,
+        'loop1':loop1,
+        'loop2':loop2
     }
     return render(request, 'web/home.html',context)
 def page(request):
@@ -20,6 +25,36 @@ def page(request):
     }
     return render(request, 'web/page.html',context)
 
+def about(request):
+    context = {
+        'title':'Test title',
+        'loop1':loop_var1,
+        'loop2':loop_var2,
+    }
+    return render(request, 'web/home.html',context)
+
+def cake_flavours(request):
+    context = {
+        'title':'Test title',
+        'loop1':loop_var1,
+        'loop2':loop_var2,
+    }
+    return render(request, 'web/home.html',context)
+
+def contacts(request):
+    context = {
+        'title':'Test title',
+        'loop1':loop_var1,
+        'loop2':loop_var2,
+    }
+    return render(request, 'web/home.html',context)
+def faqs(request):
+    context = {
+        'title':'Test title',
+        'loop1':loop_var1,
+        'loop2':loop_var2,
+    }
+    return render(request, 'web/home.html',context)
 # def post_create(response):
 #     return HttpResponse("<h1>Ad New post</h1>")
 

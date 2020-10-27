@@ -2,23 +2,33 @@
 {% block page_content %}
 {% load static %}
 <div class="container">
-  <div class="row m-auto col-12">
-    <h2 class="display-4 col-12 text-center">{{ single_product.title|capfirst }}</h2>
-
-    <div class="col-md-5 mb-2">
+  <div class="row m-auto col-12 pt-4 pb-4">
+    <div class="col-md-5 mb-2 mt-3">
       {% for image in single_product.productimage_set.all %}
-        <img class="img-responsive" src="/media/{{ image.image }}" alt="">
+        {% if image.featured %}
+          <img class="img-responsive w-100" src="/media/{{ image.image }}" alt=""><br>
+        {% else %}
+          <a href="#"><img style="width:100px" class="img-responsive mt-2 mr-2" src="/media/{{ image.image }}" alt=""></a>
+        {% endif%}
       {% endfor %}
     </div>
-    <div class="col-md-7">
+    <div class="col-md-7 mt-3">
+      <h2 class="h1 col-12 text-left pl-0">{{ single_product.title|capfirst }}</h2>
       <p>Content: {{ single_product.title|capfirst }}</p>
-      <p>Price: €{{ single_product.price }}</p>
+      <p>Price: {{ single_product.get_price_range }}</p>
       {{single_product.variation_set.sizes}}
-      <select class="" name="size">
-        {% for variation in single_product.variation_set.all %}
-          <option value="{{variation.title}}">{{variation.title}} €{{variation.price}}</option>
-        {% endfor %}
-      </select>
+      <div class="form-group col-6 pl-0">
+        <label class="h4" for="exampleFormControlSelect1">Cake Size</label>
+        <select class="form-control" id="exampleFormControlSelect1" name="">
+          {% for variation in single_product.variation_set.all %}
+            <option value="{{variation.price}}">{{variation.size}}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <hr>
+      <div class="select-price"></div>
+      <div class="product-main-content">{{single_product.description}}</div>
+      <div class="note"></div>
     </div>
 
 
