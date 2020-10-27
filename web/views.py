@@ -13,10 +13,12 @@ def error_404_view(request, exception):
     print(request)
     return render(request, '404.html')
 def index(request):
+    featured_cakes = Product.objects.all().filter(featured_cake=True)
     context = {
         'title':'Test title',
         'loop1':loop1,
-        'loop2':loop2
+        'loop2':loop2,
+        'featured_cakes':featured_cakes,
     }
     return render(request, 'web/home.html',context)
 def page(request):

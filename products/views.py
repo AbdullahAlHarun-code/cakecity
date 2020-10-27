@@ -1,6 +1,7 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect, reverse
 from django.contrib import messages
+from django.core.paginator import Paginator, EmptyPage
 #from django.db.models import Q
 from .models import Product, CakeCategory
 #from .forms import PostForm
@@ -24,11 +25,15 @@ def category(request,cat):
     if category_item is not None:
         #products = get_object_or_404(Product, cake_category=category_item.category_name)
         products = Product.objects.all().filter(cake_category=category_item.category_name)
+        paginator_array = product_pagination(products,request.GET.get('page',1))
+        products = paginator_array[0]
     context = {
         'title':'Testt title',
         'category_item':category_item,
+        'category_slug':cat,
         'products':products,
         'bradcrumb_list':bradcrumb_list,
+        'paginator': paginator_array[1],
     }
     return render(request, 'products/category.html',context)
 def index(request):
@@ -38,6 +43,14 @@ def index(request):
         'all_category':all_category,
     }
     return render(request, 'web/home.html',context)
+def product_pagination(products,page_num):
+    p = Paginator(products,4)
+    page_num = page_num
+    try:
+        page = p.page(page_num)
+    except EmptyPage:
+        page = p.page(1)
+    return [page, p]
 def shop(request):
     #images = PostImage.objects.filter(post=single_post)
     bradcrumb_list = ['cake-shop']
@@ -54,6 +67,7 @@ def single_product(request, slug):
         'title':'',
         'bradcrumb_list':bradcrumb_list,
         'single_product':single_post,
+        'star_loop':range(1,6),
     }
     return render(request, 'products/single.html',context)
 

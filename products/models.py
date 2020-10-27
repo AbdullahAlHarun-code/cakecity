@@ -64,7 +64,13 @@ category_choice_list = []
 for item in category_list_objects:
     category_choice_list.append(item)
 
-
+RATING = (
+    (1,1),
+    (2,2),
+    (3,3),
+    (4,4),
+    (5,5),
+)
 class Product(models.Model):
     title = models.CharField(max_length=120)
     description = models.TextField(null=True, blank=True)
@@ -73,6 +79,7 @@ class Product(models.Model):
     cake_size = models.ManyToManyField(CakeSizeCategory)
     price = models.DecimalField(decimal_places=2, max_digits=100)
     slug = models.SlugField(unique=True)
+    rating = models.IntegerField(max_length=120, choices=RATING)
     create_date = models.DateTimeField(auto_now_add=True, auto_now=False)
     updated = models.DateTimeField(auto_now_add=False, auto_now=True)
     featured_cake = models.BooleanField(default=True)

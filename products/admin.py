@@ -15,11 +15,11 @@ class ProductPriceVariation(admin.StackedInline):
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ['title','cake_category', 'create_date', 'updated']
+    list_display = ['title','cake_category', 'rating', 'updated']
     list_display_links = ["title"]
     list_filter = ['create_date','title']
     search_fields = ['title', 'description']
-    #list_editable = ["title"]
+    list_editable = ["rating"]
     inlines = [ProductPriceVariation, ProductImageAdmin,]
     class Meta:
         model = Product

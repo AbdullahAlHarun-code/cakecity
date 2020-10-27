@@ -86,11 +86,11 @@
     <h1 class="display-3 m-auto">Featured Cakes</h1>
   </div>
   <div class="card-group">
-    {% for x in loop2 %}
-      <div class="card w-25">
+    {% for cake in featured_cakes|slice:":4" %}
+      <div class="card w-25 mr-2">
         <div class="card-body text-center">
           <img class="card-img-top" src="{% static 'images/cakes/gift-cakes.jpg'%}" alt="Card image">
-          <p class="card-text">Some text inside the first card</p>
+          <a href="{{cake.slug}}" class="card-text">{{cake.title}}</a>
         </div>
       </div>
     {% endfor %}

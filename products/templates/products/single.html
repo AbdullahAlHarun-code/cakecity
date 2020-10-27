@@ -16,12 +16,21 @@
     </div>
     <div class="col-md-7 mt-3">
       <h2 class="h1 col-12 text-left pl-0">{{ single_product.title|capfirst }}</h2>
-      <p>Content: {{ single_product.title|capfirst }}</p>
-      <p>Price: {{ single_product.get_price_range }}</p>
+      <p>Ratings:
+        {% for count in star_loop%}
+          {% if count <= single_product.rating %}
+            <i class="fa fa-star text-warning" aria-hidden="true"></i>
+          {% else %}
+            <i class="fa fa-star-o text-warning" aria-hidden="true"></i>
+          {% endif %}
+        {% endfor %}
+      </p>
+      <p class="btn btn-info">Price: {{ single_product.get_price_range }}</p>
       {{single_product.variation_set.sizes}}
       <div class="form-group col-6 pl-0">
         <label class="h4" for="exampleFormControlSelect1">Cake Size</label>
         <select class="form-control" id="exampleFormControlSelect1" name="">
+          <option value="0">Choose an option</option>
           {% for variation in single_product.variation_set.all %}
             <option value="{{variation.price}}">{{variation.size}}</option>
           {% endfor %}
@@ -29,6 +38,7 @@
       </div>
       <hr>
       <div class="select-price"></div>
+      <p></p>
       <div class="product-main-content">{{single_product.description}}</div>
       <div class="note"></div>
     </div>
