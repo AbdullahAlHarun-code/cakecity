@@ -1,0 +1,16 @@
+<div class="row col-12">
+  <nav class="m-auto" aria-label="breadcrumb">
+    <ol class="breadcrumb bg-light">
+      <li class="breadcrumb-item"><a href="{% url 'home'%}">Home</a></li>
+      {% for list in bradcrumb_list %}
+        {% if forloop.last %}
+          <li class="breadcrumb-item active" aria-current="page">{{list}}</li>
+        {% else %}
+          <li class="breadcrumb-item"><a href="/{{list}}">{{list}}</a></li>
+        {% endif %}
+      {% endfor %}
+
+
+    </ol>
+  </nav>
+</div>

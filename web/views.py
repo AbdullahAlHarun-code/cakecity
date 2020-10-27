@@ -26,35 +26,35 @@ def page(request):
     return render(request, 'web/page.html',context)
 
 def about(request):
+    bradcrumb_list = ['about-us']
     context = {
-        'title':'Test title',
-        'loop1':loop_var1,
-        'loop2':loop_var2,
+        'title':'About Us',
+        'bradcrumb_list':bradcrumb_list,
     }
-    return render(request, 'web/home.html',context)
+    return render(request, 'web/about-us.html',context)
 
 def cake_flavours(request):
+    bradcrumb_list = ['cake-clavours']
     context = {
-        'title':'Test title',
-        'loop1':loop_var1,
-        'loop2':loop_var2,
+        'title':'Cake Flavours',
+        'bradcrumb_list':bradcrumb_list,
     }
-    return render(request, 'web/home.html',context)
+    return render(request, 'web/cake-flavours.html',context)
 
 def contacts(request):
+    bradcrumb_list = ['contact-us']
     context = {
-        'title':'Test title',
-        'loop1':loop_var1,
-        'loop2':loop_var2,
+        'title':'Contact Us',
+        'bradcrumb_list':bradcrumb_list,
     }
-    return render(request, 'web/home.html',context)
+    return render(request, 'web/contact-us.html',context)
 def faqs(request):
+    bradcrumb_list = ['faqs']
     context = {
-        'title':'Test title',
-        'loop1':loop_var1,
-        'loop2':loop_var2,
+        'title':'frequently asked questions',
+        'bradcrumb_list':bradcrumb_list,
     }
-    return render(request, 'web/home.html',context)
+    return render(request, 'web/faqs.html',context)
 # def post_create(response):
 #     return HttpResponse("<h1>Ad New post</h1>")
 

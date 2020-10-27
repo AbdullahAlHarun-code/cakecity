@@ -4,6 +4,7 @@
 <div class="container">
   <div class="row m-auto col-12">
     <h2 class="display-4 col-12 text-center">{{title}}</h2>
+    {% include 'breadcrumb.html'%}
     {% for item in category_items%}
     <div class="card m-auto" style="width:31%;margin-bottom:20px !important;">
       <img class="card-img-top" src="/media/{{item.image}}" alt="Card image">

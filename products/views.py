@@ -9,15 +9,17 @@ from .models import Product, CakeCategory
 all_category = CakeCategory.objects.all()
 def product_category(request,p_cat):
     category_items = CakeCategory.objects.all().filter(category=p_cat)
+    bradcrumb_list = ['cake-shop',p_cat]
     print(category_items)
     context = {
         'title':category_items[0].get_category_name_by_slug(),
         'category_items':category_items,
+        'bradcrumb_list':bradcrumb_list,
     }
     return render(request, 'products/product-category.html',context)
 def category(request,cat):
     category_item = get_object_or_404(CakeCategory, category_slug=cat)
-    #print(category_item.category)
+    bradcrumb_list = ['cake-shop',cat]
     products = ''
     if category_item is not None:
         #products = get_object_or_404(Product, cake_category=category_item.category_name)
@@ -26,6 +28,7 @@ def category(request,cat):
         'title':'Testt title',
         'category_item':category_item,
         'products':products,
+        'bradcrumb_list':bradcrumb_list,
     }
     return render(request, 'products/category.html',context)
 def index(request):
@@ -37,15 +40,19 @@ def index(request):
     return render(request, 'web/home.html',context)
 def shop(request):
     #images = PostImage.objects.filter(post=single_post)
+    bradcrumb_list = ['cake-shop']
     context = {
         'title':'All Cakes',
+        'bradcrumb_list':bradcrumb_list,
         'all_category':all_category,
     }
     return render(request, 'products/shop.html',context)
 def single_product(request, slug):
     single_post = get_object_or_404(Product, slug=slug)
+    bradcrumb_list = ['cake-shop',slug]
     context = {
         'title':'',
+        'bradcrumb_list':bradcrumb_list,
         'single_product':single_post,
     }
     return render(request, 'products/single.html',context)

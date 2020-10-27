@@ -1,0 +1,53 @@
+{% extends "base.html"%}
+{% block page_content %}
+{% load static %}
+<div class="container">
+  <div class="row m-auto col-12 pt-4 pb-4">
+    <h1 class="m-auto text-uppercase display-4">{{title}}</h1>
+    {% include 'breadcrumb.html'%}
+
+    <div class="row bg-light col-12 p-4 m-4">
+      <h3 class="row col-12 mb-3">We are always open <br><small>For a chat</small></h3>
+      <div class="col-6">
+        <form class="" action="index.html" method="post">
+          <div class="form-group row">
+            <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">Name</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control form-control-sm" id="colFormLabelSm" placeholder="Name">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">Email</label>
+            <div class="col-sm-10">
+              <input type="email" class="form-control form-control-sm" id="colFormLabelSm" placeholder="col-form-label-sm">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">Subject</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control form-control-sm" id="colFormLabelSm" placeholder="subject">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">Message</label>
+            <div class="col-sm-8">
+              <textarea name="name" rows="8" cols="50"></textarea>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm"></label>
+            <div class="col-sm-8">
+              <input type="submit" value="Submit">
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="col-5">
+        <img class="w-75" src="{% static 'images/contact-us.jpg'%}" alt="">
+      </div>
+    </div>
+
+
+  </div>
+</div>
+{% endblock %}
