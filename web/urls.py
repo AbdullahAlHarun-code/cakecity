@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.urls import path
 from . import views
 from products import views as product_view
+from cart import views as cart_view
 urlpatterns = [
     path('', views.index, name="home"),
 
@@ -11,12 +12,16 @@ urlpatterns = [
     path('cake-flavours', views.cake_flavours, name="cake_flavours"),
     path('contacts', views.contacts, name="contacts"),
     path('frequently-asked-questions', views.faqs, name="faqs"),
-
+    # products url
     path('category/', product_view.all_cakes, name="category"),
     path('category/<slug:cat>/', product_view.category, name="category_page"),
     path('cake-shop/', product_view.shop, name="cake_shop"),
     path('all-cakes/', product_view.all_cakes, name="all_cakes"),
     path('updated_item/', product_view.updated_item, name="updated_item"),
+
+    # cart url
+    path('cart/', cart_view.view_cart, name="cart"),
+    
     path('<slug:slug>/', product_view.single_product, name="single_product"),
 
 

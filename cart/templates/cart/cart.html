@@ -1,0 +1,14 @@
+{% extends "base.html"%}
+{% block page_content %}
+{% load static %}
+<div class="container">
+  <div class="row p-4">
+    {% if cart_items%}
+      <h2>Your cart is not empty</h2>
+    {% else %}
+      <h2 class="m-auto">Your cart is empty!</h2><br><br><br><br>
+      <p class="w-100 text-center"><a href="{% url 'all_cakes'%}" class="btn btn-warning"><i class="fas fa-chevron-left"></i> Continue Shopping</a></p>
+    {% endif%}
+  </div>
+</div>
+{% endblock %}
