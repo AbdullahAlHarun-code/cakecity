@@ -12,6 +12,22 @@
       {% endif %}
 
     <hr class="w-100">
+    <div class="col-12">
+      <div class="form-group float-right">
+        <form class="" action="{% url 'all_cakes'%}" method="GET">
+          <select class="form-control" name="order_by" onchange="this.form.submit()">
+            <option value="0">Default sorting</option>
+            <option value="title">Sort by: name</option>
+            <option value="rating">Sort by: rating</option>
+            <option value="latest">Sort by: latest</option>
+            <option value="low-to-high">Sort by: low to high</option>
+            <option value="high-to-low">Sort by: high to low</option>
+          </select>
+        </form>
+
+    </div>
+    </div>
+
     <div class="row col-12 mb-2 pt-4">
       {% if products%}
       {% for product in products%}
@@ -23,7 +39,19 @@
           {% for item in product.variation_set.all %}
             <p>{{item.title|capfirst}}</p>
           {% endfor %}
-
+          <p>
+            {% for count in star_loop%}
+              {% if count <= product.rating %}
+                <i class="fa fa-star text-warning" aria-hidden="true"></i>
+              {% else %}
+                <i class="fa fa-star-o text-warning" aria-hidden="true"></i>
+              {% endif %}
+            {% endfor %}
+          </p>
+          <p><strong>{{ product.get_price_range }}</strong></p>
+          {% for item in product.variation_set.all %}
+            <p>{{item.title|capfirst}}</p>
+          {% endfor %}
           <a href="{{ product.get_absolute_url}}" class="btn btn-primary">Select Options</a>
         </div>
       </div>

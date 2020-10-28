@@ -55,10 +55,32 @@ def product_pagination(products,page_num):
 
 def all_cakes(request):
     #images = PostImage.objects.filter(post=single_post)
+    #print(request.path().objects.filter(global_url__id=1).all())
     query = None
+    sort = None
     bradcrumb_list = ['all-cakes']
     products = Product.objects.all()
+    pagination_path = request.path+'?'
+    print(pagination_path)
     if request.GET:
+        if 'order_by' in request.GET:
+            sortkey = request.GET['order_by']
+            sort = sortkey
+            if 'page' not in request.GET:
+                if sortkey =='title':
+                    products = products.order_by('title')
+                if sortkey =='rating':
+                    products = products.order_by('-rating')
+                if sortkey =='latest':
+                    products = products.order_by('create_date')
+                if sortkey =='low-to-high':
+                    products = products.order_by('price')
+                if sortkey =='high-to-low':
+                    products = products.order_by('-price')
+
+            pagination_path = request.path+'?order_by='+sortkey+'&'
+
+            #print(request.GET['page'])
         if 'q' in request.GET:
             query = request.GET['q']
             if not query:
@@ -66,6 +88,7 @@ def all_cakes(request):
                 return redirect(reverse('all-cakes'))
             queries = Q(title__icontains=query) | Q(description__icontains=query)
             products =products.filter(queries)
+
     paginator_array = product_pagination(products,request.GET.get('page',1))
     products = paginator_array[0]
 
@@ -76,7 +99,8 @@ def all_cakes(request):
         'paginator': paginator_array[1],
         'products':products,
         'search_term':query,
-        'current_path':request.get_full_path(),
+        'star_loop':range(1,6),
+        'pagination_path':pagination_path
     }
     return render(request, 'products/all-cakes.html',context)
 
