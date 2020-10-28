@@ -13,6 +13,7 @@
 
     <hr class="w-100">
     <div class="col-12">
+      <p class="float-left"><a href="{% url 'all_cakes'%}">All Cakes</a> | {{products|length}} out of {{count_all_products}}</p>
       <div class="form-group float-right">
         <form class="" action="{% url 'all_cakes'%}" method="GET">
           <select class="form-control" name="order_by" onchange="this.form.submit()">

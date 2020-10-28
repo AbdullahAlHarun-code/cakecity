@@ -60,6 +60,7 @@ def all_cakes(request):
     sort = None
     bradcrumb_list = ['all-cakes']
     products = Product.objects.all()
+    count_all_products = products.count()
     pagination_path = request.path+'?'
     print(pagination_path)
     if request.GET:
@@ -100,7 +101,8 @@ def all_cakes(request):
         'products':products,
         'search_term':query,
         'star_loop':range(1,6),
-        'pagination_path':pagination_path
+        'pagination_path':pagination_path,
+        'count_all_products':count_all_products,
     }
     return render(request, 'products/all-cakes.html',context)
 
