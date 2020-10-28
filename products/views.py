@@ -1,8 +1,8 @@
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect, reverse
 from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage
-#from django.db.models import Q
+from django.db.models import Q
 from .models import Product, CakeCategory
 #from .forms import PostForm
 # Create your views here.
@@ -11,7 +11,7 @@ all_category = CakeCategory.objects.all()
 def product_category(request,p_cat):
     category_items = CakeCategory.objects.all().filter(category=p_cat)
     bradcrumb_list = ['cake-shop',p_cat]
-    print(category_items)
+    #print(category_items)
     context = {
         'title':category_items[0].get_category_name_by_slug(),
         'category_items':category_items,
@@ -34,6 +34,7 @@ def category(request,cat):
         'products':products,
         'bradcrumb_list':bradcrumb_list,
         'paginator': paginator_array[1],
+        'star_loop':range(1,6),
     }
     return render(request, 'products/category.html',context)
 def index(request):
@@ -51,11 +52,39 @@ def product_pagination(products,page_num):
     except EmptyPage:
         page = p.page(1)
     return [page, p]
+
+def all_cakes(request):
+    #images = PostImage.objects.filter(post=single_post)
+    query = None
+    bradcrumb_list = ['all-cakes']
+    products = Product.objects.all()
+    if request.GET:
+        if 'q' in request.GET:
+            query = request.GET['q']
+            if not query:
+                message.error(request, 'You didn\'t enter any search criteria!' )
+                return redirect(reverse('all-cakes'))
+            queries = Q(title__icontains=query) | Q(description__icontains=query)
+            products =products.filter(queries)
+    paginator_array = product_pagination(products,request.GET.get('page',1))
+    products = paginator_array[0]
+
+    context = {
+        'title':'All Cakes',
+        'bradcrumb_list':bradcrumb_list,
+        'all_category':all_category,
+        'paginator': paginator_array[1],
+        'products':products,
+        'search_term':query,
+        'current_path':request.get_full_path(),
+    }
+    return render(request, 'products/all-cakes.html',context)
+
 def shop(request):
     #images = PostImage.objects.filter(post=single_post)
     bradcrumb_list = ['cake-shop']
     context = {
-        'title':'All Cakes',
+        'title':'All Cakes Category',
         'bradcrumb_list':bradcrumb_list,
         'all_category':all_category,
     }
@@ -70,7 +99,16 @@ def single_product(request, slug):
         'star_loop':range(1,6),
     }
     return render(request, 'products/single.html',context)
+def updated_item(response):
+    #return JsonResponse('Itemhas added', safe=False)
+    data = json.loads(request.body)
+    productId = data['productId']
+    action = data['action']
+    print('Action:', action)
+    print('Product:', productId)
 
+    customer = request.user.customer
+    product = Product.objects.get(id=productId)
 # def post_create(response):
 #     return HttpResponse("<h1>Ad New post</h1>")
 

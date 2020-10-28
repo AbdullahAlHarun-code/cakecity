@@ -15,7 +15,7 @@ class ProductPriceVariation(admin.StackedInline):
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ['title','cake_category', 'rating', 'updated']
+    list_display = ['title','cake_category', 'rating', 'tier', 'updated']
     list_display_links = ["title"]
     list_filter = ['create_date','title']
     search_fields = ['title', 'description']

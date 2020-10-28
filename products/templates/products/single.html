@@ -8,7 +8,7 @@
 
       {% for image in single_product.productimage_set.all %}
         {% if image.featured %}
-          <img class="img-responsive w-100" src="/media/{{ image.image }}" alt=""><br>
+          <a target="_clank" href="/media/{{ image.image }}"><img class="img-responsive w-100" src="/media/{{ image.image }}" alt=""></a><br>
         {% else %}
           <a href="#"><img style="width:100px" class="img-responsive mt-2 mr-2" src="/media/{{ image.image }}" alt=""></a>
         {% endif%}
@@ -40,7 +40,8 @@
       <div class="select-price"></div>
       <p></p>
       <div class="product-main-content">{{single_product.description}}</div>
-      <div class="note"></div>
+      <hr>
+      <button type="button" data-product={{single_product.id}} data-action="add" class="btn btn-danger btn-lg update-cart">Add To Cart</button>
     </div>
 
 

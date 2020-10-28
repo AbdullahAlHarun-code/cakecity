@@ -1,16 +1,17 @@
 <div class="row col-12">
   <nav aria-label="Page navigation example">
     <ul class="pagination">
-
+      {%if products%}
       {% if products.has_previous %}
-      <li class="page-item"><a class="page-link" href="{% url 'category_page' category_slug%}?page={{products.previous_page_number}}">Previous</a></li>
+      <li class="page-item"><a class="page-link" href="{{request.path }}?page={{products.previous_page_number}}">Previous</a></li>
       {% endif%}
       {% for page in paginator.page_range%}
-        <li class="page-item"><a class="page-link" href="{% url 'category_page' category_slug%}?page={{page}}">{{page}}</a></li>
+        <li class="page-item"><a class="page-link" href="{{request.path }}?page={{page}}">{{page}}</a></li>
       {% endfor %}
       {% if products.has_next %}
-      <li class="page-item"><a class="page-link" href="{% url 'category_page' category_slug%}?page={{products.next_page_number}}">Next</a></li>
+      <li class="page-item"><a class="page-link" href="{{request.path }}?page={{products.next_page_number}}">Next</a></li>
       {% endif%}
+      {% endif %}
     </ul>
   </nav>
 </div>

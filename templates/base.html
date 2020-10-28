@@ -7,16 +7,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <link rel="stylesheet" href="{% static 'css/style.css' %}">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-  <script src="https://kit.fontawesome.com/758fa7d06e.js" crossorigin="anonymous"></script>
-  <style>
-  .fakeimg {
-    height: 200px;
-    background: #aaa;
-  }
-  </style>
+  <script type="text/javascript">
+  var user = "{{request.user}}";
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    var csrftoken = getCookie('csrftoken');
+  </script>
 </head>
 <body>
 <!-- start main-container-->
@@ -48,8 +57,8 @@
               </a>
             </div>
             <div class="col-md-4">
-              <form class="form-inline my-2 my-lg-0">
-                <input class="form-control w-50 mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+              <form class="form-inline my-2 my-lg-0" method='GET' action="{% url 'all_cakes'%}">
+                <input class="form-control w-50 mr-sm-2" name="q" type="search" placeholder="Search" aria-label="Search">
                 <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Search</button>
                 <div class=""><br>
                   <a class="text-info" href="#">Login </a> | <a class="text-info" href="#">Create Account</a>
@@ -76,20 +85,25 @@
               <li class="nav-item">
                 <a class="nav-link text-uppercase" href="{% url 'home'%}">HOME</a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link text-uppercase" href="{% url 'about'%}">About</a>
+              <li class="nav-item dropdown">
+                <button type="button" class="btn text-info dropdown-toggle text-uppercase" data-toggle="dropdown">
+                  <strong>All Cakes</strong>
+                </button>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" href="{% url 'all_cakes'%}">All Cakes</a>
+                  <a class="dropdown-item" href="{% url 'product_category_page' 'novelty-cakes'%}">Novelty Cakes</a>
+                  <a class="dropdown-item" href="{% url 'product_category_page' 'wedding-cakes'%}">Wedding Cakes</a>
+                  <a class="dropdown-item" href="{% url 'product_category_page' 'corporate-cakes'%}">Corporate Cakes</a>
+                </div>
               </li>
               <li class="nav-item">
-                <a class="nav-link text-uppercase" href="{% url 'cake_shop'%}">Cake Shop</a>
+                <a class="nav-link text-uppercase" href="{% url 'product_category_page' 'novelty-cakes'%}">Novelty Cakes</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link text-uppercase" href="{% url 'cake_flavours'%}">Flavours</a>
+                <a class="nav-link text-uppercase" href="{% url 'product_category_page' 'wedding-cakes'%}">Wedding Cakes</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link text-uppercase" href="{% url 'faqs'%}">Faqs</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link text-uppercase" href="{% url 'contacts'%}">Contact</a>
+                <a class="nav-link text-uppercase" href="{% url 'product_category_page' 'corporate-cakes'%}">Corporate Cakes</a>
               </li>
               <!-- Dropdown -->
               <li class="nav-item dropdown">
@@ -115,7 +129,7 @@
   <section class="row footer-nav bg-light">
     <div class="container">
       <div class="row">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light m-auto">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light m-md-auto p-xs-5">
           <ul class="navbar-nav nav-ul">
               <li class="nav-item">
                 <a class="nav-link" href="#">About</a>
@@ -145,11 +159,11 @@
   </section>
   <footer>
     <div class="container">
-      <div class="row p-5">
-        <div class="col-4">
+      <div class="row p-sm-5">
+        <div class="col-sm-4">
           <img class="w-50" src="{% static 'images/logo.png'%}" alt="">
         </div>
-        <div class="col-4">
+        <div class="col-sm-4">
             <div class="h4 text-bold">
               CakeCity
             </div>
@@ -158,7 +172,7 @@
               <p>© 2020 CakeCity</p>
 
         </div>
-        <div class="col-4">
+        <div class="col-sm-4">
           <div class="h4 text-bold">
             Contact
           </div>
@@ -177,6 +191,12 @@
   </footer>
 </div><!-- end main-container-->
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://kit.fontawesome.com/758fa7d06e.js" crossorigin="anonymous"></script>
 
+
+<script src="{% static 'js/cart.js' %}"></script>
 </body>
 </html>

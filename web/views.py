@@ -1,4 +1,4 @@
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect, reverse
 from django.contrib import messages
 #from django.db.models import Q
@@ -57,6 +57,8 @@ def faqs(request):
         'bradcrumb_list':bradcrumb_list,
     }
     return render(request, 'web/faqs.html',context)
+
+
 # def post_create(response):
 #     return HttpResponse("<h1>Ad New post</h1>")
 

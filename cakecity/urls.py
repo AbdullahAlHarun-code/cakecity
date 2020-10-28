@@ -17,13 +17,15 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-
+from products import views as product_view_new
 urlpatterns = [
     path('admin/', admin.site.urls),
     #path('accounts/', include('allauth.urls')),
     #path('', include('web.urls')),
+    #path('updated_item/', product_view_new.updated_item, name="updated_item"),
     path('', include('web.urls')),
-] 
+
+]
 
 handler404 = 'web.views.error_404_view'
 if settings.DEBUG:

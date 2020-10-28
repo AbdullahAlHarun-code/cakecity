@@ -12,11 +12,14 @@ urlpatterns = [
     path('contacts', views.contacts, name="contacts"),
     path('frequently-asked-questions', views.faqs, name="faqs"),
 
-    path('category/', product_view.index, name="cake_shop"),
+    path('category/', product_view.all_cakes, name="category"),
     path('category/<slug:cat>/', product_view.category, name="category_page"),
     path('cake-shop/', product_view.shop, name="cake_shop"),
-    #path('cakes/', product_view.cakes, name="cakes"),
+    path('all-cakes/', product_view.all_cakes, name="all_cakes"),
+    path('updated_item/', product_view.updated_item, name="updated_item"),
     path('<slug:slug>/', product_view.single_product, name="single_product"),
+
+
 
 ]
 
