@@ -39,3 +39,19 @@ function updateUserOrder(productId, action){
     //location.reload()
   })
 }
+
+$('#quantity').change(function() {
+  //var total_value = document.getElementsByClassName("final_total");
+  var final_total = this.dataset.total;
+  var single_total = this.dataset.single;
+  var final_quantity = $('#quantity').val();
+  console.log(final_quantity);
+  console.log(single_total);
+  if (final_quantity>0){
+    var final_total_text = '€'+single_total*final_quantity
+
+    $('#final_total').text(final_total_text)
+  }
+
+    //document.getElementsByClassName("final_total").submit();
+});

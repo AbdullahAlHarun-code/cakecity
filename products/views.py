@@ -3,7 +3,7 @@ from django.shortcuts import render, get_object_or_404, redirect, reverse
 from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage
 from django.db.models import Q
-from .models import Product, CakeCategory
+from .models import Product, CakeCategory, Variation, Flavour
 #from .forms import PostForm
 # Create your views here.
 
@@ -27,6 +27,7 @@ def category(request,cat):
         products = Product.objects.all().filter(cake_category=category_item.category_name)
         paginator_array = product_pagination(products,request.GET.get('page',1))
         products = paginator_array[0]
+
     context = {
         'title':'Testt title',
         'category_item':category_item,
@@ -35,6 +36,7 @@ def category(request,cat):
         'bradcrumb_list':bradcrumb_list,
         'paginator': paginator_array[1],
         'star_loop':range(1,6),
+
     }
     return render(request, 'products/category.html',context)
 def index(request):
@@ -116,13 +118,78 @@ def shop(request):
     }
     return render(request, 'products/shop.html',context)
 def single_product(request, slug):
-    single_post = get_object_or_404(Product, slug=slug)
+    add_to_cart_button = 'disabled'
+    cake_size= 0
+    total= 0
+    single_quantity_price = 0
+    quantity = 1
+    select_size_price = None
+    select_size_array = None
+    flavour_variation = 0
+    flavours = None
+    tier_flavour_variation = []
+    single_product = get_object_or_404(Product, slug=slug)
     bradcrumb_list = ['cake-shop',slug]
+    if request.POST:
+
+        if 'cake_size' in request.POST:
+            cake_size = int(request.POST.get('cake_size'))
+            if cake_size>1:
+                add_to_cart_button = ''
+        if int(single_product.tier)>1 and cake_size>0:
+            variation_select = Variation.objects.all().filter(id=cake_size)
+            select_size_array = variation_select.first().size.split('/')
+            for flavour in select_size_array:
+                flavour_name = flavour+'_tier_flavour_variation'
+                flavours = Flavour.objects.all()
+                if flavour_name in request.POST:
+                    flavour_name_value = int(request.POST.get(flavour_name))
+                    tier_flavour_variation.append(flavour_name_value)
+            if 0 in tier_flavour_variation:
+                add_to_cart_button = 'disabled'
+
+        else:
+            if 'flavour_variation' in request.POST:
+                flavour_variation = int(request.POST.get('flavour_variation'))
+
+    if cake_size>0:
+        variation_select = Variation.objects.all().filter(id=cake_size)
+        select_size_price = variation_select.first().price
+        total = total+select_size_price
+        single_quantity_price = total
+    if flavour_variation>0:
+        total = total+10
+    if len(tier_flavour_variation)>0:
+        for item in tier_flavour_variation:
+            print(item)
+            if(item != 0):
+                total = total+Flavour.objects.all().filter(id=item).first().price
+                single_quantity_price = single_quantity_price + Flavour.objects.all().filter(id=item).first().price
+    if request.POST:
+        if 'quantity' in request.POST:
+            quantity = int(request.POST.get('quantity'))
+            if quantity > 0:
+                print(quantity)
+                print(total)
+                total = total*int(quantity)
+            else:
+                add_to_cart_button = 'disabled'
+
     context = {
         'title':'',
         'bradcrumb_list':bradcrumb_list,
-        'single_product':single_post,
+        'single_product':single_product,
         'star_loop':range(1,6),
+        'cake_size':int(cake_size),
+        'flavour_variation':int(flavour_variation),
+        'tier_flavour_variation':tier_flavour_variation,
+        'select_size_price':select_size_price,
+        'total':total,
+        'flavours':flavours,
+        'select_size_array':select_size_array,
+        'add_to_cart_button':add_to_cart_button,
+        'quantity':quantity,
+        'single_quantity_price':single_quantity_price,
     }
     return render(request, 'products/single.html',context)
 def updated_item(response):
@@ -135,6 +202,25 @@ def updated_item(response):
 
     customer = request.user.customer
     product = Product.objects.get(id=productId)
+
+# 0861564183
+# bellalmiah1964@gmail.com
+# Bellal Miah
+# Urgent Account Recovery
+#
+# I have an account with mygov
+# Details:
+# Name: Bellal Miah
+# PPSN: 4307152S
+# DOB: 01/01/1964
+# Mobile: 0861564183
+# But when I try to login revenue site, by mistake I really for a new account.
+# And therefore my mygov account now block
+# I try to fix forgotten password but its is not working
+# Please advise me how I fix this issue
+# It is too urgent for me
+# Thanks
+
 # def post_create(response):
 #     return HttpResponse("<h1>Ad New post</h1>")
 

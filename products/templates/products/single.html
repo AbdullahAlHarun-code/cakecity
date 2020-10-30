@@ -27,21 +27,80 @@
       </p>
       <p class="btn btn-info">Price: {{ single_product.get_price_range }}</p>
       {{single_product.variation_set.sizes}}
-      <div class="form-group col-6 pl-0">
-        <label class="h4" for="exampleFormControlSelect1">Cake Size</label>
-        <select class="form-control" id="exampleFormControlSelect1" name="">
-          <option value="0">Choose an option</option>
-          {% for variation in single_product.variation_set.all %}
-            <option value="{{variation.price}}">{{variation.size}}</option>
-          {% endfor %}
-        </select>
+      <form class="" action="" method="post">
+        {% csrf_token %}
+        <div class="form-group col-6 pl-0">
+          <label class="h4" for="exampleFormControlSelect1">Cake Size</label>
+          <select onchange="this.form.submit()" class="form-control" id="exampleFormControlSelect1" name="cake_size">
+            <option {% ifequal cake_size 0 %} selected {% endifequal %} value="0">Choose an option</option>
+            {% for variation in single_product.variation_set.all %}
+              <option {% ifequal cake_size variation.id %} selected {% endifequal %} value="{{variation.id}}">{{variation.size}}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+      <hr>
+      <div class="select-price text-danger h2">
+        {% if select_size_price %}
+          <strong>€{{select_size_price}}</strong>
+        {% endif %}
       </div>
+      <div class="select_flavour">
+        {% if cake_size == 1 %}
+            <div class="form-group col-6 pl-0">
+              <label class="h4" for="exampleFormControlSelect1">Add Flavour</label>
+              <select onchange="this.form.submit()" class="form-control" id="exampleFormControlSelect1" name="flavour_variation">
+                <option {% ifequal flavour_variation 0 %} selected {% endifequal %} value="0">No (€0)</option>
+                <option {% ifequal flavour_variation 1 %} selected {% endifequal %} value="1">Gold(€10)</option>
+                <option {% ifequal flavour_variation 2 %} selected {% endifequal %} value="2">Silver(€10)</option>
+                <option {% ifequal flavour_variation 3 %} selected {% endifequal %} value="3">Rose Gold(€10)</option>
+              </select>
+            </div>
+
+        {% endif %}
+        {% if cake_size > 1 %}
+        {% for x in select_size_array%}
+        {% with index=forloop.counter %}
+            <div class="form-group col-10 pl-0">
+              <label class="h4" for="exampleFormControlSelect1">{{x}} Tier Flavour</label>
+              <select onchange="this.form.submit()" class="form-control" id="exampleFormControlSelect1" name="{{x}}_tier_flavour_variation">
+                <option {% ifequal y 0 %} selected {% endifequal %} value="0">No (€0)</option>
+                {% for item in flavours %}
+                {% if index == 1 %}
+                  <option  {% ifequal tier_flavour_variation.0 item.id %} selected {% endifequal %} value="{{item.id}}">{{item.flavour_name}}(€{{item.price}}){{i}}</option>
+                {% elif index == 2 %}
+                  <option  {% ifequal tier_flavour_variation.1 item.id %} selected {% endifequal %} value="{{item.id}}">{{item.flavour_name}}(€{{item.price}}){{i}}</option>
+                {% else  %}
+                  <option  {% ifequal tier_flavour_variation.1 item.id %} selected {% endifequal %} value="{{item.id}}">{{item.flavour_name}}(€{{item.price}}){{i}}</option>
+                {% endif %}
+                {% endfor %}
+              </select>
+            </div>
+
+        {% endwith %}
+        {% endfor %}
+        {% endif %}
+      </div>
+
       <hr>
-      <div class="select-price"></div>
-      <p></p>
+      <div class="form-group col-sm-4">
+        <label for="exampleInputEmail1">Quantity</label>
+        <input min="1" data-single={{single_quantity_price}} data-total={{total}} type="number" name="quantity" class="form-control quantity" id="quantity" aria-describedby="" value="{{quantity}}">
+        <small id="emailHelp" class="form-text text-muted">Please Enter Your quantity.</small>
+      </div>
+
+      <div class="select-price">
+        {% if total %}
+          <p class="text-info h3">Final Total</p>
+          <strong id="final_total" data-total={{total}} class="text-danger h1 final_total">€{{total}}</strong>
+        {% endif %}
+      </div>
+      <input type="hidden" name="redirect_url" value="{{ request.path }}">
+      <a href="{% url 'all_cakes'%}" class="btn btn-info btn-lg update-cart"><i class="fas fa-chevron-left"></i> Continue Shipping</a>
+      <button id="add_to_cart" type="submit" data-product={{single_product.id}} data-action="add" {{add_to_cart_button}} class="btn btn-danger btn-lg update-cart add-to-cart">Add To Cart</button>
+      </form>
+      <hr>
       <div class="product-main-content">{{single_product.description}}</div>
-      <hr>
-      <button type="button" data-product={{single_product.id}} data-action="add" class="btn btn-danger btn-lg update-cart">Add To Cart</button>
     </div>
 
 
