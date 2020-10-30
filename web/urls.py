@@ -21,7 +21,8 @@ urlpatterns = [
 
     # cart url
     path('cart/', cart_view.view_cart, name="cart"),
-    
+    path('add_to_cart/<int:item_id>/', cart_view.add_to_cart, name="add_to_cart"),
+
     path('<slug:slug>/', product_view.single_product, name="single_product"),
 
 

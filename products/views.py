@@ -119,6 +119,7 @@ def shop(request):
     return render(request, 'products/shop.html',context)
 def single_product(request, slug):
     add_to_cart_button = 'disabled'
+    add_to_cart_press = False
     cake_size= 0
     total= 0
     single_quantity_price = 0
@@ -131,7 +132,8 @@ def single_product(request, slug):
     single_product = get_object_or_404(Product, slug=slug)
     bradcrumb_list = ['cake-shop',slug]
     if request.POST:
-
+        if 'add_to_cart_press' in request.POST:
+            add_to_cart_press = True
         if 'cake_size' in request.POST:
             cake_size = int(request.POST.get('cake_size'))
             if cake_size>1:
@@ -169,12 +171,13 @@ def single_product(request, slug):
         if 'quantity' in request.POST:
             quantity = int(request.POST.get('quantity'))
             if quantity > 0:
-                print(quantity)
-                print(total)
                 total = total*int(quantity)
+                if 0 in tier_flavour_variation or tier_flavour_variation:
+                    add_to_cart_button = 'disabled'
             else:
                 add_to_cart_button = 'disabled'
-
+    if not tier_flavour_variation:
+        add_to_cart_button = 'disabled'
     context = {
         'title':'',
         'bradcrumb_list':bradcrumb_list,
@@ -190,6 +193,7 @@ def single_product(request, slug):
         'add_to_cart_button':add_to_cart_button,
         'quantity':quantity,
         'single_quantity_price':single_quantity_price,
+        'add_to_cart_press':add_to_cart_press,
     }
     return render(request, 'products/single.html',context)
 def updated_item(response):

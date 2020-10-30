@@ -27,8 +27,12 @@
       </p>
       <p class="btn btn-info">Price: {{ single_product.get_price_range }}</p>
       {{single_product.variation_set.sizes}}
-      <form class="" action="" method="post">
-        {% csrf_token %}
+      {% if add_to_cart_press %}
+        <form class="" action="{% url 'add_to_cart' single_product.id %}" method="post">
+      {% else %}
+        <form class="" action="" method="post">
+      {% endif %}
+      {% csrf_token %}
         <div class="form-group col-6 pl-0">
           <label class="h4" for="exampleFormControlSelect1">Cake Size</label>
           <select onchange="this.form.submit()" class="form-control" id="exampleFormControlSelect1" name="cake_size">
@@ -81,14 +85,14 @@
         {% endfor %}
         {% endif %}
       </div>
-
+      {% if cake_size > 1 %}
       <hr>
       <div class="form-group col-sm-4">
         <label for="exampleInputEmail1">Quantity</label>
         <input min="1" data-single={{single_quantity_price}} data-total={{total}} type="number" name="quantity" class="form-control quantity" id="quantity" aria-describedby="" value="{{quantity}}">
         <small id="emailHelp" class="form-text text-muted">Please Enter Your quantity.</small>
       </div>
-
+      {% endif %}
       <div class="select-price">
         {% if total %}
           <p class="text-info h3">Final Total</p>
@@ -97,7 +101,7 @@
       </div>
       <input type="hidden" name="redirect_url" value="{{ request.path }}">
       <a href="{% url 'all_cakes'%}" class="btn btn-info btn-lg update-cart"><i class="fas fa-chevron-left"></i> Continue Shipping</a>
-      <button id="add_to_cart" type="submit" data-product={{single_product.id}} data-action="add" {{add_to_cart_button}} class="btn btn-danger btn-lg update-cart add-to-cart">Add To Cart</button>
+      <button id="add_to_cart" name="add_to_cart_press" type="submit" data-product={{single_product.id}} data-action="add" {{add_to_cart_button}} class="btn btn-danger btn-lg update-cart add-to-cart">Add To Cart</button>
       </form>
       <hr>
       <div class="product-main-content">{{single_product.description}}</div>
