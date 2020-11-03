@@ -1,9 +1,12 @@
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect, reverse
+#from django.core.urlresolvers import reverse
 from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage
 from django.db.models import Q
+from django.conf import settings
 from .models import Product, CakeCategory, Variation, Flavour
+import json
 #from .forms import PostForm
 # Create your views here.
 
@@ -117,9 +120,99 @@ def shop(request):
         'all_category':all_category,
     }
     return render(request, 'products/shop.html',context)
+
+class Options:
+    flavours = Flavour.objects.all()
+    slug = None
+    id = None
+    add_to_cart_press = None
+    tier = None
+    cake_size_id = 0
+    cake_size_name = None
+    cake_size_name_array = []
+    cake_flavour_id = []
+    single_tier_cake_flavour_text = None
+    cake_flavour_price_array = []
+    quantity = 1
+    final_total = 0
+    only_cake_price = 0
+    only_single_cake_price_flavour = 0
+    total_flavour_price = 0
+
+    def get_cake_price(self):
+        if self.cake_size_id > 0:
+            price = Variation.objects.all().filter(id=self.cake_size_id).first().price
+            if price:
+                return price
+            else:
+                return False
+    def set_flavour_price_total(self, request):
+
+        if self.cake_size_id > 0:
+            price = Variation.objects.all().filter(id=self.cake_size_id).first().price
+            if price:
+                self.only_cake_price = price
+            if self.tier == 1 :
+                if len(self.cake_flavour_id) > 0:
+                    self.total_flavour_price = self.total_flavour_price + 10
+            else:
+                if len(self.cake_flavour_id) > 0:
+                    for item in self.cake_flavour_id:
+                        if(item != 0):
+                            flavour_price = Flavour.objects.all().filter(id=item).first().price
+                            self.total_flavour_price = self.total_flavour_price + flavour_price
+
+
+            self.only_single_cake_price_flavour = self.only_cake_price + self.total_flavour_price
+            self.final_total = self.only_single_cake_price_flavour*self.quantity
+
+
+    def set_flavour_data(self, request):
+        self.cake_flavour_id.clear()
+        if self.cake_size_id > 0:
+            if self.tier == 1:
+                if 'flavour_variation' in request.POST:
+                    flavour_name_value = int(request.POST.get('flavour_variation'))
+                    if flavour_name_value>0:
+                        self.single_tier_cake_flavour_text = flavour_name_value
+                        self.cake_flavour_id.append(flavour_name_value)
+                return self.cake_flavour_id
+            else:
+                variation_select = Variation.objects.all().filter(id=self.cake_size_id)
+                self.cake_size_name = variation_select.first().size
+                self.cake_size_name_array = self.cake_size_name.split('/')
+                for flavour in self.cake_size_name_array:
+                    flavour_name = flavour+'_tier_flavour_variation'
+                    if flavour_name in request.POST:
+                        flavour_name_value = int(request.POST.get(flavour_name))
+                        if flavour_name_value>0:
+                            self.cake_flavour_id.append(flavour_name_value)
+                return self.cake_flavour_id
+        else:
+            pass
+
+
+    def is_falvour(self):
+        if self.cake_size_id>0:
+            return True
+    def is_active_addToCart(self):
+        if self.tier == len(self.cake_flavour_id):
+            return ''
+        else:
+            return 'disabled'
+    def is_active_addToCart_press(self):
+        if self.tier == len(self.cake_flavour_id):
+            return True
+        else:
+            return False
+    def get_submit_url(self):
+        #return reverse('add_to_cart', args=[self.id])
+        return "%s/%s" %(settings.SITE_URL, reverse('add_to_cart', args=[self.id]))
+
 def single_product(request, slug):
     add_to_cart_button = 'disabled'
     add_to_cart_press = False
+    add_flavour = False
     cake_size= 0
     total= 0
     single_quantity_price = 0
@@ -131,55 +224,27 @@ def single_product(request, slug):
     tier_flavour_variation = []
     single_product = get_object_or_404(Product, slug=slug)
     bradcrumb_list = ['cake-shop',slug]
+    options = Options()
+    options.tier = int(single_product.tier)
+    options.id = int(single_product.id)
+    options.slug = slug
     if request.POST:
+
+        if 'item_quantity' in request.POST:
+            print('quantity working')
+            options.quantity = int(request.POST.get('item_quantity'))
         if 'add_to_cart_press' in request.POST:
             add_to_cart_press = True
         if 'cake_size' in request.POST:
             cake_size = int(request.POST.get('cake_size'))
-            if cake_size>1:
-                add_to_cart_button = ''
-        if int(single_product.tier)>1 and cake_size>0:
-            variation_select = Variation.objects.all().filter(id=cake_size)
-            select_size_array = variation_select.first().size.split('/')
-            for flavour in select_size_array:
-                flavour_name = flavour+'_tier_flavour_variation'
-                flavours = Flavour.objects.all()
-                if flavour_name in request.POST:
-                    flavour_name_value = int(request.POST.get(flavour_name))
-                    tier_flavour_variation.append(flavour_name_value)
-            if 0 in tier_flavour_variation:
-                add_to_cart_button = 'disabled'
+            options.cake_size_id = cake_size
+            options.set_flavour_data(request)
+            options.set_flavour_price_total(request)
 
-        else:
-            if 'flavour_variation' in request.POST:
-                flavour_variation = int(request.POST.get('flavour_variation'))
-
-    if cake_size>0:
-        variation_select = Variation.objects.all().filter(id=cake_size)
-        select_size_price = variation_select.first().price
-        total = total+select_size_price
-        single_quantity_price = total
-    if flavour_variation>0:
-        total = total+10
-    if len(tier_flavour_variation)>0:
-        for item in tier_flavour_variation:
-            print(item)
-            if(item != 0):
-                total = total+Flavour.objects.all().filter(id=item).first().price
-                single_quantity_price = single_quantity_price + Flavour.objects.all().filter(id=item).first().price
-    if request.POST:
-        if 'quantity' in request.POST:
-            quantity = int(request.POST.get('quantity'))
-            if quantity > 0:
-                total = total*int(quantity)
-                if 0 in tier_flavour_variation or tier_flavour_variation:
-                    add_to_cart_button = 'disabled'
-            else:
-                add_to_cart_button = 'disabled'
-    if not tier_flavour_variation:
-        add_to_cart_button = 'disabled'
     context = {
         'title':'',
+        'slug':slug,
+        'quantity':request.POST.get('item_quantity'),
         'bradcrumb_list':bradcrumb_list,
         'single_product':single_product,
         'star_loop':range(1,6),
@@ -191,39 +256,44 @@ def single_product(request, slug):
         'flavours':flavours,
         'select_size_array':select_size_array,
         'add_to_cart_button':add_to_cart_button,
-        'quantity':quantity,
+        #'quantity':quantity,
         'single_quantity_price':single_quantity_price,
         'add_to_cart_press':add_to_cart_press,
+        'add_flavour':add_flavour,
+        'options':options,
     }
     return render(request, 'products/single.html',context)
-def updated_item(response):
-    #return JsonResponse('Itemhas added', safe=False)
+
+def updated_item(request):
     data = json.loads(request.body)
-    productId = data['productId']
-    action = data['action']
-    print('Action:', action)
-    print('Product:', productId)
+    print(data)
+    # quantity = data['quantity']
+    # cart = request.session.get('cart', {})
+    # if item_id in list(cart.keys()):
+    #     cart[item_id] += quantity
+    # else:
+    #     cart[item_id] = quantity
+    # ============================
+    # quantity = int(request.POST.get('quantity'))
+    # redirect_url = request.POST.get('redirect_url')
+    # cart = request.session.get('cart', {})
+    # if item_id in list(cart.keys()):
+    #     cart[item_id] += quantity
+    # else:
+    #     cart[item_id] = quantity
+    #
+    # request.session['cart'] = cart
+    # print(request.session['cart'])
 
-    customer = request.user.customer
-    product = Product.objects.get(id=productId)
+    return JsonResponse('Itemhas added', safe=False)
+    # data = json.loads(response.body)
+    # productId = data['productId']
+    # action = data['action']
+    # print('Action:', action)
+    # print('Product:', productId)
 
-# 0861564183
-# bellalmiah1964@gmail.com
-# Bellal Miah
-# Urgent Account Recovery
-#
-# I have an account with mygov
-# Details:
-# Name: Bellal Miah
-# PPSN: 4307152S
-# DOB: 01/01/1964
-# Mobile: 0861564183
-# But when I try to login revenue site, by mistake I really for a new account.
-# And therefore my mygov account now block
-# I try to fix forgotten password but its is not working
-# Please advise me how I fix this issue
-# It is too urgent for me
-# Thanks
+    #return redirect(redirect_url)
+
 
 # def post_create(response):
 #     return HttpResponse("<h1>Ad New post</h1>")

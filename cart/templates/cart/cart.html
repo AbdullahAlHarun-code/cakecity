@@ -3,8 +3,90 @@
 {% load static %}
 <div class="container">
   <div class="row p-4">
-    {% if cart_items%}
-      <h2>Your cart is not empty</h2>
+    {% if cart_items %}
+      <div class="col-12">
+        <h2>My Cart</h2><hr>
+      </div>
+      <form class="" action="index.html" method="post">
+          <div class="row col-12">
+            <div class="col-sm-8 col-md-8">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">Product</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Total</th>
+                    <th scope="col"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for item in cart_items %}
+                  <tr>
+                    <th scope="row">
+                      {% for image in item.single_product.productimage_set.all %}
+                        {% if image.featured %}
+                          <a href="{{ item.single_product.get_absolute_url}}"><img style="width:80px;" class="img-responsive" src="/media/{{ image.image }}" alt=""></a><br>
+                        {% endif %}
+                      {% endfor %}
+                    </th>
+                    <td>
+                      {{item.single_product.title}}<br>
+                      {% for flavour_item in item.flavour_name_with_price%}
+                        <small class="text-muted d-block"><i class="fa fa-angle-right" aria-hidden="true"></i>{{flavour_item}}</small>
+                      {% endfor %}
+                    </td>
+                    <td>
+                        {{item.quantity}}
+                    </td>
+                    <td>
+                      €{{item.product_price}}X{{item.quantity}}
+                      {% for f_price in item.flavour_price_array%}
+                      {% if f_price > 0 %}
+                        +€{{f_price}}
+                      {% endif%}
+                      {% endfor %}
+                      = €{{ item.total}}
+                    </td>
+                    <td><a href="{% url 'remove_item' forloop.counter %}" class="text-danger" name="button"><i class="far fa-times-circle"></i></a></td>
+                  </tr>
+                  {% endfor %}
+
+                </tbody>
+              </table>
+              <p class="w-50"><a href="{% url 'all_cakes'%}" class="btn btn-primary"><i class="fas fa-chevron-left"></i> Continue Shopping</a></p>
+            </div>
+            <div class="col-sm-4 col-md-4">
+              <div class="row col-md-12 bg-light p-3">
+                <div class="col-md-10 m-0 p-0">
+                  <strong>Subtotal</strong><br>
+                  <strong>Shipping and Handling</strong>
+                </div>
+                <div class="col-md-2 m-0 p-0">
+                  <strong>€{{sub_total}}</strong><br>
+                  <strong>€0.00</strong>
+                </div>
+                <hr class="col-12">
+                <div class="col-md-6 m-0 p-0">
+                  <input type="text" name="" value="">
+                </div>
+                <div class="col-md-6 m-0 p-0 float-right">
+                  <button type="button" class="btn btn-sm btn-info" name="button">Add Coupon Code</button>
+                </div>
+                <hr class="col-12">
+                <div class="col-md-8 m-0 p-0">
+                  <strong class="h3 text-danger">Total</strong><br>
+                </div>
+                <div class="col-md-4 m-0 p-0">
+                  <strong class="h3 text-danger">€{{grand_total}}</strong><br>
+                </div>
+                <hr class="col-12">
+                <button type="button" class="btn btn-lg btn-warning col-12" name="button">Checkout <i class="fas fa-chevron-right"></i></button>
+              </div>
+            </div>
+          </div>
+      </form>
+
     {% else %}
       <h2 class="m-auto">Your cart is empty!</h2><br><br><br><br>
       <p class="w-100 text-center"><a href="{% url 'all_cakes'%}" class="btn btn-warning"><i class="fas fa-chevron-left"></i> Continue Shopping</a></p>

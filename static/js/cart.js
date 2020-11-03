@@ -3,25 +3,44 @@ console.log('hellow world')
 // Upate cart functionality
 var updateBtns = document.getElementsByClassName('update-cart')
 
-for (i=0; i < updateBtns.length; i++){
-  updateBtns[i].addEventListener('click', function(){
-    var productId = this.dataset.product
-    var action = this.dataset.action
-    console.log('ProductId:', productId, 'Action:', action)
+$(".update-cart").click(function(){
+  var productId = this.dataset.product;
+  var action = this.dataset.action;
+  var total = this.dataset.total;
+  var flavour = this.dataset.flavour;
+  var quantity = $('.quantity').val();
+  console.log('ProductId:', productId, 'Action:', action)
 
-    console.log('User:', user)
-    if(user == 'anonymousUser'){
-      console.log('User is not authenticated')
-    }else{
-      updateUserOrder(productId, action)
-    }
-  })
-}
+  console.log('User:', user)
+  if(user == 'anonymousUser'){
+    console.log('User is not authenticated')
+  }else{
+    updateUserOrder(productId, action, total, flavour, quantity)
+  }
+});
 
-function updateUserOrder(productId, action){
-  console.log('User is logged in, sending data ...')
+// for (i=0; i < updateBtns.length; i++){
+//   updateBtns[i].addEventListener('click', function(){
+//     var productId = this.dataset.product;
+//     var action = this.dataset.action;
+//     var total = this.dataset.total;
+//     var flavour = this.dataset.flavour;
+//     var quantity = document.getElementById('quantity').value
+//     console.log('ProductId:', productId, 'Action:', action)
+//
+//     console.log('User:', user)
+//     if(user == 'anonymousUser'){
+//       console.log('User is not authenticated')
+//     }else{
+//       updateUserOrder(productId, action, total, flavour, quantity)
+//     }
+//   })
+// }
 
-  var URL = '/updated_item/'
+function updateUserOrder(productId, action, total, flavour, quantity){
+  console.log('User is logged in, sending data ...');
+
+  var URL = '/updated_item/';
   fetch(URL, {
     method: "POST",
       headers: {
@@ -29,7 +48,7 @@ function updateUserOrder(productId, action){
         "Accept": "application/json",
         'Content-Type': 'application/json'
   },
-      body: JSON.stringify({'productId:':productId, 'action':action}) //JavaScript object of data to POST
+      body: JSON.stringify({'productId:':productId, 'action':action, 'flavour':flavour, 'total':total, 'quantity':quantity}) //JavaScript object of data to POST
   })
   .then((response)=>{
     return response.json()
@@ -54,4 +73,8 @@ $('#quantity').change(function() {
   }
 
     //document.getElementsByClassName("final_total").submit();
+});
+$('#add_to_cart').click(function() {
+  $('#add_item_form').attr('action',$('#form_url').val());
+  $('#add_item_form').submit();
 });

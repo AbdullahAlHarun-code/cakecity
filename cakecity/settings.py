@@ -24,6 +24,8 @@ SECRET_KEY = '_u_sdw4_f8y85ft)a$!olj^e_y@)ug(@l=f7)3-qdc8fuuxg^-'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+if DEBUG:
+    SITE_URL = 'http://127.0.0.1:8000/'
 
 ALLOWED_HOSTS = ['*']
 

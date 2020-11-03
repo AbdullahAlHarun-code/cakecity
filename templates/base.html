@@ -109,16 +109,20 @@
               <li class="nav-item dropdown">
                 <button type="button" class="btn text-info dropdown-toggle" data-toggle="dropdown">
                   <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-                  {% if cart_items %}
-                    <span class="badge badge-light">{{product_count}}</span>
+                  {% if cart_item_count %}
+                    <span class="badge badge-light">{{cart_item_count}}</span>
                   {% endif%}
                 </button>
                 <div class="dropdown-menu">
-                  {% if cart_items %}
-                  <a class="dropdown-item" href="#">Link 1</a>
-                  <a class="dropdown-item" href="#">Link 2</a>
-                  <a class="dropdown-item" href="#">Link 3</a>
-                  <a class="pl-2 text-warning" href="{% url 'cart' %}"><i class="fas fa-hand-point-right"></i> View Cart</a>
+                  {% if cart_item_count %}
+                    {% for item in cart_items%}
+                      {% for image in item.single_product.productimage_set.all %}
+                        {% if image.featured %}
+                          <a class="m-1 d-block" href="{{ item.single_product.get_absolute_url}}"><img style="width:40px;" class="img-responsive" src="/media/{{ image.image }}" alt=""> €{{item.price}} X {{item.quantity}}</a>
+                        {% endif %}
+                      {% endfor %}
+                    {% endfor%}
+                    <a class="pl-2 text-warning" href="{% url 'cart' %}"><i class="fas fa-hand-point-right"></i> View Cart</a>
                   {% else %}
                     <p class="pl-2 text-danger" href="#"> Your Cart is empty!</p>
                   {% endif %}

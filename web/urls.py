@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.urls import path
+from django.http import JsonResponse
 from . import views
 from products import views as product_view
 from cart import views as cart_view
@@ -22,6 +23,7 @@ urlpatterns = [
     # cart url
     path('cart/', cart_view.view_cart, name="cart"),
     path('add_to_cart/<int:item_id>/', cart_view.add_to_cart, name="add_to_cart"),
+    path('remove_item/<int:remove_item_id>/', cart_view.remove_item, name="remove_item"),
 
     path('<slug:slug>/', product_view.single_product, name="single_product"),
 
