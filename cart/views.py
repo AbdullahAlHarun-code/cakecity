@@ -72,11 +72,14 @@ def add_to_cart(request, item_id):
 
 
     if item_id:
+        single_product = get_object_or_404(Product, pk=item_id)
         if cart and item:
             cart.append(item)
+            messages.success(request, f'Added {single_product.title} to your cart')
         else:
             cart = []
             cart.append(item)
+            messages.success(request, f'Added {single_product.title} to your cart')
 
 
     request.session['cart'] = cart

@@ -88,7 +88,6 @@
       </div>
       {% if options.cake_size_id > 0 %}
       <hr>
-      <input type="number" name="test_quantity" value="{{options.quantity|add:0}}" min="1">
       <div class="form-group col-sm-4">
         <label for="quantity">Quantity</label>{{options.quantity}}
         <input type="number" name="item_quantity" value="{{options.quantity|add:0}}" min="1" data-single='{{options.only_single_cake_price_flavour}}' data-total='{{options.final_total}}' class="form-control quantity" id="quantity">

@@ -78,3 +78,4 @@ $('#add_to_cart').click(function() {
   $('#add_item_form').attr('action',$('#form_url').val());
   $('#add_item_form').submit();
 });
+$('.toast').toast('show');

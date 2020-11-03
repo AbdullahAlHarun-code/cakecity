@@ -37,7 +37,6 @@ class Item:
     def set_flavour_name(self, flavour_id):
         #print('item_flavour_id', flavour_id)
         if int(self.single_product.tier) == 1:
-            print('single_flavour_id:', flavour_id)
             self.flavour_name.append(str(flavour_id))
             #print('id', flavour_id)
             self.flavour_name_with_price.append(str(flavour_id))
@@ -69,7 +68,6 @@ def cart_contents(request):
                 single_item.flavour_name.clear()
                 single_item.flavour_name_with_price.clear()
                 single_item.flavour_price_array.clear()
-                print('single_flavour_id:', single_item.single_product.tier)
                 if int(single_item.single_product.tier) == 1:
                     single_item.set_price_by_flavour(item['flavours_id'])
                     single_item.set_flavour_name(item['flavours_id'])

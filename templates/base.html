@@ -28,6 +28,24 @@
   </script>
 </head>
 <body>
+  {% if messages %}
+  <div class="message-conteiner">
+    {% for message in messages%}
+      {% with message.level as level %}
+        {% if level == 40 %}
+          {% include 'toasts/toast_error.html'%}
+        {% elif level == 30 %}
+          {% include 'toasts/toast_warning.html'%}
+        {% elif level == 25 %}
+          {% include 'toasts/toast_success.html'%}
+        {% else %}
+          {% include 'toasts/toast_info.html'%}
+        {% endif %}
+
+      {% endwith %}
+    {% endfor%}
+  </div>
+  {% endif %}
 <!-- start main-container-->
 <div class="container-fluid main-container">
   <header class="row main-header">

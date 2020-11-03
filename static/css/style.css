@@ -26,4 +26,16 @@
 .deliver-section {
   min-height: 180px; }
 
+.message_container {
+  position: fixed;
+  top: 175px;
+  right: 15px;
+  z-index: 9999999; }
+
+.custom-toast {
+  overflow: visible; }
+
+.toast-capper {
+  height: 2px; }
+
 /*# sourceMappingURL=style.css.map */
