@@ -12,19 +12,43 @@ Simplicity is often referred to as one of the fundamental principles of UX desig
 
 ## Key Features:
 ### User
-- User can find the books category wise.
-- User can see the books short details and reviews of the book.
-- User can the review of a specific book after login.
-- User can search the books.
-- User can Register.
-- User can Login after Register.
-- User can upload as many as books.
-- User can Edit their Account information.
-- User can Edit their book information.
-- User can delete their book.
-- Responsive on all device sizes like desktop and tablet and mobile.
-- Interactive elements
+Viewing and Navigation:
+1. Shopper
+  - View a list of products
+  - View a specific category of products
+  - View individual product details and product variation
+  - Easily view the total of my purchases at any time mobile.
+  - Interactive elements
+Registration and User Accounts:
+1. Site User
+  - Easily register for an account
+  - Easily login or logout
+  - Easily recover my password in case I forget it
+  - Receive an email confirmation after registering
+  - Have a personalized user profile
 
+Sorting and Searching
+1. Shopper
+  - Sort the list of a available products
+  - Sort a specific category of product
+  - sort multiple categories of products simultaneously
+  - Search for a product by name of description
+  - Easily see what I've searched for and the number of results
+
+Purchasing and Checkout:
+1. shopper
+  - Easily the cake size and cake flavour and quantity of a cake when purchasing it
+  - View items in my cart to be purchased
+  - Adjust the quantity of individual items in my bag
+  - Easily enter my payment information
+  - Feel my personal and payment information is safe and secure
+  - View and order confirmation after Checkout
+  - Review an email confirmation after checking out
+Admin and Store Management:
+1. Store Owner:
+  - Add a product
+  - Edit/update a product
+  - Delete a product
 ## Technologies Used
 This project is developed by,
 - Python framework (Django)
