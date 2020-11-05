@@ -21,12 +21,10 @@ from products import views as product_view_new
 urlpatterns = [
     path('admin/', admin.site.urls),
     #path('accounts/', include('allauth.urls')),
-    #path('', include('web.urls')),
-    #path('updated_item/', product_view_new.updated_item, name="updated_item"),
     path('', include('web.urls')),
 
 ]
-
+# This is custom made 404 page
 handler404 = 'web.views.error_404_view'
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

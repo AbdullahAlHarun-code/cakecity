@@ -48,13 +48,10 @@
   {% endif %}
 <!-- start main-container-->
 <div class="container-fluid main-container">
-  <header class="row main-header">
+  <header class="row main-header d-none d-lg-block">
     <div class="container">
-      <div class="row w-100">
+      <div class="row w-100 d-none d-sm-block">
         <nav class="navbar navbar-expand-lg navbar-light w-100">
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
           <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
             <div class="col-md-5">
               <ul class="navbar-nav mr-auto mt-2 mt-lg-0 social-media">
@@ -94,12 +91,54 @@
   <div class="row main-nav">
     <div class="container">
       <div class="row text-center">
-        <nav class="navbar navbar-expand-lg navbar-light m-auto">
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
+        <nav class="navbar navbar-expand-lg navbar-light w-100 m-auto">
+          <div class="col-sm">
+            <a class="logo float-left" href="{% url 'home'%}">
+              <img style="width:50px" src="{% static 'images/logo.png'%}" alt="">
+            </a>
+            <button class="navbar-toggler float-right" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="d-block d-lg-none w-100 text-right foat-right">
+
+              <div class="nav-item dropdown float-right">
+                <button type="button" class="btn text-info dropdown-toggle d-inline-block" data-toggle="dropdown">
+                  <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                  {% if cart_item_count %}
+                    <span class="badge badge-light">{{cart_item_count}}</span>
+                  {% endif%}
+                </button>
+                <div class="dropdown-menu">
+                  {% if cart_item_count %}
+                    {% for item in cart_items%}
+                      {% for image in item.single_product.productimage_set.all %}
+                        {% if image.featured %}
+                          <a class="m-1 d-block" href="{{ item.single_product.get_absolute_url}}"><img style="width:40px;" class="img-responsive" src="/media/{{ image.image }}" alt=""> €{{item.price}} X {{item.quantity}}</a>
+                        {% endif %}
+                      {% endfor %}
+                    {% endfor%}
+                    <a class="pl-2 text-warning" href="{% url 'cart' %}"><i class="fas fa-hand-point-right"></i> View Cart</a>
+                  {% else %}
+                    <p class="pl-2 text-danger" href="#"> Your Cart is empty!</p>
+                  {% endif %}
+
+                </div>
+              </div>
+              <div class="nav-item dropdown float-right">
+
+                <button type="button" class="btn text-info dropdown-toggle d-inline-block" data-toggle="dropdown">
+                  <i class="fas fa-user-alt"></i>
+                </button>
+                <div class="dropdown-menu p-3">
+                  <a class="d-block" href="#"> <i class="fas fa-chevron-right"></i> Login</a>
+                  <a class="d-block" href="#"> <i class="fas fa-chevron-right"></i> Register</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav nav-ul">
+            <ul class="navbar-nav nav-ul m-auto">
               <li class="nav-item">
                 <a class="nav-link text-uppercase" href="{% url 'home'%}">HOME</a>
               </li>

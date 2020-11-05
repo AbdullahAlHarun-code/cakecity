@@ -31,22 +31,22 @@
   <div class="container">
     <div class="row">
       <div class="display-4 text-center w-100 m-3">How to Order with CakeCity?</div>
-      <div class="card m-auto p-3 deliver-section text-center" style="width:25%">
+      <div class="card col-6 col-md-3 col-sm-6 m-auto p-3 deliver-section text-center">
         <i class="fa fa-birthday-cake h3" aria-hidden="true"></i>
-        <p class="h2">Step 1</p>
+        <p class="h3">Step 1</p>
         <p>Find a cake you like</p>
       </div>
-      <div class="card m-auto p-3 deliver-section text-center" style="width:25%">
+      <div class="card col-6 col-md-3 col-sm-6 m-auto p-3 deliver-section text-center">
         <i class="fa fa-shopping-cart h3" aria-hidden="true"></i>
-        <p class="h2">Step 2</p>
-        <p>Go to your shoping cart and give an order.</p>
+        <p class="h3">Step 2</p>
+        <p>Check your cart and give an order.</p>
       </div>
-      <div class="card m-auto p-3 deliver-section text-center" style="width:25%">
+      <div class="card col-6 col-md-3 col-sm-6 m-auto p-3 deliver-section text-center">
         <i class="fa fa-thumb-tack h3" aria-hidden="true"></i>
-        <p class="h2">Step 3</p>
+        <p class="h3">Step 3</p>
         <p>We make it.</p>
       </div>
-      <div class="card m-auto p-3 deliver-section text-center" style="width:25%">
+      <div class="card col-6 col-md-3 col-sm-6 m-auto p-3 deliver-section text-center">
         <i class="fa fa-gift h3" aria-hidden="true"></i>
         <p class="h2">Step 4</p>
         <p>We deliver it.</p>
@@ -57,21 +57,21 @@
 <section class="container">
   <div class="row p-2">
 
-      <div class="card m-auto" style="width:31%;margin-bottom:20px !important;">
+      <div class="card col-12 col-sm-4 col-md-4 col-lg-4 m-auto" style="width:31%;margin-bottom:20px !important;">
         <img class="card-img-top" src="{% static 'images/category/novelty-cakes.jpg'%}" alt="Card image">
         <div class="card-img-overlay">
           <h4 style="background-color: rgba(255, 250, 250, 0.4);" class="card-title text-monospace p-2">Novelty Cakes</h4>
           <a href="{% url 'product_category_page' 'novelty-cakes'%}" class="btn btn-info">See All</a>
         </div>
       </div>
-      <div class="card m-auto" style="width:31%;margin-bottom:20px !important;">
+      <div class="card col-12 col-sm-4 col-md-4 col-lg-4 m-auto" style="width:31%;margin-bottom:20px !important;">
         <img class="card-img-top" src="{% static 'images/category/wedding-cakes.jpg'%}" alt="Card image">
         <div class="card-img-overlay">
           <h4 style="background-color: rgba(255, 250, 250, 0.4);" class="card-title text-monospace p-2">Wedding Cakes</h4>
           <a href="{% url 'product_category_page' 'wedding-cakes'%}" class="btn btn-info">See All</a>
         </div>
       </div>
-      <div class="card m-auto" style="width:31%;margin-bottom:20px !important;">
+      <div class="card col-12 col-sm-4 col-md-4 col-lg-4 m-auto" style="width:31%;margin-bottom:20px !important;">
         <img class="card-img-top" src="{% static 'images/category/corporate-cakes.jpg'%}" alt="Card image">
         <div class="card-img-overlay">
           <h4 style="background-color: rgba(255, 250, 250, 0.4);" class="card-title text-monospace p-2">Corporate Cakes</h4>
@@ -83,13 +83,13 @@
 </section>
 <section class="container mb-3">
   <div class="row p-2">
-    <h1 class="display-3 m-auto">Featured Cakes</h1>
+    <h1 class="display-4 m-auto">Featured Cakes</h1>
   </div>
-  <div class="card-group">
+  <div class="card-group clearfix m-auto">
     {% for cake in featured_cakes|slice:":4" %}
-      <div class="card w-25 mr-2">
+      <div class="card col-12 col-sm-12 col-md-3 mr-md-2 p-1 float-left">
         <div class="card-body text-center">
-          <img class="card-img-top" src="{% static 'images/cakes/gift-cakes.jpg'%}" alt="Card image">
+          <img class="card-img-top" src="/media/{{ cake.productimage_set.all.first.image }}" alt="Card image">
           <a href="{{cake.slug}}" class="card-text">{{cake.title}}</a>
         </div>
       </div>

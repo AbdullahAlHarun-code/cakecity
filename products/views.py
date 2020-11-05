@@ -25,6 +25,7 @@ def category(request,cat):
     category_item = get_object_or_404(CakeCategory, category_slug=cat)
     bradcrumb_list = ['cake-shop',cat]
     products = ''
+    pagination_path = request.path+'?'
     if category_item is not None:
         #products = get_object_or_404(Product, cake_category=category_item.category_name)
         products = Product.objects.all().filter(cake_category=category_item.category_name)
@@ -39,6 +40,7 @@ def category(request,cat):
         'bradcrumb_list':bradcrumb_list,
         'paginator': paginator_array[1],
         'star_loop':range(1,6),
+        'pagination_path':pagination_path,
 
     }
     return render(request, 'products/category.html',context)
@@ -50,7 +52,7 @@ def index(request):
     }
     return render(request, 'web/home.html',context)
 def product_pagination(products,page_num):
-    p = Paginator(products,4)
+    p = Paginator(products,3)
     page_num = page_num
     try:
         page = p.page(page_num)

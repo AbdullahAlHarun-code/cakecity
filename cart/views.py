@@ -86,6 +86,18 @@ def add_to_cart(request, item_id):
     print('cart', request.session['cart'])
     #print('Tier',single_product.tier)
     return redirect('cart')
+def update_cart_item(request, update_item_id):
+
+    if request.POST and update_item_id:
+        quantity = (request.POST.get('update_quantity'))
+        cart = request.session.get('cart')
+        if update_item_id and cart:
+            remove_index = int(update_item_id)-1
+            cart[remove_index]['quantity'] = quantity
+            request.session['cart'] = cart
+            messages.warning(request, f'Your item quantity updated to your cart')
+    return redirect('cart')
+
 def remove_item(request, remove_item_id):
     quantity = (request.POST.get('quantity'))
     #redirect_url = request.POST.get('redirect_url')
@@ -94,8 +106,7 @@ def remove_item(request, remove_item_id):
         remove_index = int(remove_item_id)-1
         cart.pop(remove_index)
         request.session['cart'] = cart
-        print(request.session['cart'])
-        print('remove_index',remove_index)
+        messages.warning(request, f'Removed item to your cart')
     # if remove_item_id in list(cart.keys()):
     #     cart.remove(remove_item_id)
 
