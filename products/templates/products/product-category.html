@@ -2,20 +2,18 @@
 {% block page_content %}
 {% load static %}
 <div class="container">
-  <div class="row mb-4 col-12">
-    <h2 class="display-4 col-12 text-center">{{title}}</h2>
-    {% include 'breadcrumb.html'%}
-    {% for item in category_items%}
-    <div class="card col-4">
-      <img class="card-img-top" src="/media/{{item.image}}" alt="Card image">
-      <div class="card-img-overlay">
-        <h4 style="background-color: rgba(255, 250, 250, 0.4);" class="card-title text-monospace p-2">{{item.category_name|capfirst}}</h4>
-        <a href="{% url 'category_page' item.category_slug %}" class="btn btn-info">See All</a>
+   <div class="row mb-4 col-12">
+      <h2 class="display-4 col-12 text-center">{{title}}</h2>
+      {% include 'breadcrumb.html'%}
+      {% for item in category_items%}
+      <div class="card col-4">
+         <img class="card-img-top" src="/media/{{item.image}}" alt="Card image">
+         <div class="card-img-overlay">
+            <h4 style="background-color: rgba(255, 250, 250, 0.4);" class="card-title text-monospace p-2">{{item.category_name|capfirst}}</h4>
+            <a href="{% url 'category_page' item.category_slug %}" class="btn btn-info">See All</a>
+         </div>
       </div>
-    </div>
-    {% endfor %}
-
-
-  </div>
+      {% endfor %}
+   </div>
 </div>
 {% endblock %}

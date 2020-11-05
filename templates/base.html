@@ -1,271 +1,261 @@
 {% load static%}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <title>Bootstrap 4 Website Example</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <link rel="stylesheet" href="{% static 'css/style.css' %}">
-  <script type="text/javascript">
-  var user = "{{request.user}}";
-    function getCookie(name) {
-        let cookieValue = null;
-        if (document.cookie && document.cookie !== '') {
-            const cookies = document.cookie.split(';');
-            for (let i = 0; i < cookies.length; i++) {
-                const cookie = cookies[i].trim();
-                // Does this cookie string begin with the name we want?
-                if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
-                }
-            }
-        }
-        return cookieValue;
-    }
-    var csrftoken = getCookie('csrftoken');
-  </script>
-</head>
-<body>
-  {% if messages %}
-  <div class="message-conteiner">
-    {% for message in messages%}
-      {% with message.level as level %}
-        {% if level == 40 %}
-          {% include 'toasts/toast_error.html'%}
-        {% elif level == 30 %}
-          {% include 'toasts/toast_warning.html'%}
-        {% elif level == 25 %}
-          {% include 'toasts/toast_success.html'%}
-        {% else %}
-          {% include 'toasts/toast_info.html'%}
-        {% endif %}
-
-      {% endwith %}
-    {% endfor%}
-  </div>
-  {% endif %}
-<!-- start main-container-->
-<div class="container-fluid main-container">
-  <header class="row main-header d-none d-lg-block">
-    <div class="container">
-      <div class="row w-100 d-none d-sm-block">
-        <nav class="navbar navbar-expand-lg navbar-light w-100">
-          <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-            <div class="col-md-5">
-              <ul class="navbar-nav mr-auto mt-2 mt-lg-0 social-media">
-                <li class="nav-item active">
-                  <a class="nav-link" href="#"><i class="fa fa-facebook-square" aria-hidden="true"></i> <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#"><i class="fa fa-twitter-square" aria-hidden="true"></i></a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#"><i class="fab fa-instagram-square"></i></a>
-                </li>
-              </ul>
-            </div>
-            <div class="col-md-3">
-              <a class="logo" href="#">
-                <img src="{% static 'images/logo.png'%}" alt="">
-              </a>
-            </div>
-            <div class="col-md-4">
-              <form class="form-inline my-2 my-lg-0" method='GET' action="{% url 'all_cakes'%}">
-                <input class="form-control w-50 mr-sm-2" name="q" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Search</button>
-                <div class=""><br>
-                  <a class="text-info" href="#">Login </a> | <a class="text-info" href="#">Create Account</a>
-                </div>
-
-              </form>
-            </div>
-
-          </div>
-        </nav>
-
-      </div><!-- end main-header-->
-    </div>
-  </header><!-- end header -->
-  <div class="row main-nav">
-    <div class="container">
-      <div class="row text-center">
-        <nav class="navbar navbar-expand-lg navbar-light w-100 m-auto">
-          <div class="col-sm">
-            <a class="logo float-left" href="{% url 'home'%}">
-              <img style="width:50px" src="{% static 'images/logo.png'%}" alt="">
-            </a>
-            <button class="navbar-toggler float-right" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="d-block d-lg-none w-100 text-right foat-right">
-
-              <div class="nav-item dropdown float-right">
-                <button type="button" class="btn text-info dropdown-toggle d-inline-block" data-toggle="dropdown">
-                  <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-                  {% if cart_item_count %}
-                    <span class="badge badge-light">{{cart_item_count}}</span>
-                  {% endif%}
-                </button>
-                <div class="dropdown-menu">
-                  {% if cart_item_count %}
-                    {% for item in cart_items%}
-                      {% for image in item.single_product.productimage_set.all %}
-                        {% if image.featured %}
-                          <a class="m-1 d-block" href="{{ item.single_product.get_absolute_url}}"><img style="width:40px;" class="img-responsive" src="/media/{{ image.image }}" alt=""> €{{item.price}} X {{item.quantity}}</a>
-                        {% endif %}
-                      {% endfor %}
-                    {% endfor%}
-                    <a class="pl-2 text-warning" href="{% url 'cart' %}"><i class="fas fa-hand-point-right"></i> View Cart</a>
-                  {% else %}
-                    <p class="pl-2 text-danger" href="#"> Your Cart is empty!</p>
-                  {% endif %}
-
-                </div>
-              </div>
-              <div class="nav-item dropdown float-right">
-
-                <button type="button" class="btn text-info dropdown-toggle d-inline-block" data-toggle="dropdown">
-                  <i class="fas fa-user-alt"></i>
-                </button>
-                <div class="dropdown-menu p-3">
-                  <a class="d-block" href="#"> <i class="fas fa-chevron-right"></i> Login</a>
-                  <a class="d-block" href="#"> <i class="fas fa-chevron-right"></i> Register</a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav nav-ul m-auto">
-              <li class="nav-item">
-                <a class="nav-link text-uppercase" href="{% url 'home'%}">HOME</a>
-              </li>
-              <li class="nav-item dropdown">
-                <button type="button" class="btn text-info dropdown-toggle text-uppercase" data-toggle="dropdown">
-                  <strong>All Cakes</strong>
-                </button>
-                <div class="dropdown-menu">
-                  <a class="dropdown-item" href="{% url 'all_cakes'%}">All Cakes</a>
-                  <a class="dropdown-item" href="{% url 'product_category_page' 'novelty-cakes'%}">Novelty Cakes</a>
-                  <a class="dropdown-item" href="{% url 'product_category_page' 'wedding-cakes'%}">Wedding Cakes</a>
-                  <a class="dropdown-item" href="{% url 'product_category_page' 'corporate-cakes'%}">Corporate Cakes</a>
-                </div>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link text-uppercase" href="{% url 'product_category_page' 'novelty-cakes'%}">Novelty Cakes</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link text-uppercase" href="{% url 'product_category_page' 'wedding-cakes'%}">Wedding Cakes</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link text-uppercase" href="{% url 'product_category_page' 'corporate-cakes'%}">Corporate Cakes</a>
-              </li>
-              <!-- Dropdown -->
-              <li class="nav-item dropdown">
-                <button type="button" class="btn text-info dropdown-toggle" data-toggle="dropdown">
-                  <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-                  {% if cart_item_count %}
-                    <span class="badge badge-light">{{cart_item_count}}</span>
-                  {% endif%}
-                </button>
-                <div class="dropdown-menu">
-                  {% if cart_item_count %}
-                    {% for item in cart_items%}
-                      {% for image in item.single_product.productimage_set.all %}
-                        {% if image.featured %}
-                          <a class="m-1 d-block" href="{{ item.single_product.get_absolute_url}}"><img style="width:40px;" class="img-responsive" src="/media/{{ image.image }}" alt=""> €{{item.price}} X {{item.quantity}}</a>
-                        {% endif %}
-                      {% endfor %}
-                    {% endfor%}
-                    <a class="pl-2 text-warning" href="{% url 'cart' %}"><i class="fas fa-hand-point-right"></i> View Cart</a>
-                  {% else %}
-                    <p class="pl-2 text-danger" href="#"> Your Cart is empty!</p>
-                  {% endif %}
-
-                </div>
-              </li>
-            </ul>
-          </div>
-        </nav>
+   <head>
+      <title>Bootstrap 4 Website Example</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+      <link rel="stylesheet" href="{% static 'css/style.css' %}">
+      <script type="text/javascript">
+         var user = "{{request.user}}";
+           function getCookie(name) {
+               let cookieValue = null;
+               if (document.cookie && document.cookie !== '') {
+                   const cookies = document.cookie.split(';');
+                   for (let i = 0; i < cookies.length; i++) {
+                       const cookie = cookies[i].trim();
+                       // Does this cookie string begin with the name we want?
+                       if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                           cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                           break;
+                       }
+                   }
+               }
+               return cookieValue;
+           }
+           var csrftoken = getCookie('csrftoken');
+      </script>
+   </head>
+   <body>
+      {% if messages %}
+      <div class="message-conteiner">
+         {% for message in messages%}
+         {% with message.level as level %}
+         {% if level == 40 %}
+         {% include 'toasts/toast_error.html'%}
+         {% elif level == 30 %}
+         {% include 'toasts/toast_warning.html'%}
+         {% elif level == 25 %}
+         {% include 'toasts/toast_success.html'%}
+         {% else %}
+         {% include 'toasts/toast_info.html'%}
+         {% endif %}
+         {% endwith %}
+         {% endfor%}
       </div>
-    </div>
-
-  </div> <!-- end main-nav -->
-  {% block page_content%}
-
-  {% endblock %}
-  <section class="row footer-nav bg-light">
-    <div class="container">
-      <div class="row">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light m-md-auto p-xs-5">
-          <ul class="navbar-nav nav-ul">
-              <li class="nav-item">
-                <a class="nav-link" href="#">About</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Faq</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Contact</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Delivery Service</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Privavy Policy</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Terms & Conditions</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Sitemap</a>
-              </li>
-            </ul>
-        </nav>
-      </div>
-    </div>
-  </section>
-  <footer>
-    <div class="container">
-      <div class="row p-sm-5">
-        <div class="col-sm-4">
-          <img class="w-50" src="{% static 'images/logo.png'%}" alt="">
-        </div>
-        <div class="col-sm-4">
-            <div class="h4 text-bold">
-              CakeCity
+      {% endif %}
+      <!-- start main-container-->
+      <div class="container-fluid main-container">
+         <header class="row main-header d-none d-lg-block">
+            <div class="container">
+               <div class="row w-100 d-none d-sm-block">
+                  <nav class="navbar navbar-expand-lg navbar-light w-100">
+                     <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+                        <div class="col-md-5">
+                           <ul class="navbar-nav mr-auto mt-2 mt-lg-0 social-media">
+                              <li class="nav-item active">
+                                 <a class="nav-link" href="#"><i class="fa fa-facebook-square" aria-hidden="true"></i> <span class="sr-only">(current)</span></a>
+                              </li>
+                              <li class="nav-item">
+                                 <a class="nav-link" href="#"><i class="fa fa-twitter-square" aria-hidden="true"></i></a>
+                              </li>
+                              <li class="nav-item">
+                                 <a class="nav-link" href="#"><i class="fab fa-instagram-square"></i></a>
+                              </li>
+                           </ul>
+                        </div>
+                        <div class="col-md-3">
+                           <a class="logo" href="#">
+                           <img src="{% static 'images/logo.png'%}" alt="">
+                           </a>
+                        </div>
+                        <div class="col-md-4">
+                           <form class="form-inline my-2 my-lg-0" method='GET' action="{% url 'all_cakes'%}">
+                              <input class="form-control w-50 mr-sm-2" name="q" type="search" placeholder="Search" aria-label="Search">
+                              <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Search</button>
+                              <div class=""><br>
+                                 <a class="text-info" href="#">Login </a> | <a class="text-info" href="#">Create Account</a>
+                              </div>
+                           </form>
+                        </div>
+                     </div>
+                  </nav>
+               </div>
+               <!-- end main-header-->
             </div>
-            <hr>
-              <p>By combining personality and passion, we create breath-taking wedding cakes, corporate cakes and novelty cakes, that invariably become the focal point of any event’s décor</p>
-              <p>© 2020 CakeCity</p>
-
-        </div>
-        <div class="col-sm-4">
-          <div class="h4 text-bold">
-            Contact
-          </div>
-          <hr>
-            <p>Call us:<br>
-                +353 87-763-8300<br>
-                E-mail:<br>
-                michael@creativecakes.ie<br>
-                Address:<br>
-                7 The Business Centre, Stadium Business Park, Blanchardstown, Dublin 15, D11 E625
-            </p>
-
-        </div>
+         </header>
+         <!-- end header -->
+         <div class="row main-nav">
+            <div class="container">
+               <div class="row text-center">
+                  <nav class="navbar navbar-expand-lg navbar-light w-100 m-auto">
+                     <div class="col-sm">
+                        <a class="logo float-left" href="{% url 'home'%}">
+                        <img style="width:50px" src="{% static 'images/logo.png'%}" alt="">
+                        </a>
+                        <button class="navbar-toggler float-right" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="d-block d-lg-none w-100 text-right foat-right">
+                           <div class="nav-item dropdown float-right">
+                              <button type="button" class="btn text-info dropdown-toggle d-inline-block" data-toggle="dropdown">
+                              <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                              {% if cart_item_count %}
+                              <span class="badge badge-light">{{cart_item_count}}</span>
+                              {% endif%}
+                              </button>
+                              <div class="dropdown-menu">
+                                 {% if cart_item_count %}
+                                 {% for item in cart_items%}
+                                 {% for image in item.single_product.productimage_set.all %}
+                                 {% if image.featured %}
+                                 <a class="m-1 d-block" href="{{ item.single_product.get_absolute_url}}"><img style="width:40px;" class="img-responsive" src="/media/{{ image.image }}" alt=""> €{{item.price}} X {{item.quantity}}</a>
+                                 {% endif %}
+                                 {% endfor %}
+                                 {% endfor%}
+                                 <a class="pl-2 text-warning" href="{% url 'cart' %}"><i class="fas fa-hand-point-right"></i> View Cart</a>
+                                 {% else %}
+                                 <p class="pl-2 text-danger" href="#"> Your Cart is empty!</p>
+                                 {% endif %}
+                              </div>
+                           </div>
+                           <div class="nav-item dropdown float-right">
+                              <button type="button" class="btn text-info dropdown-toggle d-inline-block" data-toggle="dropdown">
+                              <i class="fas fa-user-alt"></i>
+                              </button>
+                              <div class="dropdown-menu p-3">
+                                 <a class="d-block" href="#"> <i class="fas fa-chevron-right"></i> Login</a>
+                                 <a class="d-block" href="#"> <i class="fas fa-chevron-right"></i> Register</a>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav nav-ul m-auto">
+                           <li class="nav-item">
+                              <a class="nav-link text-uppercase" href="{% url 'home'%}">HOME</a>
+                           </li>
+                           <li class="nav-item dropdown">
+                              <button type="button" class="btn text-info dropdown-toggle text-uppercase" data-toggle="dropdown">
+                              <strong>All Cakes</strong>
+                              </button>
+                              <div class="dropdown-menu">
+                                 <a class="dropdown-item" href="{% url 'all_cakes'%}">All Cakes</a>
+                                 <a class="dropdown-item" href="{% url 'cake_shop'%}">All Category</a>
+                                 <a class="dropdown-item" href="{% url 'product_category_page' 'novelty-cakes'%}">Novelty Cakes</a>
+                                 <a class="dropdown-item" href="{% url 'product_category_page' 'wedding-cakes'%}">Wedding Cakes</a>
+                                 <a class="dropdown-item" href="{% url 'product_category_page' 'corporate-cakes'%}">Corporate Cakes</a>
+                              </div>
+                           </li>
+                           <li class="nav-item">
+                              <a class="nav-link text-uppercase" href="{% url 'product_category_page' 'novelty-cakes'%}">Novelty Cakes</a>
+                           </li>
+                           <li class="nav-item">
+                              <a class="nav-link text-uppercase" href="{% url 'product_category_page' 'wedding-cakes'%}">Wedding Cakes</a>
+                           </li>
+                           <li class="nav-item">
+                              <a class="nav-link text-uppercase" href="{% url 'product_category_page' 'corporate-cakes'%}">Corporate Cakes</a>
+                           </li>
+                           <!-- Dropdown -->
+                           <li class="nav-item dropdown">
+                              <button type="button" class="btn text-info dropdown-toggle" data-toggle="dropdown">
+                              <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                              {% if cart_item_count %}
+                              <span class="badge badge-light">{{cart_item_count}}</span>
+                              {% endif%}
+                              </button>
+                              <div class="dropdown-menu">
+                                 {% if cart_item_count %}
+                                 {% for item in cart_items%}
+                                 {% for image in item.single_product.productimage_set.all %}
+                                 {% if image.featured %}
+                                 <a class="m-1 d-block" href="{{ item.single_product.get_absolute_url}}"><img style="width:40px;" class="img-responsive" src="/media/{{ image.image }}" alt=""> €{{item.price}} X {{item.quantity}}</a>
+                                 {% endif %}
+                                 {% endfor %}
+                                 {% endfor%}
+                                 <a class="pl-2 text-warning" href="{% url 'cart' %}"><i class="fas fa-hand-point-right"></i> View Cart</a>
+                                 {% else %}
+                                 <p class="pl-2 text-danger" href="#"> Your Cart is empty!</p>
+                                 {% endif %}
+                              </div>
+                           </li>
+                        </ul>
+                     </div>
+                  </nav>
+               </div>
+            </div>
+         </div>
+         <!-- end main-nav -->
+         {% block page_content%}
+         {% endblock %}
+         <section class="row footer-nav bg-light">
+            <div class="container">
+               <div class="row">
+                  <nav class="navbar navbar-expand-lg navbar-light bg-light m-md-auto p-xs-5">
+                     <ul class="navbar-nav nav-ul">
+                        <li class="nav-item">
+                           <a class="nav-link" href="#">About</a>
+                        </li>
+                        <li class="nav-item">
+                           <a class="nav-link" href="#">Faq</a>
+                        </li>
+                        <li class="nav-item">
+                           <a class="nav-link" href="#">Contact</a>
+                        </li>
+                        <li class="nav-item">
+                           <a class="nav-link" href="#">Delivery Service</a>
+                        </li>
+                        <li class="nav-item">
+                           <a class="nav-link" href="#">Privavy Policy</a>
+                        </li>
+                        <li class="nav-item">
+                           <a class="nav-link" href="#">Terms & Conditions</a>
+                        </li>
+                        <li class="nav-item">
+                           <a class="nav-link" href="#">Sitemap</a>
+                        </li>
+                     </ul>
+                  </nav>
+               </div>
+            </div>
+         </section>
+         <footer>
+            <div class="container">
+               <div class="row p-sm-5">
+                  <div class="col-sm-4">
+                     <img class="w-50" src="{% static 'images/logo.png'%}" alt="">
+                  </div>
+                  <div class="col-sm-4">
+                     <div class="h4 text-bold">
+                        CakeCity
+                     </div>
+                     <hr>
+                     <p>By combining personality and passion, we create breath-taking wedding cakes, corporate cakes and novelty cakes, that invariably become the focal point of any event’s décor</p>
+                     <p>© 2020 CakeCity</p>
+                  </div>
+                  <div class="col-sm-4">
+                     <div class="h4 text-bold">
+                        Contact
+                     </div>
+                     <hr>
+                     <p>Call us:<br>
+                        +353 87-763-8300<br>
+                        E-mail:<br>
+                        michael@creativecakes.ie<br>
+                        Address:<br>
+                        7 The Business Centre, Stadium Business Park, Blanchardstown, Dublin 15, D11 E625
+                     </p>
+                  </div>
+               </div>
+            </div>
+         </footer>
       </div>
-    </div>
-  </footer>
-</div><!-- end main-container-->
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script src="https://kit.fontawesome.com/758fa7d06e.js" crossorigin="anonymous"></script>
-
-<script src="{% static 'js/cart.js' %}"></script>
-</body>
+      <!-- end main-container-->
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+      <script src="https://kit.fontawesome.com/758fa7d06e.js" crossorigin="anonymous"></script>
+      <script src="{% static 'js/cart.js' %}"></script>
+   </body>
 </html>

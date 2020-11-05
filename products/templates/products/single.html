@@ -2,114 +2,105 @@
 {% block page_content %}
 {% load static %}
 <div class="container">
-  <div class="row m-auto col-12 pt-4 pb-4">
-    {% include 'breadcrumb.html'%}
-    <div class="col-md-5 mb-2 mt-3">
-
-      {% for image in single_product.productimage_set.all %}
-        {% if image.featured %}
-          <a target="_clank" href="/media/{{ image.image }}"><img class="img-responsive w-100" src="/media/{{ image.image }}" alt=""></a><br>
-        {% else %}
-          <a href="#"><img style="width:100px" class="img-responsive mt-2 mr-2" src="/media/{{ image.image }}" alt=""></a>
-        {% endif%}
-      {% endfor %}
-    </div>
-    <div class="col-md-7 mt-3">
-      <h2 class="h1 col-12 text-left pl-0">{{ single_product.title|capfirst }}</h2>
-      <p>Ratings:
-        {% for count in star_loop%}
-          {% if count <= single_product.rating %}
+   <div class="row m-auto col-12 pt-4 pb-4">
+      {% include 'breadcrumb.html'%}
+      <div class="col-md-5 mb-2 mt-3">
+         {% for image in single_product.productimage_set.all %}
+         {% if image.featured %}
+         <a target="_clank" href="/media/{{ image.image }}"><img class="img-responsive w-100" src="/media/{{ image.image }}" alt=""></a><br>
+         {% else %}
+         <a href="#"><img style="width:100px" class="img-responsive mt-2 mr-2" src="/media/{{ image.image }}" alt=""></a>
+         {% endif%}
+         {% endfor %}
+      </div>
+      <div class="col-md-7 mt-3">
+         <h2 class="h1 col-12 text-left pl-0">{{ single_product.title|capfirst }}</h2>
+         <p>Ratings:
+            {% for count in star_loop%}
+            {% if count <= single_product.rating %}
             <i class="fa fa-star text-warning" aria-hidden="true"></i>
-          {% else %}
+            {% else %}
             <i class="fa fa-star-o text-warning" aria-hidden="true"></i>
-          {% endif %}
-        {% endfor %}
-      </p>
-      <p class="btn btn-info">Price: {{ single_product.get_price_range }}</p>
-      {{single_product.variation_set.sizes}}
-
-
-      <form id="add_item_form" class="" action="" method="post">
-      {% csrf_token %}
-      <input type="hidden" id="form_url" name="form_url" value="{% url 'add_to_cart' options.id%}">
-        <div class="form-group col-6 pl-0">
-          <label class="h4" for="exampleFormControlSelect1">Cake Size</label>
-          <select onchange="this.form.submit()" class="form-control" id="exampleFormControlSelect1" name="cake_size">
-            <option {% ifequal cake_size 0 %} selected {% endifequal %} value="0">Choose an option</option>
-            {% for variation in single_product.variation_set.all %}
-              <option {% ifequal options.cake_size_id variation.id %} selected {% endifequal %} value="{{variation.id}}">{{variation.size}}</option>
+            {% endif %}
             {% endfor %}
-          </select>
-        </div>
-
-      <hr>
-      <div class="select-price text-danger h2">
-        {% if options.get_cake_price %}
-          <strong>€{{options.get_cake_price}}</strong>
-        {% endif %}
-      </div>
-      <div class="select_flavour">
-
-        {% if options.is_falvour %}
-          {% if options.tier == 1%}
+         </p>
+         <p class="btn btn-info">Price: {{ single_product.get_price_range }}</p>
+         {{single_product.variation_set.sizes}}
+         <form id="add_item_form" class="" action="" method="post">
+            {% csrf_token %}
+            <input type="hidden" id="form_url" name="form_url" value="{% url 'add_to_cart' options.id%}">
             <div class="form-group col-6 pl-0">
-              <label class="h4" for="exampleFormControlSelect1">Add Flavour</label>
-              <select onchange="this.form.submit()" class="form-control" id="exampleFormControlSelect1" name="flavour_variation">
-                <option {% ifequal options.single_tier_cake_flavour_text 0 %} selected {% endifequal %} value="0">No (€0)</option>
-                <option {% ifequal options.single_tier_cake_flavour_text 1 %} selected {% endifequal %} value="1">Gold(€10)</option>
-                <option {% ifequal options.single_tier_cake_flavour_text 2 %} selected {% endifequal %} value="2">Silver(€10)</option>
-                <option {% ifequal options.single_tier_cake_flavour_text 3 %} selected {% endifequal %} value="3">Rose Gold(€10)</option>
-              </select>
+               <label class="h4" for="exampleFormControlSelect1">Cake Size</label>
+               <select onchange="this.form.submit()" class="form-control" id="exampleFormControlSelect1" name="cake_size">
+               <option {% ifequal cake_size 0 %} selected {% endifequal %} value="0">Choose an option</option>
+               {% for variation in single_product.variation_set.all %}
+               <option {% ifequal options.cake_size_id variation.id %} selected {% endifequal %} value="{{variation.id}}">{{variation.size}}</option>
+               {% endfor %}
+               </select>
             </div>
-          {% endif%}
-          {% if options.tier > 1%}
-              {% for x in options.cake_size_name_array%}
-              {% with index=forloop.counter %}
-                  <div class="form-group col-10 pl-0">
-                    <label class="h4" for="exampleFormControlSelect1">{{x}} Tier Flavour</label>
-                    <select onchange="this.form.submit()" class="form-control" id="exampleFormControlSelect1" name="{{x}}_tier_flavour_variation">
-                      <option {% ifequal y 0 %} selected {% endifequal %} value="0">No (€0)</option>
-                      {% for item in options.flavours %}
-                      {% if index == 1 %}
-                        <option  {% ifequal options.cake_flavour_id.0 item.id %} selected {% endifequal %} value="{{item.id}}">{{item.flavour_name}}(€{{item.price}})</option>
-                      {% elif index == 2 %}
-                        <option  {% ifequal options.cake_flavour_id.1 item.id %} selected {% endifequal %} value="{{item.id}}">{{item.flavour_name}}(€{{item.price}})</option>
-                      {% else  %}
-                        <option  {% ifequal options.cake_flavour_id.1 item.id %} selected {% endifequal %} value="{{item.id}}">{{item.flavour_name}}(€{{item.price}})</option>
-                      {% endif %}
-                      {% endfor %}
-                    </select>
-                  </div>
-
-              {% endwith %}
-              {% endfor %}
-          {% endif%}
-        {% endif %}
+            <hr>
+            <div class="select-price text-danger h2">
+               {% if options.only_cake_price %}
+               <strong>€{{options.only_cake_price}}</strong>
+               {% endif %}
+            </div>
+            <div class="select_flavour">
+               {% if options.is_falvour %}
+               {% if options.tier == 1%}
+               <div class="form-group col-6 pl-0">
+                  <label class="h4" for="exampleFormControlSelect1">Add Flavour</label>
+                  <select onchange="this.form.submit()" class="form-control" id="exampleFormControlSelect1" name="flavour_variation">
+                  <option {% ifequal options.single_tier_cake_flavour_text 0 %} selected {% endifequal %} value="0">No (€0)</option>
+                  <option {% ifequal options.single_tier_cake_flavour_text 1 %} selected {% endifequal %} value="1">Gold(€10)</option>
+                  <option {% ifequal options.single_tier_cake_flavour_text 2 %} selected {% endifequal %} value="2">Silver(€10)</option>
+                  <option {% ifequal options.single_tier_cake_flavour_text 3 %} selected {% endifequal %} value="3">Rose Gold(€10)</option>
+                  </select>
+               </div>
+               {% endif%}
+               {% if options.tier > 1%}
+               {% for x in options.cake_size_name_array%}
+               {% with index=forloop.counter %}
+               <div class="form-group col-10 pl-0">
+                  <label class="h4" for="exampleFormControlSelect1">{{x}} Tier Flavour</label>
+                  <select onchange="this.form.submit()" class="form-control" id="exampleFormControlSelect1" name="{{x}}_tier_flavour_variation">
+                  <option {% ifequal y 0 %} selected {% endifequal %} value="0">No (€0)</option>
+                  {% for item in options.flavours %}
+                  {% if index == 1 %}
+                  <option  {% ifequal options.cake_flavour_id.0 item.id %} selected {% endifequal %} value="{{item.id}}">{{item.flavour_name}}(€{{item.price}})</option>
+                  {% elif index == 2 %}
+                  <option  {% ifequal options.cake_flavour_id.1 item.id %} selected {% endifequal %} value="{{item.id}}">{{item.flavour_name}}(€{{item.price}})</option>
+                  {% else  %}
+                  <option  {% ifequal options.cake_flavour_id.1 item.id %} selected {% endifequal %} value="{{item.id}}">{{item.flavour_name}}(€{{item.price}})</option>
+                  {% endif %}
+                  {% endfor %}
+                  </select>
+               </div>
+               {% endwith %}
+               {% endfor %}
+               {% endif%}
+               {% endif %}
+            </div>
+            {% if options.cake_size_id > 0 %}
+            <hr>
+            <div class="form-group col-sm-4">
+               <label for="quantity">Quantity</label>{{options.quantity}}
+               <input type="number" name="item_quantity" value="{{options.quantity|add:0}}" min="1" data-single='{{options.only_single_cake_price_flavour}}' data-total='{{options.final_total}}' class="form-control quantity" id="quantity">
+               <small id="emailHelp" class="form-text text-muted">Please Enter Your quantity.</small>
+            </div>
+            {% endif %}
+            <div class="select-price">
+               {% if options.final_total > 0 %}
+               <p class="text-info h3">Final Total</p>
+               <strong id="final_total" data-total={{options.final_total}} class="text-danger h1 final_total">€{{options.final_total}}</strong>
+               {% endif %}
+            </div>
+            <input type="hidden" name="redirect_url" value="{{ request.path }}">
+            <a href="{% url 'all_cakes'%}" class="btn btn-info btn-lg update-cart"><i class="fas fa-chevron-left"></i> Continue Shipping</a>
+            <button id="add_to_cart"  value="{{options.add_to_cart_press}}" name="add_to_cart_press" type="button" data-total="{{total}}" data-product={{single_product.id}} data-action="add" {{options.is_active_addToCart}} class="btn btn-danger btn-lg update-cart add-to-cart">Add To Cart</button>
+         </form>
+         <hr>
+         <div class="product-main-content">{{single_product.description}}</div>
       </div>
-      {% if options.cake_size_id > 0 %}
-      <hr>
-      <div class="form-group col-sm-4">
-        <label for="quantity">Quantity</label>{{options.quantity}}
-        <input type="number" name="item_quantity" value="{{options.quantity|add:0}}" min="1" data-single='{{options.only_single_cake_price_flavour}}' data-total='{{options.final_total}}' class="form-control quantity" id="quantity">
-        <small id="emailHelp" class="form-text text-muted">Please Enter Your quantity.</small>
-      </div>
-      {% endif %}
-      <div class="select-price">
-        {% if options.final_total > 0 %}
-          <p class="text-info h3">Final Total</p>
-          <strong id="final_total" data-total={{options.final_total}} class="text-danger h1 final_total">€{{options.final_total}}</strong>
-        {% endif %}
-      </div>
-      <input type="hidden" name="redirect_url" value="{{ request.path }}">
-      <a href="{% url 'all_cakes'%}" class="btn btn-info btn-lg update-cart"><i class="fas fa-chevron-left"></i> Continue Shipping</a>
-      <button id="add_to_cart"  value="{{options.add_to_cart_press}}" name="add_to_cart_press" type="button" data-total="{{total}}" data-product={{single_product.id}} data-action="add" {{options.is_active_addToCart}} class="btn btn-danger btn-lg update-cart add-to-cart">Add To Cart</button>
-
-      </form>
-      <hr>
-      <div class="product-main-content">{{single_product.description}}</div>
-    </div>
-
-
-  </div>
+   </div>
 </div>
 {% endblock %}

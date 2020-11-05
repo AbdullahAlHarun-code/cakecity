@@ -2,34 +2,32 @@
 {% block page_content %}
 {% load static %}
 <div class="container">
-  <div class="row m-auto col-12">
-    <h2 class="display-4 col-12 text-center">{{ title }}</h2>
-    {% include 'breadcrumb.html'%}
-    <div class="row col-12 mb-2">
-      <div class="card m-auto" style="width:31%;margin-bottom:20px !important;">
-        <img class="card-img-top" src="{% static 'images/category/novelty-cakes.jpg'%}" alt="Card image">
-        <div class="card-img-overlay">
-          <h4 style="background-color: rgba(255, 250, 250, 0.4);" class="card-title text-monospace p-2">Novelty Cakes</h4>
-          <a href="{% url 'product_category_page' 'novelty-cakes'%}" class="btn btn-info">See All</a>
-        </div>
+   <div class="row m-auto col-12">
+      <h2 class="display-4 col-12 text-center">{{ title }}</h2>
+      {% include 'breadcrumb.html'%}
+      <div class="row col-12 mb-2">
+         <div class="card m-auto" style="width:31%;margin-bottom:20px !important;">
+            <img class="card-img-top" src="{% static 'images/category/novelty-cakes.jpg'%}" alt="Card image">
+            <div class="card-img-overlay">
+               <h4 style="background-color: rgba(255, 250, 250, 0.4);" class="card-title text-monospace p-2">Novelty Cakes</h4>
+               <a href="{% url 'product_category_page' 'novelty-cakes'%}" class="btn btn-info">See All</a>
+            </div>
+         </div>
+         <div class="card m-auto" style="width:31%;margin-bottom:20px !important;">
+            <img class="card-img-top" src="{% static 'images/category/wedding-cakes.jpg'%}" alt="Card image">
+            <div class="card-img-overlay">
+               <h4 style="background-color: rgba(255, 250, 250, 0.4);" class="card-title text-monospace p-2">Wedding Cakes</h4>
+               <a href="{% url 'product_category_page' 'wedding-cakes'%}" class="btn btn-info">See All</a>
+            </div>
+         </div>
+         <div class="card m-auto" style="width:31%;margin-bottom:20px !important;">
+            <img class="card-img-top" src="{% static 'images/category/corporate-cakes.jpg'%}" alt="Card image">
+            <div class="card-img-overlay">
+               <h4 style="background-color: rgba(255, 250, 250, 0.4);" class="card-title text-monospace p-2">Corporate Cakes</h4>
+               <a href="{% url 'product_category_page' 'corporate-cakes'%}" class="btn btn-info">See All</a>
+            </div>
+         </div>
       </div>
-      <div class="card m-auto" style="width:31%;margin-bottom:20px !important;">
-        <img class="card-img-top" src="{% static 'images/category/wedding-cakes.jpg'%}" alt="Card image">
-        <div class="card-img-overlay">
-          <h4 style="background-color: rgba(255, 250, 250, 0.4);" class="card-title text-monospace p-2">Wedding Cakes</h4>
-          <a href="{% url 'product_category_page' 'wedding-cakes'%}" class="btn btn-info">See All</a>
-        </div>
-      </div>
-      <div class="card m-auto" style="width:31%;margin-bottom:20px !important;">
-        <img class="card-img-top" src="{% static 'images/category/corporate-cakes.jpg'%}" alt="Card image">
-        <div class="card-img-overlay">
-          <h4 style="background-color: rgba(255, 250, 250, 0.4);" class="card-title text-monospace p-2">Corporate Cakes</h4>
-          <a href="{% url 'product_category_page' 'corporate-cakes'%}" class="btn btn-info">See All</a>
-        </div>
-      </div>
-    </div>
-
-
-  </div>
+   </div>
 </div>
 {% endblock %}

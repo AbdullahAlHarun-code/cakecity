@@ -1,33 +1,33 @@
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect, reverse
-#from django.core.urlresolvers import reverse
 from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage
 from django.db.models import Q
 from django.conf import settings
 from .models import Product, CakeCategory, Variation, Flavour
 import json
-#from .forms import PostForm
-# Create your views here.
 
+# this is for all products category variable
 all_category = CakeCategory.objects.all()
+
+#  this is for all product category page view
 def product_category(request,p_cat):
     category_items = CakeCategory.objects.all().filter(category=p_cat)
     bradcrumb_list = ['cake-shop',p_cat]
-    #print(category_items)
     context = {
         'title':category_items[0].get_category_name_by_slug(),
         'category_items':category_items,
         'bradcrumb_list':bradcrumb_list,
     }
     return render(request, 'products/product-category.html',context)
+
+# this is for single category page view
 def category(request,cat):
     category_item = get_object_or_404(CakeCategory, category_slug=cat)
     bradcrumb_list = ['cake-shop',cat]
     products = ''
     pagination_path = request.path+'?'
     if category_item is not None:
-        #products = get_object_or_404(Product, cake_category=category_item.category_name)
         products = Product.objects.all().filter(cake_category=category_item.category_name)
         paginator_array = product_pagination(products,request.GET.get('page',1))
         products = paginator_array[0]
@@ -44,13 +44,8 @@ def category(request,cat):
 
     }
     return render(request, 'products/category.html',context)
-def index(request):
 
-    context = {
-        'title':'Test title',
-        'all_category':all_category,
-    }
-    return render(request, 'web/home.html',context)
+# this is for all products array filter by pagination array
 def product_pagination(products,page_num):
     p = Paginator(products,3)
     page_num = page_num
@@ -60,9 +55,8 @@ def product_pagination(products,page_num):
         page = p.page(1)
     return [page, p]
 
+# this is for all products within page with pagination
 def all_cakes(request):
-    #images = PostImage.objects.filter(post=single_post)
-    #print(request.path().objects.filter(global_url__id=1).all())
     query = None
     sort = None
     bradcrumb_list = ['all-cakes']
@@ -87,8 +81,6 @@ def all_cakes(request):
                     products = products.order_by('-price')
 
             pagination_path = request.path+'?order_by='+sortkey+'&'
-
-            #print(request.GET['page'])
         if 'q' in request.GET:
             query = request.GET['q']
             if not query:
@@ -113,8 +105,8 @@ def all_cakes(request):
     }
     return render(request, 'products/all-cakes.html',context)
 
+# this is for cake-shop page for view all category products
 def shop(request):
-    #images = PostImage.objects.filter(post=single_post)
     bradcrumb_list = ['cake-shop']
     context = {
         'title':'All Cakes Category',
@@ -123,6 +115,8 @@ def shop(request):
     }
     return render(request, 'products/shop.html',context)
 
+# this class mainly use for single products view user products options controll and validation
+# this is add to cart product variation options control
 class Options:
     flavours = Flavour.objects.all()
     slug = None
@@ -141,13 +135,7 @@ class Options:
     only_single_cake_price_flavour = 0
     total_flavour_price = 0
 
-    def get_cake_price(self):
-        if self.cake_size_id > 0:
-            price = Variation.objects.all().filter(id=self.cake_size_id).first().price
-            if price:
-                return price
-            else:
-                return False
+    # this is for set user product variation and set subtotal, total, single product price ...
     def set_flavour_price_total(self, request):
 
         if self.cake_size_id > 0:
@@ -168,7 +156,7 @@ class Options:
             self.only_single_cake_price_flavour = self.only_cake_price + self.total_flavour_price
             self.final_total = self.only_single_cake_price_flavour*self.quantity
 
-
+# this is mainly set product variation array
     def set_flavour_data(self, request):
         self.cake_flavour_id.clear()
         if self.cake_size_id > 0:
@@ -197,33 +185,15 @@ class Options:
     def is_falvour(self):
         if self.cake_size_id>0:
             return True
+
     def is_active_addToCart(self):
         if self.tier == len(self.cake_flavour_id):
             return ''
         else:
             return 'disabled'
-    def is_active_addToCart_press(self):
-        if self.tier == len(self.cake_flavour_id):
-            return True
-        else:
-            return False
-    def get_submit_url(self):
-        #return reverse('add_to_cart', args=[self.id])
-        return "%s/%s" %(settings.SITE_URL, reverse('add_to_cart', args=[self.id]))
 
+# this is single product view
 def single_product(request, slug):
-    add_to_cart_button = 'disabled'
-    add_to_cart_press = False
-    add_flavour = False
-    cake_size= 0
-    total= 0
-    single_quantity_price = 0
-    quantity = 1
-    select_size_price = None
-    select_size_array = None
-    flavour_variation = 0
-    flavours = None
-    tier_flavour_variation = []
     single_product = get_object_or_404(Product, slug=slug)
     bradcrumb_list = ['cake-shop',slug]
     options = Options()
@@ -250,117 +220,6 @@ def single_product(request, slug):
         'bradcrumb_list':bradcrumb_list,
         'single_product':single_product,
         'star_loop':range(1,6),
-        'cake_size':int(cake_size),
-        'flavour_variation':int(flavour_variation),
-        'tier_flavour_variation':tier_flavour_variation,
-        'select_size_price':select_size_price,
-        'total':total,
-        'flavours':flavours,
-        'select_size_array':select_size_array,
-        'add_to_cart_button':add_to_cart_button,
-        #'quantity':quantity,
-        'single_quantity_price':single_quantity_price,
-        'add_to_cart_press':add_to_cart_press,
-        'add_flavour':add_flavour,
         'options':options,
     }
     return render(request, 'products/single.html',context)
-
-def updated_item(request):
-    data = json.loads(request.body)
-    print(data)
-    # quantity = data['quantity']
-    # cart = request.session.get('cart', {})
-    # if item_id in list(cart.keys()):
-    #     cart[item_id] += quantity
-    # else:
-    #     cart[item_id] = quantity
-    # ============================
-    # quantity = int(request.POST.get('quantity'))
-    # redirect_url = request.POST.get('redirect_url')
-    # cart = request.session.get('cart', {})
-    # if item_id in list(cart.keys()):
-    #     cart[item_id] += quantity
-    # else:
-    #     cart[item_id] = quantity
-    #
-    # request.session['cart'] = cart
-    # print(request.session['cart'])
-
-    return JsonResponse('Itemhas added', safe=False)
-    # data = json.loads(response.body)
-    # productId = data['productId']
-    # action = data['action']
-    # print('Action:', action)
-    # print('Product:', productId)
-
-    #return redirect(redirect_url)
-
-
-# def post_create(response):
-#     return HttpResponse("<h1>Ad New post</h1>")
-
-
-# def all_posts(request):
-#     posts = Post.objects.all()
-#     query = None
-#     if request.GET:
-#
-#         if 'q' in request.GET:
-#             query = request.GET['q']
-#             print(request.GET)
-#             if not query:
-#                 messages.error(request, 'You didn\'t enter any post name!')
-#                 return redirect(reverse('allposts'))
-#             queries = Q(title__icontains=query) | Q(content__icontains=query)
-#             posts = posts.filter(queries)
-#
-#
-#     context = {
-#         'posts':posts,
-#         'search_term':query
-#     }
-#     return render(request, 'posts/index.html',context)
-#
-# def post_details(request,post_id):
-#     single_post = get_object_or_404(Post, id=post_id)
-#     images = PostImage.objects.filter(post=single_post)
-#     context = {
-#         'post':single_post,
-#         'images':images
-#     }
-#     return render(request, 'posts/view.html',context)
-#
-# def create_post(request):
-#     form = PostForm(request.POST or None)
-#     if form.is_valid():
-#         instance = form.save(commit=False)
-#         instance.save()
-#         messages.success(request, 'Successfully Created')
-#         return redirect('home')
-#     #form = PostForm()
-#     context = {
-#         'form':form
-#     }
-#     return render(request, 'posts/post_form.html',context)
-#
-# def post_update(request, post_id=None):
-#     single_post = get_object_or_404(Post, id=post_id)
-#     form = PostForm(request.POST or None, instance=single_post)
-#     if form.is_valid():
-#         instance = form.save(commit=False)
-#         instance.save()
-#         messages.success(request, 'Successfully updated')
-#         return HttpResponseRedirect(instance.get_absolute_url())
-#     context = {
-#         'title':single_post.title,
-#         'single_post':single_post,
-#         'form':form
-#     }
-#     return render(request, 'posts/post_form.html',context)
-#
-# def delete_update(request, post_id=None):
-#     single_post = get_object_or_404(Post, id=post_id)
-#     single_post.delete()
-#     messages.success(request, 'Successfully deleted')
-#     return redirect('allposts')

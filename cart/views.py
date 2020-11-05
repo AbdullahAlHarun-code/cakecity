@@ -5,14 +5,14 @@ from django.core.paginator import Paginator, EmptyPage
 from django.db.models import Q
 from products.models import Product, CakeCategory, Variation, Flavour
 
-# Create your views here.
+# this for view cart page
 def view_cart(request):
     context = {
         'title':'My Cart',
     }
     #request.session['cart']=[]
-    print('cart', request.session['cart'])
     return render(request, 'cart/cart.html',context)
+# this is for single product variations
 class CakeSizeVariation():
     object = None
     tier_one_flavour_id = None
@@ -31,8 +31,8 @@ class CakeSizeVariation():
         if len(cake_size)>1:
             return self.tier_multiple_flavour_id
 
+# this is for add to cart item funtiontionality
 def add_to_cart(request, item_id):
-    print('quantity yes: ',request.POST.get('redirect_url'))
     quantity = (request.POST.get('item_quantity'))
     redirect_url = request.POST.get('redirect_url')
 
@@ -83,9 +83,9 @@ def add_to_cart(request, item_id):
 
 
     request.session['cart'] = cart
-    print('cart', request.session['cart'])
-    #print('Tier',single_product.tier)
     return redirect('cart')
+
+#this is for update cart item change quantity from cart page
 def update_cart_item(request, update_item_id):
 
     if request.POST and update_item_id:
@@ -98,6 +98,7 @@ def update_cart_item(request, update_item_id):
             messages.warning(request, f'Your item quantity updated to your cart')
     return redirect('cart')
 
+# this is for remove item forom cart page
 def remove_item(request, remove_item_id):
     quantity = (request.POST.get('quantity'))
     #redirect_url = request.POST.get('redirect_url')
@@ -107,9 +108,5 @@ def remove_item(request, remove_item_id):
         cart.pop(remove_index)
         request.session['cart'] = cart
         messages.warning(request, f'Removed item to your cart')
-    # if remove_item_id in list(cart.keys()):
-    #     cart.remove(remove_item_id)
-
-
 
     return redirect('cart')

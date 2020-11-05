@@ -12,7 +12,7 @@ def error_404_view(request, exception):
     print(request)
     return render(request, '404.html')
 
-# this is home page view 
+# this is home page view
 def index(request):
     featured_cakes = Product.objects.all().filter(featured_cake=True)
     context = {
@@ -20,12 +20,8 @@ def index(request):
         'featured_cakes':featured_cakes,
     }
     return render(request, 'web/home.html',context)
-def page(request):
-    context = {
-        'title':'Test title',
-    }
-    return render(request, 'web/page.html',context)
 
+# this is about page view
 def about(request):
     bradcrumb_list = ['about-us']
     context = {
@@ -34,6 +30,7 @@ def about(request):
     }
     return render(request, 'web/about-us.html',context)
 
+# this is cake-flavour page view
 def cake_flavours(request):
     bradcrumb_list = ['cake-clavours']
     context = {
@@ -42,6 +39,7 @@ def cake_flavours(request):
     }
     return render(request, 'web/cake-flavours.html',context)
 
+# this contact-us page view
 def contacts(request):
     bradcrumb_list = ['contact-us']
     context = {
@@ -49,6 +47,8 @@ def contacts(request):
         'bradcrumb_list':bradcrumb_list,
     }
     return render(request, 'web/contact-us.html',context)
+
+# this is faqs page view
 def faqs(request):
     bradcrumb_list = ['faqs']
     context = {
