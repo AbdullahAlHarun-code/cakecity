@@ -27,13 +27,13 @@ Simplicity is often referred to as one of the fundamental principles of UX desig
 
 ## Technologies Used
 This project is developed by,
-- Python framework (Flask)
-- MongoDB
+- Python framework (Django)
+- Postgres
 - HTML, CSS
 - Bootstrap-4
 - jQuery, JavaScript
 
-**Note:** The main database system is NoSQL database program MongoDB. If you want to clone and use the project, then after cloning you have to create config.py and setting your MONGODB_SETTINGS and SECRET_KEY within your Config class. Otherwise this application will not work properly.
+**Note:** The main database system is Postgres. If you want to clone and use the project, then after cloning you have to create config.py and setting your MONGODB_SETTINGS and SECRET_KEY within your Config class. Otherwise this application will not work properly.
 
 ## Testing:
 This site was tested across multiple screen sizes on Chrome, Safari, and Internet Explorer. To ensure compatibility and responsiveness it is also tested on an android based mobile device (OnePlus5). A large amount of testing was done to ensure that all pages were linking correctly and user registration and uploading book work perfectly.
