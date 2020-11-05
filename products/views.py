@@ -8,7 +8,8 @@ from .models import Product, CakeCategory, Variation, Flavour
 import json
 
 # this is for all products category variable
-all_category = CakeCategory.objects.all()
+#all_category = CakeCategory.objects.all()
+all_category = []
 
 #  this is for all product category page view
 def product_category(request,p_cat):
@@ -63,7 +64,6 @@ def all_cakes(request):
     products = Product.objects.all()
     count_all_products = products.count()
     pagination_path = request.path+'?'
-    print(pagination_path)
     if request.GET:
         if 'order_by' in request.GET:
             sortkey = request.GET['order_by']
@@ -203,7 +203,6 @@ def single_product(request, slug):
     if request.POST:
 
         if 'item_quantity' in request.POST:
-            print('quantity working')
             options.quantity = int(request.POST.get('item_quantity'))
         if 'add_to_cart_press' in request.POST:
             add_to_cart_press = True

@@ -48,3 +48,7 @@ class ProductFlavourVariation(admin.ModelAdmin):
 @admin.register(CakeCategory)
 class CakeCategoryAdmin(admin.ModelAdmin):
     list_display = ['category_name','category', 'active']
+
+# @admin.register(ProductCategory)
+# class ProductCategoryAdmin(admin.ModelAdmin):
+#     list_display = ['category_name','category', 'active']

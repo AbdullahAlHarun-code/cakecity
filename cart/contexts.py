@@ -35,10 +35,8 @@ class Item:
 
 
     def set_flavour_name(self, flavour_id):
-        #print('item_flavour_id', flavour_id)
         if int(self.single_product.tier) == 1:
             self.flavour_name.append(str(flavour_id))
-            #print('id', flavour_id)
             self.flavour_name_with_price.append(str(flavour_id))
         if int(self.single_product.tier) > 1:
             flavour = Flavour.objects.all().filter(id=flavour_id).first()
@@ -47,15 +45,19 @@ class Item:
 
 
 def cart_contents(request):
+    #del request.session['cart']
     cart_item_count = None
-    cart = request.session['cart']
+    if 'cart' in request.session:
+        cart = request.session['cart']
+    else:
+        print('test')
+        cart = []
     cart_items = []
     sub_total = 0
     grand_total = 0
     delivery_charge_range = 100
     free_delivery_charge = 10
     shipping_charge = 0
-    print('cart:', cart )
     if cart:
         cart_item_count = len(cart)
         for item in cart:
@@ -91,7 +93,6 @@ def cart_contents(request):
     # free_delivery = 100
     # delivery = 10
     # grand_total = delivery + total
-    #print(cart_items[1].single_product.title);
     context = {
         'cart_item_count':cart_item_count,
         'sub_total':sub_total,
