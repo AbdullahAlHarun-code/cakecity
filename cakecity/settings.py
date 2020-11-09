@@ -45,9 +45,9 @@ INSTALLED_APPS = [
     #'allauth.socialaccount',
     'web',
     'products',
-    'cart',
-    'checkout',
-    'orders',
+    #'cart',
+    #'checkout',
+    #'orders',
 ]
 
 MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
@@ -74,7 +74,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'cart.contexts.cart_contents',
+                #'cart.contexts.cart_contents',
             ],
         },
     },
@@ -86,14 +86,25 @@ WSGI_APPLICATION = 'cakecity.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
 # DATABASES = {
-#     'default': dj_database_url.parse('postgres://rjjaxvjxdzhfrc:43db6520fc1e291f287e81336e0d196963ee0aa211f01ae07608e264cb64e139@ec2-54-247-103-43.eu-west-1.compute.amazonaws.com:5432/ddac435drri9ms')
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+DATABASES = {
+    'default': dj_database_url.parse('postgres://blxgjqeebvgjzk:84d0a744915c9c825b3a8f61a2c516f2d74f25290d8c69652f0109287c1ba324@ec2-18-203-62-227.eu-west-1.compute.amazonaws.com:5432/d57vufq2gk58ah')
+}
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'cakecity',
+#         'HOST': '127.0.0.1',
+#         'PORT': '3306',
+#         'USER': 'root',
+#         'PASSWORD': '',
+#     }
 # }
 
 # Password validation
