@@ -40,10 +40,17 @@ class CakeSizeCategory(models.Model):
 
     def __unicode__(self):
         return self.size
+# cake flavour category
+FLAVOUR_CATEGORY = (
+    ('none','None'),
+    ('basic','basic'),
+    ('cupcake','cupcake'),
+)
 
 # this is cake  flavour variations different flavour price
 class Flavour(models.Model):
     flavour_name = models.CharField(max_length=120)
+    category = models.CharField(max_length=120, choices=FLAVOUR_CATEGORY, default='none')
     price = models.DecimalField(max_digits=100, decimal_places=2, default=0, null=True, blank=True)
     active = models.BooleanField(default=True)
 
@@ -111,30 +118,29 @@ class ProductImage(models.Model):
 
     def __unicode__(self):
         return self.image
-#
-#
-#
-#
-#
-# class VariationManager(models.Manager):
-#     def all(self):
-#         return super(VariationManager, self).filter(active=True)
-#     def sizes(self):
-#         return self.all().filter(size='size')
-#     # def colors(self):
-#     #     return self.all().filter(category='color')
+
+class Variation(models.Model):
+    product = models.ForeignKey(Product, default=None, on_delete=models.CASCADE)
+    size = models.CharField(max_length=120, choices=size_choice_list, default=None)
+    price = models.DecimalField(max_digits=100, decimal_places=2, default=0, null=True, blank=True)
+    updated = models.DateTimeField(auto_now_add=True)
+    active = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return self.size
+
+
+class VariationManager(models.Manager):
+    def all(self):
+        return super(VariationManager, self).filter(active=True)
+    def sizes(self):
+        return self.all().filter(size='size')
+    # def colors(self):
+    #     return self.all().filter(category='color')
 #
 #
 #
 # # python manage.py makemigrations products
 #
-# class Variation(models.Model):
-#     product = models.ForeignKey(Product, default=None, on_delete=models.CASCADE)
-#     size = models.CharField(max_length=120, choices=size_choice_list, default=None)
-#     price = models.DecimalField(max_digits=100, decimal_places=2, default=0, null=True, blank=True)
-#     updated = models.DateTimeField(auto_now_add=True)
-#     active = models.BooleanField(default=False)
-#
-#     def __unicode__(self):
-#         return self.size
+
 #
