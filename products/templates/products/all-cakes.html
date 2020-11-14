@@ -3,52 +3,66 @@
 {% load static %}
 <div class="container">
    <div class="row m-auto col-12 p-0">
-      {% if search_term %}
-      <h2 class="display-4 col-12 text-center">Search for: {{search_term}}</h2>
-      {% else %}
-      <h2 class="display-4 col-12 text-center">{{title}}</h2>
-      {% include 'breadcrumb.html'%}
-      {% endif %}
+     <div class="col-12 p-3 m-2">
+       {% if search_term %}
+       <h2 class="display-4 col-12 text-center">Search for: {{search_term}}</h2>
+       {% else %}
+       <h2 class="display-4 col-12 text-center">{{title}}</h2>
+
+       {% endif %}
+     </div>
+
+
+      {% include 'search.html'%}
       <hr class="w-100">
       <div class="col-12">
-         <p class="float-left"><a href="{% url 'all_cakes'%}">All Cakes</a> | {{products|length}} out of {{count_all_products}}</p>
+        <form class="" action="{% url 'all_cakes'%}" method="GET">
+        <div class="form-group float-left">
+              <select class="form-control" name="category" onchange="this.form.submit()">
+                 <option {% if active_category == 'all-cakes' %} selected{% endif %} value="all-cakes">All Cakes</option>
+                 {% for category in all_category%}
+                  <option {% if active_category == category.category_slug %} selected{% endif %} value="{{ category.category_slug}}">{{ category.category_name}}</option>
+                 {% endfor %}
+              </select>
+        </div>
+
          <div class="form-group float-right">
-            <form class="" action="{% url 'all_cakes'%}" method="GET">
                <select class="form-control" name="order_by" onchange="this.form.submit()">
-                  <option value="0">Default sorting</option>
-                  <option value="title">Sort by: name</option>
-                  <option value="rating">Sort by: rating</option>
-                  <option value="latest">Sort by: latest</option>
-                  <option value="low-to-high">Sort by: low to high</option>
-                  <option value="high-to-low">Sort by: high to low</option>
+                  <option {% if order_by_active == 'date' %} selected{% endif %} value="date">Default sorting</option>
+                  <option {% if order_by_active == 'title' %} selected{% endif %} value="title">Sort by: name</option>
+                  <option {% if order_by_active == 'rating' %} selected{% endif %} value="rating">Sort by: rating</option>
+                  <option {% if order_by_active == 'latest' %} selected{% endif %} value="latest">Sort by: latest</option>
+                  <option {% if order_by_active == 'low-to-high' %} selected{% endif %} value="low-to-high">Sort by: low to high</option>
+                  <option {% if order_by_active == 'high-to-low' %} selected{% endif %} value="high-to-low">Sort by: high to low</option>
                </select>
-            </form>
          </div>
+         </form>
       </div>
       <div class="row col-12 mb-2 pt-4">
          {% if products%}
          {% for product in products%}
-         <div class="card col-sm-4 mb-1">
-            <img src="/media/{{ product.productimage_set.all.first.image }}" class="card-img-top" alt="...">
-            <div class="card-body">
-               <h5 class="card-title">{{ product.title|capfirst }}</h5>
-               {% for item in product.variation_set.all %}
-               <p>{{item.title|capfirst}}</p>
-               {% endfor %}
-               <p>
-                  {% for count in star_loop%}
-                  {% if count <= product.rating %}
-                  <i class="fa fa-star text-warning" aria-hidden="true"></i>
-                  {% else %}
-                  <i class="fa fa-star-o text-warning" aria-hidden="true"></i>
-                  {% endif %}
-                  {% endfor %}
-               </p>
-               <p><strong>{{ product.get_price_range }}</strong></p>
-               {% for item in product.variation_set.all %}
-               <p>{{item.title|capfirst}}</p>
-               {% endfor %}
-               <a href="{{ product.get_absolute_url}}" class="btn btn-primary">Select Options</a>
+         <div style="position:relative;min-height:395px;" class="card col-sm-3 mb-1 pb-2">
+           <div style="overflow:hidden">
+             <img style="height:220px;position:relative;" src="/media/{{ product.productimage_set.all.first.image }}" class="card-img-top" alt="...">
+           </div>
+
+            <div class="card-body pl-0">
+               <h6 class="h6 card-title pb-0 mb-0">{{ product.title|capfirst }}</h6>
+               <div style="position:absolute;bottom:10px" >
+                 <p class="h6 p-0 m-0">
+                    {% for count in star_loop%}
+                    {% if count <= product.rating %}
+                    <i class="fa fa-star text-warning" aria-hidden="true"></i>
+                    {% else %}
+                    <i class="fa fa-star-o text-warning" aria-hidden="true"></i>
+                    {% endif %}
+                    {% endfor %}
+                 </p>
+                 <p class="p-0 mb-2"><strong>{{ product.get_price_range }}</strong></p>
+
+                 <a href="{{ product.get_absolute_url}}" class="btn btn-info">View Cake</a>
+               </div>
+
             </div>
          </div>
          {% endfor %}

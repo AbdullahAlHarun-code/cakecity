@@ -2,10 +2,10 @@ from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect, reverse
 from django.contrib import messages
 #from django.db.models import Q
-#from products.models import Product, CakeCategory, ProductImage, Flavour, Variation, CakeSizeCategory
+from products.models import Product, ProductImage, Variation, Category, FlavourCategory, Flavour, CakeSizeCategory
 
 # This all_category carry the whole products category objects
-#all_category = CakeCategory.objects.all()
+all_category = Category.objects.all()
 
 # this function for custome made 404 page view
 def error_404_view(request, exception):
@@ -15,12 +15,14 @@ def error_404_view(request, exception):
 
 # this is home page view
 def index(request):
-    #featured_cakes = Product.objects.all().filter(featured_cake=True)
+    featured_cakes = Product.objects.all().filter(featured_cake=True)
     context = {
         'title':'Test title',
-        #'featured_cakes':featured_cakes,
+        'featured_cakes':featured_cakes,
     }
-    return render(request, 'web/test.html',context)
+    return render(request, 'web/home.html',context)
+
+
 
 # this is about page view
 def about(request):

@@ -2,12 +2,12 @@ from django.contrib import admin
 from django.urls import path
 from django.http import JsonResponse
 from . import views
-#from products import views as product_view
+from products import views as product_view
 #from cart import views as cart_view
 #from orders import views as order_view
 urlpatterns = [
     path('', views.index, name="home"),
-
+    #path('<slug:slug>/', product_view.single_product, name="single_product"),
     # path('product-category/<slug:p_cat>/', product_view.product_category, name="product_category_page"),
     #
     # path('about-us', views.about, name="about"),
@@ -15,7 +15,7 @@ urlpatterns = [
     # path('contacts', views.contacts, name="contacts"),
     # path('frequently-asked-questions', views.faqs, name="faqs"),
     # # products url
-    # path('category/', product_view.all_cakes, name="category"),
+    #path('category/', product_view.all_cakes, name="category"),
     # path('category/<slug:cat>/', product_view.category, name="category_page"),
     # path('cake-shop/', product_view.shop, name="cake_shop"),
     # path('all-cakes/', product_view.all_cakes, name="all_cakes"),

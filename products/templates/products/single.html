@@ -3,7 +3,6 @@
 {% load static %}
 <div class="container">
    <div class="row m-auto col-12 pt-4 pb-4">
-      {% include 'breadcrumb.html'%}
       <div class="col-md-5 mb-2 mt-3">
          {% for image in single_product.productimage_set.all %}
          {% if image.featured %}
@@ -25,7 +24,7 @@
             {% endfor %}
          </p>
          <p class="btn btn-info">Price: {{ single_product.get_price_range }}</p>
-         {{single_product.variation_set.sizes}}
+         
          <form id="add_item_form" class="" action="" method="post">
             {% csrf_token %}
             <input type="hidden" id="form_url" name="form_url" value="{% url 'add_to_cart' options.id%}">
@@ -45,40 +44,30 @@
                {% endif %}
             </div>
             <div class="select_flavour">
-               {% if options.is_falvour %}
-               {% if options.tier == 1%}
-               <div class="form-group col-6 pl-0">
-                  <label class="h4" for="exampleFormControlSelect1">Add Flavour</label>
-                  <select onchange="this.form.submit()" class="form-control" id="exampleFormControlSelect1" name="flavour_variation">
-                  <option {% ifequal options.single_tier_cake_flavour_text 0 %} selected {% endifequal %} value="0">No (€0)</option>
-                  <option {% ifequal options.single_tier_cake_flavour_text 1 %} selected {% endifequal %} value="1">Gold(€10)</option>
-                  <option {% ifequal options.single_tier_cake_flavour_text 2 %} selected {% endifequal %} value="2">Silver(€10)</option>
-                  <option {% ifequal options.single_tier_cake_flavour_text 3 %} selected {% endifequal %} value="3">Rose Gold(€10)</option>
-                  </select>
-               </div>
-               {% endif%}
-               {% if options.tier > 1%}
-               {% for x in options.cake_size_name_array%}
-               {% with index=forloop.counter %}
-               <div class="form-group col-10 pl-0">
-                  <label class="h4" for="exampleFormControlSelect1">{{x}} Tier Flavour</label>
-                  <select onchange="this.form.submit()" class="form-control" id="exampleFormControlSelect1" name="{{x}}_tier_flavour_variation">
-                  <option {% ifequal y 0 %} selected {% endifequal %} value="0">No (€0)</option>
-                  {% for item in options.flavours %}
-                  {% if index == 1 %}
-                  <option  {% ifequal options.cake_flavour_id.0 item.id %} selected {% endifequal %} value="{{item.id}}">{{item.flavour_name}}(€{{item.price}})</option>
-                  {% elif index == 2 %}
-                  <option  {% ifequal options.cake_flavour_id.1 item.id %} selected {% endifequal %} value="{{item.id}}">{{item.flavour_name}}(€{{item.price}})</option>
-                  {% else  %}
-                  <option  {% ifequal options.cake_flavour_id.1 item.id %} selected {% endifequal %} value="{{item.id}}">{{item.flavour_name}}(€{{item.price}})</option>
-                  {% endif %}
-                  {% endfor %}
-                  </select>
-               </div>
-               {% endwith %}
-               {% endfor %}
-               {% endif%}
-               {% endif %}
+              {% if options.is_falvour %}
+              {% for x in options.cake_size_name_array%}
+              {% with index=forloop.counter %}
+              <div class="form-group col-10 pl-0">
+                 <label class="h4" for="exampleFormControlSelect1">{{x}} Tier Flavour</label>
+                 <select onchange="this.form.submit()" class="form-control" id="exampleFormControlSelect1" name="{{x}}_tier_flavour_variation">
+                 <option {% ifequal y 0 %} selected {% endifequal %} value="0">No (€0)</option>
+                 {% for item in options.flavours %}
+                 {% if index == 1 %}
+                 <option  {% ifequal options.cake_flavour_id.0 item.id %} selected {% endifequal %} value="{{item.id}}">{{item.flavour_name}}(€{{item.price}})</option>
+                 {% elif index == 2 %}
+                 <option  {% ifequal options.cake_flavour_id.1 item.id %} selected {% endifequal %} value="{{item.id}}">{{item.flavour_name}}(€{{item.price}})</option>
+                 {% else  %}
+                 <option  {% ifequal options.cake_flavour_id.2 item.id %} selected {% endifequal %} value="{{item.id}}">{{item.flavour_name}}(€{{item.price}})</option>
+                 {% endif %}
+                 {% endfor %}
+                 </select>
+              </div>
+              {% endwith %}
+              {% endfor %}
+
+              {% endif %}
+              <!-- end new flavour-->
+
             </div>
             {% if options.cake_size_id > 0 %}
             <hr>
@@ -99,7 +88,7 @@
             <button id="add_to_cart"  value="{{options.add_to_cart_press}}" name="add_to_cart_press" type="button" data-total="{{total}}" data-product={{single_product.id}} data-action="add" {{options.is_active_addToCart}} class="btn btn-danger btn-lg update-cart add-to-cart">Add To Cart</button>
          </form>
          <hr>
-         <div class="product-main-content">{{single_product.description}}</div>
+         <div class="product-main-content">{{options.is_active_addToCart}} {{single_product.description}}</div>
       </div>
    </div>
 </div>

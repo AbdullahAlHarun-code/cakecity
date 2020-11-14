@@ -22,6 +22,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     #path('accounts/', include('allauth.urls')),
     path('', include('web.urls')),
+    path('cakes/', include('products.urls')),
+    path('add-to-cart/', include('cart.urls')),
 
 ]
 # This is custom made 404 page

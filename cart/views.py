@@ -3,7 +3,7 @@ from django.shortcuts import render, get_object_or_404, redirect, reverse
 from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage
 from django.db.models import Q
-from products.models import Product, CakeCategory, Variation, Flavour
+from products.models import Product, Category, Variation, Flavour
 
 # this for view cart page
 def view_cart(request):
