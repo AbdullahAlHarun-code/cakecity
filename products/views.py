@@ -219,8 +219,11 @@ class Options:
             return True
 
     def is_active_addToCart(self):
-        if len(self.cake_size_name_array) == len(self.cake_flavour_id):
-            return ''
+        if len(self.cake_flavour_id) > 0:
+            if len(self.cake_size_name_array) == len(self.cake_flavour_id):
+                return ''
+            else:
+                return 'disabled'
         else:
             return 'disabled'
 

@@ -15,20 +15,14 @@ def view_cart(request):
 # this is for single product variations
 class CakeSizeVariation():
     object = None
-    tier_one_flavour_id = None
     tier_multiple_flavour_id = []
     def get_size_print_name(self):
         return self.object.size
     def get_flavour(self):
         cake_size = self.object.size.split('/')
-        if len(cake_size)==1:
-            if self.tier_one_flavour_id==1:
-                return 'Gold(€10)'
-            if self.tier_one_flavour_id==2:
-                return 'Silver(€10)'
-            if self.tier_one_flavour_id==3:
-                return 'Rose Gold(€10)'
-        if len(cake_size)>1:
+
+        if len(cake_size)>0:
+            print('cake size: ', cake_size)
             return self.tier_multiple_flavour_id
 
 # this is for add to cart item funtiontionality
@@ -39,6 +33,7 @@ def add_to_cart(request, item_id):
     cart = request.session.get('cart')
     item_id = int(item_id)
     cake_size_variation = CakeSizeVariation()
+    cake_size_variation.tier_multiple_flavour_id.clear()
     item = None
     if item_id:
         single_product = get_object_or_404(Product, pk=item_id)
@@ -48,17 +43,11 @@ def add_to_cart(request, item_id):
                 cake_size = Variation.objects.all().filter(id=cake_size_id)
                 cake_size_variation.object = cake_size.first()
                 cake_size = cake_size.first().size.split('/')
-                if len(cake_size)==1:
-                    cake_size_variation.tier_one_flavour_id = int(request.POST.get('flavour_variation'))
-                    item = {
-                      "item_id":item_id,
-                      "cake_size_id":cake_size_id,
-                      "quantity":quantity,
-                      "flavours_id":cake_size_variation.get_flavour()
-                    };
-                if len(cake_size)>1:
+
+                if len(cake_size)>0:
                     for flavour in cake_size:
                         flavour_form_name = flavour+'_tier_flavour_variation'
+
                         if flavour_form_name in request.POST:
                             flavour_id = int(request.POST.get(flavour_form_name))
                             cake_size_variation.tier_multiple_flavour_id.append(flavour_id)
@@ -81,7 +70,7 @@ def add_to_cart(request, item_id):
             cart.append(item)
             messages.success(request, f'Added {single_product.title} to your cart')
 
-
+    print('cart new: ', cart)
     request.session['cart'] = cart
     return redirect('cart')
 
