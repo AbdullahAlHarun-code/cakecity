@@ -1,21 +1,11 @@
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect, reverse
 from django.contrib import messages
-from .forms import UserRegisterForm
+
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
-def login(request):
-    context = {
-        'title':'Login',
-    }
-    return render(request, 'accounts/login.html',context)
-
-def register(request):
-    context = {
-        'title':'Register',
-        'form':UserRegisterForm()
-    }
-    return render(request, 'accounts/register.html',context)
 
 def checkout(request):
     pass

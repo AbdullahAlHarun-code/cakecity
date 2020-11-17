@@ -1,0 +1,22 @@
+{% extends "base.html"%}
+{% block page_content %}
+{% load static %}
+<div class="container">
+  <div class="row m-5 bg-light pt-4 pb-4">
+    <div class="col-3">
+      {% include 'accounts/account-nav.html'%}
+
+    </div>
+    <div class="col-9">
+      <h3> {{title}}</h3><hr>
+      <p>No records found!</p>
+
+
+    </div>
+
+
+  </div>
+
+</div>
+
+{% endblock %}

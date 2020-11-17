@@ -1,0 +1,155 @@
+{% extends "base.html"%}
+{% block page_content %}
+{% load static %}
+<div class="container">
+  <div class="row m-5 bg-light pt-4 pb-4">
+    <div class="col-3">
+      {% include 'accounts/account-nav.html'%}
+
+    </div>
+    <div class="col-9">
+      <h3> {{title}}</h3><hr>
+      <div class="row p-1">
+
+        <div class="col">
+          <h4>Billing Address:</h4><hr>
+          {% if is_billing_address %}
+          <form class="" action="{% url 'address'%}" method="post">
+            {% csrf_token %}
+            <div class="form-group row">
+              <div class="w-100">
+                {{billing_address_form.address_line_1}}
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="w-100">
+                {{billing_address_form.address_line_2}}
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="w-100">
+                {{billing_address_form.address_line_3}}
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="w-100">
+                {{billing_address_form.city}}
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="w-100">
+                {{billing_address_form.eircode}}
+              </div>
+            </div><hr>
+
+            <button type='submit' name="{{action}}_billing" class="btn btn-info">
+              {% if action == 'add' %} Add Address {% endif %}
+              {% if action == 'edit' %} Update {% endif %}
+
+            </button>
+          </form>
+          {% else %}
+          {% if billing_address %}
+            <p class="">
+            {% if billing_address%}
+              {% if billing_address.address_line_1%}{{billing_address.address_line_1}}<br>{% endif %}
+              {% if billing_address.address_line_2%}{{billing_address.address_line_2}}<br>{% endif %}
+              {% if billing_address.address_line_3%}{{billing_address.address_line_3}}<br>{% endif %}
+              {% if billing_address.city%}{{billing_address.city}}<br>{% endif %}
+              {% if billing_address.eircode%}{{billing_address.eircode}}{% endif %}
+            {% endif %}
+            </p>
+            <a class="btn btn-info btn-md" href="{% url 'address'%}?edit=billing-address"><i class="fas fa-edit"></i> Edit Address</a>
+          {% else %}
+          <p>No billing address found!</p>
+          <a class="btn btn-info btn-md" href="{% url 'address'%}?add=billing-address"><i class="fas fa-plus"></i> Add Billing Address</a>
+          {% endif %}
+
+          {% endif %}
+        </div>
+
+        <div class="col">
+          <h4>Shipping Address:</h4><hr>
+          {% if is_shipping_address %}
+          <form class="" action="" method="post">
+            {% csrf_token %}
+            <div class="form-group row">
+              <div class="w-100">
+                {{shipping_address_form.address_line_1}}
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="w-100">
+                {{shipping_address_form.address_line_2}}
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="w-100">
+                {{shipping_address_form.address_line_3}}
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="w-100">
+                {{shipping_address_form.city}}
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="w-100">
+                {{shipping_address_form.eircode}}
+              </div>
+            </div><hr>
+            <button type='submit' name="{{action}}_shipping" class="btn btn-info">
+              {% if action == 'add' %} Add Address {% endif %}
+              {% if action == 'edit' %} Update {% endif %}
+
+            </button>
+          </form>
+          {% else %}
+          {% if shipping_address%}
+              <p class="">
+              {% if shipping_address%}
+                {% if shipping_address.address_line_1%}{{shipping_address.address_line_1}}<br>{% endif %}
+                {% if shipping_address.address_line_2%}{{shipping_address.address_line_2}}<br>{% endif %}
+                {% if shipping_address.address_line_3%}{{shipping_address.address_line_3}}<br>{% endif %}
+                {% if shipping_address.city%}{{shipping_address.city}}<br>{% endif %}
+                {% if shipping_address.eircode%}{{shipping_address.eircode}}{% endif %}
+              {% endif %}
+              </p>
+              <a class="btn btn-info btn-md" href="{% url 'address'%}?edit=shipping-address"><i class="fas fa-edit"></i> Edit Address</a>
+            {% else %}
+            <p>No shipping address found!</p>
+            <a class="btn btn-info btn-md" href="{% url 'address'%}?add=shipping-address"><i class="fas fa-plus"></i> Add Billing Address</a>
+            {% endif %}
+          {% endif %}
+        </div>
+      </div>
+
+    </div>
+
+
+  </div>
+  <script type="text/javascript">
+    var form_fields = document.getElementsByTagName('input');
+    form_fields[1].setAttribute("placeholder", "Address Line 1..");
+    form_fields[2].setAttribute("placeholder", "Address Line 2..");
+    form_fields[3].setAttribute("placeholder", "Address Line 3..");
+    form_fields[4].setAttribute("placeholder", "City..");
+    form_fields[5].setAttribute("placeholder", "Eircode..");
+
+
+
+    for (var field in form_fields){
+      form_fields[field].className += 'form-control'
+    }
+  </script>
+  {% if billing_addres %}
+  <script type="text/javascript">
+    var form_fields = document.getElementsByTagName('input');
+    for (var field in form_fields){
+      form_fields[field].setAttribute("disabled", "disabled");
+    }
+  </script>
+  {% endif %}
+</div>
+
+{% endblock %}

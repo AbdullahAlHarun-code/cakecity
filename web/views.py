@@ -3,6 +3,7 @@ from django.shortcuts import render, get_object_or_404, redirect, reverse
 from django.contrib import messages
 #from django.db.models import Q
 from products.models import Product, ProductImage, Variation, Category, FlavourCategory, Flavour, CakeSizeCategory
+from django.contrib.auth.decorators import login_required
 
 # This all_category carry the whole products category objects
 all_category = Category.objects.all()
@@ -14,6 +15,7 @@ def error_404_view(request, exception):
 
 
 # this is home page view
+#@login_required(login_url='login')
 def index(request):
     featured_cakes = Product.objects.all().filter(featured_cake=True)
     context = {

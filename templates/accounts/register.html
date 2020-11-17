@@ -2,24 +2,63 @@
 {% block page_content %}
 {% load static %}
 <div class="container">
-  <div class="row">
-    <form action="">
-      <div class="form-group">
-        <label for="email">Email address:</label>
-        <input type="email" class="form-control" placeholder="Enter email" id="email">
-      </div>
-      <div class="form-group">
-        <label for="pwd">Password:</label>
-        <input type="password" class="form-control" placeholder="Enter password" id="pwd">
-      </div>
-      <div class="form-group form-check">
-        <label class="form-check-label">
-          <input class="form-check-input" type="checkbox"> Remember me
-        </label>
-      </div>
-      <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
-    <form class="form" action="" method="post">
+  <div class="row m-5">
+    <div class="col-6 m-auto bg-light p-5">
+      <p class="h2 text-center mb-4 ">Register Account</p>
+      <form action="{% url 'register'%}" method="post">
+        {% csrf_token %}
+        <div class="my-1">
+          <label class="sr-only" for="inlineFormInputGroupUsername">Name</label>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <div class="input-group-text bg-info"><i class="fas fa-user text-light"></i></div>
+            </div>
+            {{form.username}}
+          </div>
+        </div>
+
+        <div class="my-1">
+          <label class="sr-only" for="inlineFormInputGroupUsername">Email</label>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <div class="input-group-text bg-info"><i class="fas fa-envelope-square text-light"></i></div>
+            </div>
+            {{form.email}}
+          </div>
+        </div>
+
+        <div class="my-1">
+          <label class="sr-only" for="inlineFormInputGroupUsername">Password</label>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <div class="input-group-text bg-info"><i class="fas fa-key text-light"></i></div>
+            </div>
+            {{form.password1}}
+          </div>
+        </div>
+
+        <div class="my-1">
+          <label class="sr-only" for="inlineFormInputGroupUsername">Confirm Password</label>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <div class="input-group-text bg-info"><i class="fas fa-key text-light"></i></div>
+            </div>
+            {{form.password2}}
+          </div>
+        </div>
+        <div class="m-auto pt-2">
+          <button type="submit" class="btn btn-info m-auto w-100">Register Account</button>
+        </div>
+        {% for message in messages%}
+        <p class="alert alert-info col-12 mt-3 text-center">{{message}}</p>
+        {% endfor %}
+        <div class="m-auto pt-3 text-center">
+          <p>Already have an account ? <a href="{% url 'login'%}">Login</a></p>
+        </div>
+      </form>
+    </div>
+
+    <!-- <form class="form" action="" method="post">
       {% csrf_token %}
       {{form.username.label}}
       {{form.username}}
@@ -32,7 +71,18 @@
 
       {{form.password2.label}}
       {{form.password2}}
-    </form>
+    </form> -->
+    <script type="text/javascript">
+      var form_fields = document.getElementsByTagName('input');
+      form_fields[1].setAttribute("placeholder", "Username ..");
+      form_fields[2].setAttribute("placeholder", "Email ..");
+      form_fields[3].setAttribute("placeholder", "Password ..");
+      form_fields[4].setAttribute("placeholder", "Re Type Password ..");
+
+  		for (var field in form_fields){
+  			form_fields[field].className += 'form-control'
+  		}
+    </script>
   </div>
 
 </div>

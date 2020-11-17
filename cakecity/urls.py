@@ -25,6 +25,7 @@ urlpatterns = [
     path('cakes/', include('products.urls')),
     path('cart/', include('cart.urls')),
     path('checkout/', include('checkout.urls')),
+    path('accounts/', include('accounts.urls')),
 
 ]
 # This is custom made 404 page
