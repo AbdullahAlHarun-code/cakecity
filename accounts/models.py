@@ -11,7 +11,10 @@ class Customer(models.Model):
     date_created = models.DateTimeField(auto_now_add=True, null=True)
 
     def __str__(self):
-        return self.user.username
+        if self.user.username:
+            return self.user.username
+        else:
+            return ''
 
 class BillingAddress(models.Model):
     user = models.ForeignKey(User, default=None, on_delete=models.CASCADE)

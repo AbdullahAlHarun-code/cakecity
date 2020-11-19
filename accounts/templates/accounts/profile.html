@@ -2,12 +2,12 @@
 {% block page_content %}
 {% load static %}
 <div class="container">
-  <div class="row m-5 bg-light pt-4 pb-4">
+  <div class="row m-md-5 bg-light pt-4 pb-4">
     <div class="col-3">
       {% include 'accounts/account-nav.html'%}
 
     </div>
-    <div class="col-9">
+    <div class="col-sm-9">
       <h3> Account Information</h3><hr>
       <form class="" action="{% url 'edit_profile'%}" method="post">
         {% csrf_token %}

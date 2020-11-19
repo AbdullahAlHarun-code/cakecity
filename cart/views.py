@@ -89,8 +89,6 @@ def update_cart_item(request, update_item_id):
 
 # this is for remove item forom cart page
 def remove_item(request, remove_item_id):
-    quantity = (request.POST.get('quantity'))
-    #redirect_url = request.POST.get('redirect_url')
     cart = request.session.get('cart')
     if remove_item_id and cart:
         remove_index = int(remove_item_id)-1

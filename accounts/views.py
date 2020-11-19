@@ -21,7 +21,7 @@ def loginPage(request):
 
         if user is not None:
             login(request, user)
-            return redirect('home')
+            return redirect('profile')
         else:
             messages.error(request, 'Username or password is incorrect!')
             return redirect('login')
@@ -44,7 +44,7 @@ def registerPage(request):
             messages.success(request, f'Account was created for {username}!')
             return redirect('login')
         else:
-            messages.error(request, 'Form not valid')
+            messages.error(request, form.errors)
     context = {
         'title':'Register',
         'form':form
@@ -138,11 +138,15 @@ def address(request):
             if address == 'billing-address':
                 if billing_address:
                     billing_address_form = BillingAddressForm(instance=billing_address)
+                else:
+                    return redirect('/accounts/address'+'/?add=billing-address')
                 is_billing_address = True
 
             if address == 'shipping-address':
                 if shipping_address:
                     shipping_address_form = ShippingAddressForm(instance=shipping_address)
+                else:
+                    return redirect('/accounts/address'+'/?add=shipping-address')
                 is_shipping_address = True
 
 
@@ -150,18 +154,19 @@ def address(request):
 
 
     if request.method == 'POST':
-        if billing_address:
+        if billing_address is not None:
             billing_address_form = BillingAddressForm(request.POST,instance=billing_address)
         else:
             billing_address_form = BillingAddressForm(request.POST)
 
-        if shipping_address:
+        if shipping_address is not None:
             shipping_address_form = ShippingAddressForm(request.POST,instance=shipping_address)
         else:
-            billing_address_form = ShippingAddressForm(request.POST)
+            shipping_address_form = ShippingAddressForm(request.POST)
         if 'add_billing' in request.POST or 'edit_billing' in request.POST:
+            print('billing address')
             if billing_address_form.is_valid():
-                print('yes')
+                print('yes billing')
                 billing_address_form.user=int(request.user.id)
                 instance_billing = billing_address_form.save(commit=False)
                 instance_billing.user = request.user
@@ -169,8 +174,9 @@ def address(request):
                 messages.success(request, 'Your billing address had successfully added!' )
                 return redirect('address')
         if 'add_shipping' in request.POST or 'edit_shipping' in request.POST:
+            print('shipping address')
             if shipping_address_form.is_valid():
-                print('yes')
+                print('yes shipping')
                 shipping_address_form.user=int(request.user.id)
                 instance_shipping = shipping_address_form.save(commit=False)
                 instance_shipping.user = request.user
