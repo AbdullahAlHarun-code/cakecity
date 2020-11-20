@@ -48,7 +48,8 @@ INSTALLED_APPS = [
     'cart',
     'checkout',
     'accounts',
-    #'orders',
+    #Others
+    'crispy_forms',
 ]
 
 MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
@@ -63,7 +64,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'cakecity.urls'
-
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -77,6 +78,10 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'cart.contexts.cart_contents',
             ],
+            'builtins':[
+                'crispy_forms.templatetags.crispy_forms_tags',
+                'crispy_forms.templatetags.crispy_forms_field',
+            ]
         },
     },
 ]

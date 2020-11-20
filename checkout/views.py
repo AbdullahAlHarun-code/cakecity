@@ -6,6 +6,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from accounts.forms import ShippingAddressForm
 from accounts.models import ShippingAddress
+from .forms import OrderForm
+from .models import Order
 
 # Create your views here.
 
@@ -21,10 +23,11 @@ def checkout(request):
 
             if user is not None:
                 login(request, user)
-                return redirect('profile')
+                messages.success(request, 'You are successfully logged in!')
+                return redirect('checkout')
             else:
                 messages.error(request, 'Username or password is incorrect!')
-                return redirect('login')
+                return redirect('checkout')
 
     if is_login:
         try:
@@ -38,14 +41,16 @@ def checkout(request):
                 edit_action = True
 
 
-
-
         shipping_address_form = ShippingAddressForm(instance=shipping_address)
+    else:
+        shipping_address_form = ShippingAddressForm()
+        shipping_address = None
     context = {
-        'title':'Checkout Page',
+        'title':'Checkout',
         'is_login':is_login,
         'shipping_address_form':shipping_address_form,
         'shipping_address':shipping_address,
         'edit_action':edit_action,
+        'OrderForm':OrderForm(),
     }
     return render(request, 'checkout/checkout.html',context)

@@ -128,28 +128,7 @@
 
 
   </div>
-  <script type="text/javascript">
-    var form_fields = document.getElementsByTagName('input');
-    form_fields[1].setAttribute("placeholder", "Address Line 1..");
-    form_fields[2].setAttribute("placeholder", "Address Line 2..");
-    form_fields[3].setAttribute("placeholder", "Address Line 3..");
-    form_fields[4].setAttribute("placeholder", "City..");
-    form_fields[5].setAttribute("placeholder", "Eircode..");
-
-
-
-    for (var field in form_fields){
-      form_fields[field].className += 'form-control'
-    }
-  </script>
-  {% if billing_addres %}
-  <script type="text/javascript">
-    var form_fields = document.getElementsByTagName('input');
-    for (var field in form_fields){
-      form_fields[field].setAttribute("disabled", "disabled");
-    }
-  </script>
-  {% endif %}
+  
 </div>
 
 {% endblock %}

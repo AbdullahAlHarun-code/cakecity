@@ -9,7 +9,7 @@
         <div class="login-required">
           <p>Already have an account ? <a href="" data-toggle="collapse" data-target="#demo">Login</a></p>
             <div id="demo" class="collapse">
-              <form class="form-inline" method="post" action="{% url 'checkout'%}">
+              <form class="form-inline mb-4" method="post" action="{% url 'checkout'%}">
                 {% csrf_token %}
                 <input name="username" type="text" class="form-control" id="inlineFormInputGroupUsername2" placeholder="Username ..">
                 <input name="password" type="password" class="form-control" id="inlineFormInputGroupUsername2" placeholder="Password ..">
@@ -18,52 +18,127 @@
             </div>
         </div>
         {% endif %}
-        <h3>Shipping Address:</h3>
-        {% if shipping_address %}
-          {% if edit_action %}
+        {% if is_login %}
+            {% if shipping_address %}
+              {% if edit_action %}
+              <h4>Delivery Address:</h4>
+                <form class="col-5" method="post" action="{% url 'checkout'%}">
+                  {% csrf_token %}
+                  {{shipping_address_form.as_p}}
+                  <button type="submit" name="{{action}}_address" class="btn btn-xs btn-info">Update</button>
+                </form>
+              {% else %}
+                <div class="row">
+
+                  <div class="col-sm-6">
+                    <h4>Details:</h4>
+                    <form class="" method="post" action="{% url 'checkout'%}">
+                      {% csrf_token %}
+                      {{OrderForm.as_p}}
+                    </form>
+                  </div>
+                  <div class="col-sm-6">
+                    <h4>Delivery:</h4>
+                    <p>
+                        {% if shipping_address.address_line_1%}{{shipping_address.address_line_1}}<br>{% endif %}
+                        {% if shipping_address.address_line_2%}{{shipping_address.address_line_2}}<br>{% endif %}
+                        {% if shipping_address.address_line_3%}{{shipping_address.address_line_3}}<br>{% endif %}
+                        {% if shipping_address.city%}{{shipping_address.city}}<br>{% endif %}
+                        {% if shipping_address.eircode%}{{shipping_address.eircode}}{% endif %}
+                    </p>
+                    <a href="{% url 'checkout'%}?edit=shipping-address" class="btn btn-xs btn-info">Edit</a>
+                  </div>
+                </div>
+
+
+              {% endif %}
+            {% else %}
             <form class="col-5" method="post" action="{% url 'checkout'%}">
               {% csrf_token %}
-              {{shipping_address_form.as_p}}
+              <h4>Details:</h4>
+              {{OrderForm.as_p}}
+              <h4>Delivery:</h4>
+              {{shipping_address_form.address_line_1 | as_crispy_field}}
+              {{shipping_address_form.address_line_2 | as_crispy_field}}
+              {{shipping_address_form.address_line_3 | as_crispy_field}}
+              {{shipping_address_form.city | as_crispy_field}}
+              {{shipping_address_form.eircode | as_crispy_field}}
+              <div class="form-check form-check-inline">
+                  <input type="checkbox" name="save-info" checked class="form-check-input" value="">
+                  <span class="">Save this delivery information to my profile</span>
+              </div>
               <button type="submit" name="{{action}}_address" class="btn btn-xs btn-info">Update</button>
-              </form>
-          {% else %}
-            <p>
-              {% if shipping_address%}
-                {% if shipping_address.address_line_1%}{{shipping_address.address_line_1}}<br>{% endif %}
-                {% if shipping_address.address_line_2%}{{shipping_address.address_line_2}}<br>{% endif %}
-                {% if shipping_address.address_line_3%}{{shipping_address.address_line_3}}<br>{% endif %}
-                {% if shipping_address.city%}{{shipping_address.city}}<br>{% endif %}
-                {% if shipping_address.eircode%}{{shipping_address.eircode}}{% endif %}
-              {% endif %}
-            </p>
-            <a href="{% url 'checkout'%}?edit=shipping-address" class="btn btn-xs btn-info">Edit</a>
-          {% endif %}
+            </form>
+            {% endif %}
         {% else %}
-          <form class="col-5" method="post" action="{% url 'checkout'%}">
+          <form class="col-sm-6" method="post" action="{% url 'checkout'%}">
             {% csrf_token %}
+            <h4>Details:</h4>
+            {{OrderForm.as_p}}
+            <h4>Delivery:</h4>
+            {{shipping_address_form.address_line_1 | as_crispy_field}}
+            {{shipping_address_form.address_line_2 | as_crispy_field}}
+            {{shipping_address_form.address_line_3 | as_crispy_field}}
+            {{shipping_address_form.city | as_crispy_field}}
+            {{shipping_address_form.eircode | as_crispy_field}}
+            <div class="form-check">
+              {% if is_login %}
+              <div class="">
+                <input type="checkbox" name="save-info" checked class="form-check-input" value="">
+                <span class="">Save this delivery information to my profile</span>
+              </div>
 
-            <input type="text" name="" value="" placeholder="Name..">
-            <input type="email" name="" value="" placeholder="Email..">
-            {{shipping_address_form.as_p}}
+              {% else %}
+              <div class="clearfix w-100">
+                <input type="checkbox" name="save-info" checked class="form-check-input" value="">
+                <span class="">Save this delivery information to my profile</span>
+              </div>
+              <div class="clearfix w-100">
+                <input type="checkbox" name="save-info" checked class="form-check-input" value="">
+                <span class="">Create an account</span>
+              </div>
+
+              {% endif %}
+
+            </div>
+
+
+
             <button type="submit" name="{{action}}_address" class="btn btn-xs btn-info">Update</button>
           </form>
         {% endif%}
+        <div class="col-12 bg-light">
+           <div class="row p-2">
+              <table class="table bg-light text-right">
+                 <tbody>
+                    <tr class="">
+                       <td scope="col">Subtotal:</td>
+                       <td scope="col"><strong>€{{sub_total}}</strong></td>
+                    </tr>
+                    <tr class="">
+                       <td scope="col">Shipping Price:</td>
+                       <td scope="col"><strong>€{{shipping_charge}}</strong></td>
+                    </tr>
+                    <tr  class="text-danger h4">
+                       <td scope="col"><input class="form-control w-50 d-inline" id="" type="text" name="" value="">
+                       <button type="submit" class="btn btn-md btn-info" name="button">Add Coupon</button></td>
+                       <td scope="col"><strong>Total: €{{grand_total}}</strong></td>
+                    </tr>
+                    <tr  class="">
+                       <th>
 
+                       </th>
+                       <th></th>
+                    </tr>
+                 </tbody>
+              </table>
+              <hr class="col">
+              <a href="{% url 'checkout'%}" class="btn btn-lg btn-warning col-12 mb-3" name="button">Complete Order <i class="fas fa-lock"></i></a>
+              <a href="{% url 'all_cakes'%}" class="btn btn-lg btn-info col-12"><i class="fas fa-chevron-left"></i> Continue Shopping</a>
+           </div>
+        </div>
       </div>
    </div>
-   <script type="text/javascript">
-     var form_fields = document.getElementsByTagName('input');
-     form_fields[0].setAttribute("placeholder", "Address Line 1..");
-     form_fields[1].setAttribute("placeholder", "Address Line 2..");
-     form_fields[2].setAttribute("placeholder", "Address Line 3..");
-     form_fields[3].setAttribute("placeholder", "City..");
-     form_fields[4].setAttribute("placeholder", "Eircode..");
 
-
-
-     for (var field in form_fields){
-       form_fields[field].className += 'form-control'
-     }
-   </script>
 </div>
 {% endblock %}
