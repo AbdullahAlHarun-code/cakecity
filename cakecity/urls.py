@@ -27,8 +27,10 @@ urlpatterns = [
     path('checkout/', include('checkout.urls')),
     path('accounts/', include('accounts.urls')),
 
-]
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) \
+ + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 # This is custom made 404 page
+# python manage.py runserver
 handler404 = 'web.views.error_404_view'
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

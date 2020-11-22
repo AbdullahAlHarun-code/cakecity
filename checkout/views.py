@@ -9,6 +9,7 @@ from accounts.models import ShippingAddress
 from .forms import OrderForm
 from .models import Order
 
+import stripe
 # Create your views here.
 
 
@@ -52,5 +53,15 @@ def checkout(request):
         'shipping_address':shipping_address,
         'edit_action':edit_action,
         'OrderForm':OrderForm(),
+        'stripe_public_key':'pk_test_IsjjZmU79vK4VvuALK5XgACe',
+        'client_secret':'test client secret',
     }
     return render(request, 'checkout/checkout.html',context)
+
+def success(request):
+
+    context = {
+        'title':'Success',
+
+    }
+    return render(request, 'checkout/success.html',context)

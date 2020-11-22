@@ -7,6 +7,11 @@
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
       <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+      {% block extra_css %}
+      {% endblock %}
+      <!-- Stripe js -->
+      <script src="https://js.stripe.com/v3/"></script>
       <script type="text/javascript">
          var user = "{{request.user}}";
            function getCookie(name) {
@@ -92,29 +97,6 @@
                              </li>
                            {% endif%}
 
-
-                           <!-- <li class="nav-item dropdown">
-                              <button type="button" class="btn text-info dropdown-toggle text-uppercase" data-toggle="dropdown">
-                              <strong>All Cakes</strong>
-                              </button>
-                              <div class="dropdown-menu">
-                                 <a class="dropdown-item" href="">All Cakes</a>
-                                 <a class="dropdown-item" href="">All Category</a>
-                                 <a class="dropdown-item" href="">Novelty Cakes</a>
-                                 <a class="dropdown-item" href="">Wedding Cakes</a>
-                                 <a class="dropdown-item" href="">Corporate Cakes</a>
-                              </div>
-                           </li> -->
-                           <!-- <li class="nav-item">
-                              <a class="nav-link text-uppercase" href="">Novelty Cakes</a>
-                           </li>
-                           <li class="nav-item">
-                              <a class="nav-link text-uppercase" href="">Wedding Cakes</a>
-                           </li>
-                           <li class="nav-item">
-                              <a class="nav-link text-uppercase" href="">Corporate Cakes</a>
-                           </li> -->
-                           <!-- Dropdown -->
                            <li class="nav-item">
                               <a href="{% url 'cart'%}" class="btn text-info">
                                 <i class="fa fa-shopping-cart" aria-hidden="true"></i>
@@ -199,6 +181,9 @@
       <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
       <script src="https://kit.fontawesome.com/758fa7d06e.js" crossorigin="anonymous"></script>
+
       <script src="{% static 'js/cart.js' %}"></script>
+      {% block postloadjs %}
+      {% endblock %}
    </body>
 </html>
