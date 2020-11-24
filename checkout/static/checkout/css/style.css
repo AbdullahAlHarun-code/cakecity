@@ -50,4 +50,16 @@
   color: #fff;
   background-color: #17a2b8;
   border-color: #17a2b8;
+
+}
+#card-errors{
+  /* //position: relative;
+//padding: .75rem 1.25rem;
+margin-bottom: 1rem;
+border: 1px solid transparent;
+border-radius: .25rem;
+  color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    display:none; */
 }

@@ -155,3 +155,8 @@ STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# Stripe key SetUP
+STRIPE_PUBLIC_KEY = 'pk_test_IsjjZmU79vK4VvuALK5XgACe'
+STRIPE_SECRET_KEY = 'sk_test_mlH3zbcV2X2jdNkpdDujYe8a'
+STRIPE_CURRENCY = 'eur'

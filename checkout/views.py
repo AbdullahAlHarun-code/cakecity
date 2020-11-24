@@ -1,6 +1,7 @@
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect, reverse
 from django.contrib import messages
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -46,6 +47,20 @@ def checkout(request):
     else:
         shipping_address_form = ShippingAddressForm()
         shipping_address = None
+
+    # Stripe set up and integrations
+    stripe_public_key = settings.STRIPE_PUBLIC_KEY
+    stripe_secret_key = settings.STRIPE_SECRET_KEY
+    total = 25
+    stripe_total = round(total * 100)
+    stripe.api_key = stripe_secret_key
+    intent = stripe.PaymentIntent.create(
+        amount = stripe_total,
+        currency = settings.STRIPE_CURRENCY,
+    )
+    print(intent)
+    if not stripe_public_key:
+        message.warning(request,'Stripe puclic key is missing. Did you forget to set it your environment?')
     context = {
         'title':'Checkout',
         'is_login':is_login,
@@ -53,8 +68,8 @@ def checkout(request):
         'shipping_address':shipping_address,
         'edit_action':edit_action,
         'OrderForm':OrderForm(),
-        'stripe_public_key':'pk_test_IsjjZmU79vK4VvuALK5XgACe',
-        'client_secret':'test client secret',
+        'stripe_public_key':stripe_public_key,
+        'client_secret':intent.client_secret,
     }
     return render(request, 'checkout/checkout.html',context)
 
