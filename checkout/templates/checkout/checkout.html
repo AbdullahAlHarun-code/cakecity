@@ -22,23 +22,40 @@
             {% if shipping_address %}
               {% if edit_action %}
               <h4>Delivery Address:</h4>
-                <form class="col-5" method="post" action="{% url 'checkout'%}">
+                <form class="col-5" method="post" action="{% url 'checkout'%}?edit=shipping-address">
                   {% csrf_token %}
                   {{shipping_address_form.as_p}}
-                  <button type="submit" name="{{action}}_address" class="btn btn-xs btn-info">Update</button>
+                  <button type="submit" name="edit_address" class="btn btn-xs btn-info">Update</button>
                 </form>
               {% else %}
                 <div class="row">
 
                   <div class="col-sm-6">
                     <h4>Details:</h4>
-                    <form class="" method="post" action="{% url 'checkout'%}">
+                    <div class="stripe-integration">
+                    <form action="{% url 'checkout'%}" method="post" class="w-100" id="payment-form">
                       {% csrf_token %}
                       {{OrderForm.as_p}}
-                    </form>
+
+
+                          <div class="form-row">
+                            <label for="card-element">
+
+                            </label>
+                            <div id="card-element">
+                              <!-- A Stripe Element will be inserted here. -->
+                            </div>
+
+                            <!-- Used to display form errors. -->
+                            <div id="card-errors" role="alert"></div>
+                          </div>
+
+                          <button>Submit Payment</button>
+                        </form>
+                      </div>
                   </div>
                   <div class="col-sm-6">
-                    <h4>Delivery:</h4>
+                    <h4>Delivery Address:</h4>
                     <p>
                         {% if shipping_address.address_line_1%}{{shipping_address.address_line_1}}<br>{% endif %}
                         {% if shipping_address.address_line_2%}{{shipping_address.address_line_2}}<br>{% endif %}
@@ -53,29 +70,45 @@
 
               {% endif %}
             {% else %}
-            <form class="col-5" method="post" action="{% url 'checkout'%}">
+              <div class="stripe-integration">
+              <form action="{% url 'checkout'%}" method="post" class="col-5" id="payment-form">
+
               {% csrf_token %}
               <h4>Details:</h4>
               {{OrderForm.as_p}}
-              <h4>Delivery:</h4>
+              <h4>Delivery Address:</h4>
               {{shipping_address_form.address_line_1 | as_crispy_field}}
               {{shipping_address_form.address_line_2 | as_crispy_field}}
               {{shipping_address_form.address_line_3 | as_crispy_field}}
               {{shipping_address_form.city | as_crispy_field}}
               {{shipping_address_form.eircode | as_crispy_field}}
-              <div class="form-check form-check-inline">
-                  <input type="checkbox" name="save-info" checked class="form-check-input" value="">
-                  <span class="">Save this delivery information to my profile</span>
-              </div>
-              <button type="submit" name="{{action}}_address" class="btn btn-xs btn-info">Update</button>
-            </form>
+                <div class="form-check form-check-inline">
+                    <input type="checkbox" name="save_info" value="True"checked class="form-check-input" value="">
+                    <span class="">Save this delivery information to my profile</span>
+                </div>
+                <div class="form-row">
+                  <label for="card-element">
+
+                  </label>
+                  <div id="card-element">
+                    <!-- A Stripe Element will be inserted here. -->
+                  </div>
+
+                  <!-- Used to display form errors. -->
+                  <div id="card-errors" role="alert"></div>
+                </div>
+
+                <button>Submit Payment</button>
+              </form>
+            </div>
             {% endif %}
         {% else %}
-          <form class="col-sm-6" method="post" action="{% url 'checkout'%}">
+        <form action="{% url 'checkout'%}" method="post" class="col-sm-6 w-100" id="payment-form">
+
             {% csrf_token %}
             <h4>Details:</h4>
             {{OrderForm.as_p}}
-            <h4>Delivery:</h4>
+            <h4>Delivery Address:</h4>
             {{shipping_address_form.address_line_1 | as_crispy_field}}
             {{shipping_address_form.address_line_2 | as_crispy_field}}
             {{shipping_address_form.address_line_3 | as_crispy_field}}
@@ -84,17 +117,17 @@
             <div class="form-check">
               {% if is_login %}
               <div class="">
-                <input type="checkbox" name="save-info" checked class="form-check-input" value="">
+                <input type="checkbox" name="save_info" value="True" checked class="form-check-input" value="">
                 <span class="">Save this delivery information to my profile</span>
               </div>
 
               {% else %}
               <div class="clearfix w-100">
-                <input type="checkbox" name="save-info" checked class="form-check-input" value="">
+                <input type="checkbox" name="save_info" value="True" checked class="form-check-input" value="">
                 <span class="">Save this delivery information to my profile</span>
               </div>
               <div class="clearfix w-100">
-                <input type="checkbox" name="save-info" checked class="form-check-input" value="">
+                <input type="checkbox" name="create_account" value="True"checked class="form-check-input" value="">
                 <span class="">Create an account</span>
               </div>
 
@@ -102,10 +135,10 @@
 
             </div>
 
-            <button type="submit" name="{{action}}_address" class="btn btn-xs btn-info">Update</button>
-          </form>
+
+
           <div class="stripe-integration">
-            <form action="/charge" method="post" class="w-100" id="payment-form">
+
               <div class="form-row">
                 <label for="card-element">
 
@@ -150,6 +183,14 @@
       </div>
    </div>
 
+</div>
+<!-- adding checkout complete order loading overlay-->
+<div id="loading_overlay">
+  <div class="text-light loading-spinner">
+    <span class="icon">
+      <i class="fas fa-sync-alt fa-spin"></i>
+    </span>
+  </div>
 </div>
 {% endblock %}
 <!-- {% block extra_css %}

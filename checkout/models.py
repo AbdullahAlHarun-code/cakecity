@@ -34,6 +34,9 @@ class Order(models.Model):
         if not self.order_id:
             self.order_id = self._generate_order_id()
         super().save(*args, **kwargs)
+    def update_total(self):
+        self.order_total = self.lineitems.aggregate(Sum('item_total'))['item_total__sum']
+        self.save()
 
     def __str__(self):
         return self.order_id

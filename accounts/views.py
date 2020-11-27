@@ -112,7 +112,7 @@ def address(request):
     except:
         billing_address = None
     try:
-        shipping_address = ShippingAddress.objects.all().first()
+        shipping_address = ShippingAddress.objects.all().filter(user=request.user).first()
     except:
         shipping_address = None
 
@@ -149,10 +149,6 @@ def address(request):
                     return redirect('/accounts/address'+'/?add=shipping-address')
                 is_shipping_address = True
 
-
-
-
-
     if request.method == 'POST':
         if billing_address is not None:
             billing_address_form = BillingAddressForm(request.POST,instance=billing_address)
@@ -164,9 +160,7 @@ def address(request):
         else:
             shipping_address_form = ShippingAddressForm(request.POST)
         if 'add_billing' in request.POST or 'edit_billing' in request.POST:
-            print('billing address')
             if billing_address_form.is_valid():
-                print('yes billing')
                 billing_address_form.user=int(request.user.id)
                 instance_billing = billing_address_form.save(commit=False)
                 instance_billing.user = request.user
@@ -174,9 +168,7 @@ def address(request):
                 messages.success(request, 'Your billing address had successfully added!' )
                 return redirect('address')
         if 'add_shipping' in request.POST or 'edit_shipping' in request.POST:
-            print('shipping address')
             if shipping_address_form.is_valid():
-                print('yes shipping')
                 shipping_address_form.user=int(request.user.id)
                 instance_shipping = shipping_address_form.save(commit=False)
                 instance_shipping.user = request.user

@@ -47,43 +47,7 @@ card.on('change', function(event) {
   }
 });
 
-// Handle form submission.
-// var form = document.getElementById('payment-form');
-// form.addEventListener('submit', function(event) {
-//   event.preventDefault();
-//   card.update({'disabled': true});
-//   $('#submit-button').attr('disabled', true);
-//   stripe.createToken(card).then(function(result) {
-//     if (result.error) {
-//       // Inform the user if there was an error.
-//       var errorElement = document.getElementById('card-errors');
-//       var html = `
-//       <span class="alert alert-danger mt-2 d-block"><i class="fa fa-times"> ${event.error.message}</i></span>
-//       `;
-//       $(errorElement).html(html);
-//       //errorElement.textContent = result.error.message;
-//         card.update({'disabled': false});
-//         $('#submit-button').attr('disabled', false);
-//     } else {
-//       // Send the token to your server.
-//       stripeTokenHandler(result.token);
-//     }
-//   });
-// });
-//
-// // Submit the form with the token ID.
-// function stripeTokenHandler(token) {
-//   // Insert the token ID into the form so it gets submitted to the server
-//   var form = document.getElementById('payment-form');
-//   var hiddenInput = document.createElement('input');
-//   hiddenInput.setAttribute('type', 'hidden');
-//   hiddenInput.setAttribute('name', 'stripeToken');
-//   hiddenInput.setAttribute('value', token.id);
-//   form.appendChild(hiddenInput);
-//
-//   // Submit the form
-//   form.submit();
-// }
+
 
 var form = document.getElementById('payment-form');
 
@@ -91,6 +55,8 @@ form.addEventListener('submit', function(ev) {
   ev.preventDefault();
   card.update({'disabled': true});
   $('#submit-button').attr('disabled', true);
+  $('#payment-form').fadeToggle(100);
+  $('#loading_overlay').fadeToggle(100);
   stripe.confirmCardPayment(clientSecret, {
     payment_method: {
       card: card,
@@ -103,6 +69,8 @@ form.addEventListener('submit', function(ev) {
       <span class="alert alert-danger mt-2 d-block"><i class="fa fa-times"> ${event.error.message}</i></span>
       `;
       $(displayError).html(html);
+      $('#payment-form').fadeToggle(100);
+      $('#loading_overlay').fadeToggle(100);
       card.update({'disabled': false});
       $('#submit-button').attr('disabled', false);
     } else {
