@@ -28,7 +28,8 @@ DEBUG = True
 if DEBUG:
     SITE_URL = 'http://127.0.0.1:8000/'
 
-ALLOWED_HOSTS = ['*']
+#ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['mat-cakecity.herokuapp.com', 'localhost']
 
 
 # Application definition
@@ -92,15 +93,18 @@ WSGI_APPLICATION = 'cakecity.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-DATABASES = {
-    'default': dj_database_url.parse('postgres://blxgjqeebvgjzk:84d0a744915c9c825b3a8f61a2c516f2d74f25290d8c69652f0109287c1ba324@ec2-18-203-62-227.eu-west-1.compute.amazonaws.com:5432/d57vufq2gk58ah')
-}
+
+if 'DATABASE_URL' in os.environ:
+    DATABASES = {
+        'default': dj_database_url.parse('postgres://blxgjqeebvgjzk:84d0a744915c9c825b3a8f61a2c516f2d74f25290d8c69652f0109287c1ba324@ec2-18-203-62-227.eu-west-1.compute.amazonaws.com:5432/d57vufq2gk58ah')
+    }
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 # DATABASES = {
 #     'default': {
