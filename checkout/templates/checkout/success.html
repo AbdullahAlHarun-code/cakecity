@@ -6,7 +6,74 @@
       <div class="col-12">
         <h2>{{title}}</h2><hr>
         <div class="">
-          <h4>Thanks for your shopping!</h4>
+          <p>Your order information is below. A confirmation email will be sent to your email at <strong>email</strong></p>
+          <hr>
+          <table class="col-sm-8">
+            <tbody>
+
+              <tr><td><span class="text-muted mb-1">Order Info:</span></td></tr>
+              <tr class="text-wrap">
+                <td class="w-50"><strong>Order Number:</strong></td>
+                <td class="w-50 text-right text-break ">{{order.order_id}}</td>
+              </tr>
+              <tr>
+                <td class="w-50"><strong>Order Date:</strong></td>
+                <td class="w-50 text-right">{{order.date|date}}</td>
+              </tr>
+              <tr><td><span class="text-muted mb-1">Order Details:</span></td></tr>
+              {% for item in items%}
+              <tr>
+                <td class="w-50"><strong>{{item.product.title}}({{item.size}})</strong></td>
+                <td class="w-50 text-right">{{item.quantity}} X €{{item.unit_price}}</td>
+              </tr>
+                {% for flavour in item.flavour%}
+                <tr>
+                  <td class="w-50"><span class="font-italic">{{flavour}}</span></td>
+                  <td class="w-50 text-right">€{{flavour.price}}</td>
+                </tr>
+                {% endfor %}
+                <tr class="border-bottom border-secondary"><td> </td></tr>
+              {% endfor%}
+              <tr><td><span class="text-muted mb-1">Delivery To:</span></td></tr>
+              <tr>
+                <td class="w-50"><strong class="font-italic">Address Line 1</strong></td>
+                <td class="text-right w-50">{{order.address_line_1}}</td>
+              </tr>
+              {% if order.address_line_2%}
+              <tr>
+                <td class="w-50"><strong class="font-italic">Address Line 2</strong></td>
+                <td class="text-right w-50">{{order.address_line_2}}</td>
+              </tr>
+              {% endif %}
+              {% if order.address_line_3%}
+              <tr>
+                <td class="w-50"><strong class="font-italic">Address Line 3</strong></td>
+                <td class="text-right w-50">{{order.address_line_3}}</td>
+              </tr>
+              {% endif %}
+              <tr>
+                <td class="w-50"><strong class="font-italic">City</strong></td>
+                <td class="text-right w-50">{{order.city}}</td>
+              </tr>
+              <tr>
+                <td class="w-50"><strong class="font-italic">Post Code</strong></td>
+                <td class="text-right w-50">{{order.eircode}}</td>
+              </tr>
+              <tr><td><span class="text-muted mb-1">Billing Info:</span></td></tr>
+              <tr>
+                <td class="w-50"><strong>Order Totoal: </strong></td>
+                <td class="text-right w-50">€{{order.order_total}}</td>
+              </tr>
+              <tr class="">
+                <td class="w-50"><strong>Shipping Cost: </strong></td>
+                <td class="text-right w-50">€{{order.delivery_cost}}</td>
+              </tr>
+              <tr class="border-top border-secondary">
+                <td class="w-50"><strong>Grand Totoal: </strong></td>
+                <td class="text-right w-50">€{{order.grand_total}}</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
 
 

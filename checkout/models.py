@@ -13,6 +13,7 @@ STATUS_CHIOCES = (
 )
 class Order(models.Model):
     order_id        = models.CharField(max_length=32, null=False, editable=False)
+    username        = models.CharField(max_length=254, null=False, blank=False)
     full_name       = models.CharField(max_length=50, null=False, blank=False)
     email           = models.EmailField(max_length=254, null=False, blank=False)
     phone_number    = models.CharField(max_length=20, null=False, blank=True)
@@ -44,12 +45,12 @@ class Order(models.Model):
 class OrderItem(models.Model):
     order       = models.ForeignKey(Order, blank=False, on_delete=models.CASCADE, related_name='lineitems')
     product     = models.ForeignKey(Product, blank=False, on_delete=models.CASCADE)
+    size       = models.CharField(max_length=50, null=False, blank=False)
     quantity    = models.IntegerField(null=False, blank=False, default=0)
+    product_price  = models.DecimalField(max_digits=6, decimal_places=2, null=False, blank=False, editable=False)
     item_total  = models.DecimalField(max_digits=6, decimal_places=2, null=False, blank=False, editable=False)
 
-    def save(self, *args, **kwargs):
-        self.item_total = self.item_total*self.quantity
-        super().save(*args, **kwargs)
+
     def __str__(self):
         return self.product.title
 
@@ -59,9 +60,6 @@ class OrderItemVariation(models.Model):
     flavour     = models.ForeignKey(Flavour, blank=False, on_delete=models.CASCADE)
     price       = models.DecimalField(max_digits=6, decimal_places=2, null=False, blank=False, editable=False)
 
-    def save(self, *args, **kwargs):
-        self.price = self.flavour.price
-        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.flavour.flavour_name

@@ -43,9 +43,9 @@
                         </td>
                         <td>
                            (€{{item.product_price}}
-                           {% for f_price in item.flavour_price_array%}
-                           {% if f_price > 0 %}
-                           +€{{f_price}}
+                           {% for flavour in item.flavour_objects_array%}
+                           {% if flavour.price > 0 %}
+                           +€{{flavour.price}}
                            {% endif%}
                            {% endfor %})X{{item.quantity}}
                            = €{{ item.total}}

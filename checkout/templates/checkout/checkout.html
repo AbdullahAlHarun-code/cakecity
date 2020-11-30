@@ -6,6 +6,7 @@
       <div class="col-12">
         <h2>{{title}}</h2><hr>
         {% if is_login == False %}
+        <!-- if not login user login form for user login directly-->
         <div class="login-required">
           <p>Already have an account ? <a href="" data-toggle="collapse" data-target="#demo">Login</a></p>
             <div id="demo" class="collapse">
@@ -17,9 +18,13 @@
               </form>
             </div>
         </div>
+        <!-- end uer login form-->
         {% endif %}
+        <!-- if user login checkout details information-->
         {% if is_login %}
+          <!-- if user login and have shipping address-->
             {% if shipping_address %}
+              <!-- if user want to change address form-->
               {% if edit_action %}
               <h4>Delivery Address:</h4>
                 <form class="col-5" method="post" action="{% url 'checkout'%}?edit=shipping-address">
@@ -28,16 +33,31 @@
                   <button type="submit" name="edit_address" class="btn btn-xs btn-info">Update</button>
                 </form>
               {% else %}
+              <!-- if user login and have already shipping address -->
                 <div class="row">
 
                   <div class="col-sm-6">
+                    <h4>Delivery Address:</h4>
+                    <div class="row">
+                      <p class="col-sm-6">
+                          {% if shipping_address.address_line_1%}{{shipping_address.address_line_1}}<br>{% endif %}
+                          {% if shipping_address.address_line_2%}{{shipping_address.address_line_2}}<br>{% endif %}
+                          {% if shipping_address.address_line_3%}{{shipping_address.address_line_3}}<br>{% endif %}
+                          {% if shipping_address.city%}{{shipping_address.city}}<br>{% endif %}
+                          {% if shipping_address.eircode%}{{shipping_address.eircode}}{% endif %}
+                      </p>
+                      <div class="col-sm-6">
+                        <a href="{% url 'checkout'%}?edit=shipping-address" class="btn btn-xs btn-info">Edit</a>
+                      </div>
+
+                    </div>
                     <h4>Details:</h4>
                     <div class="stripe-integration">
                     <form action="{% url 'checkout'%}" method="post" class="w-100" id="payment-form">
                       {% csrf_token %}
                       {{OrderForm.as_p}}
 
-
+                      <h4  class="mt-3">Payment Details:</h4>
                           <div class="form-row">
                             <label for="card-element">
 
@@ -50,27 +70,44 @@
                             <div id="card-errors" role="alert"></div>
                           </div>
 
-                          <button>Submit Payment</button>
+                          <button>Complete Order <i class="fas fa-lock"></i></button>
+                          <a href="{% url 'all_cakes'%}" class="btn btn-info col-12 mt-3"><i class="fas fa-chevron-left"></i> Continue Shopping</a>
                         </form>
                       </div>
                   </div>
                   <div class="col-sm-6">
-                    <h4>Delivery Address:</h4>
-                    <p>
-                        {% if shipping_address.address_line_1%}{{shipping_address.address_line_1}}<br>{% endif %}
-                        {% if shipping_address.address_line_2%}{{shipping_address.address_line_2}}<br>{% endif %}
-                        {% if shipping_address.address_line_3%}{{shipping_address.address_line_3}}<br>{% endif %}
-                        {% if shipping_address.city%}{{shipping_address.city}}<br>{% endif %}
-                        {% if shipping_address.eircode%}{{shipping_address.eircode}}{% endif %}
-                    </p>
-                    <a href="{% url 'checkout'%}?edit=shipping-address" class="btn btn-xs btn-info">Edit</a>
+                    <div class="col-12 bg-light">
+                       <div class="row p-2">
+                          <table class="table bg-light text-right">
+                             <tbody>
+                                <tr class="">
+                                   <td scope="col">Subtotal:</td>
+                                   <td scope="col"><strong>€{{sub_total}}</strong></td>
+                                </tr>
+                                <tr class="">
+                                   <td scope="col">Shipping Price:</td>
+                                   <td scope="col"><strong>€{{shipping_charge}}</strong></td>
+                                </tr>
+                                <tr  class="text-danger h4">
+                                   <td scope="col"></td>
+                                   <td scope="col"><strong>Total: €{{grand_total}}</strong></td>
+                                </tr>
+
+                             </tbody>
+                          </table>
+                       </div>
+                    </div>
+
+
                   </div>
-                </div>
+                </div><!-- end row -->
 
 
               {% endif %}
             {% else %}
-              <div class="stripe-integration">
+            <!-- if user ligin but do not have shipping address-->
+            <div class="stripe-integration">
+              <h4  class="mt-3">Payment Details:</h4>
               <form action="{% url 'checkout'%}" method="post" class="col-5" id="payment-form">
 
               {% csrf_token %}
@@ -98,88 +135,95 @@
                   <div id="card-errors" role="alert"></div>
                 </div>
 
-                <button>Submit Payment</button>
+                <button>Complete Order</button>
+                <a href="{% url 'all_cakes'%}" class="btn mt-3 btn-info col-12"><i class="fas fa-chevron-left"></i> Continue Shopping</a>
               </form>
             </div>
             {% endif %}
         {% else %}
-        <form action="{% url 'checkout'%}" method="post" class="col-sm-6 w-100" id="payment-form">
+        <!-- if user not login -->
+        <div class="row">
+          <div class="col-6">
+            <form action="{% url 'checkout'%}" method="post" class="w-100" id="payment-form">
 
-            {% csrf_token %}
-            <h4>Details:</h4>
-            {{OrderForm.as_p}}
-            <h4>Delivery Address:</h4>
-            {{shipping_address_form.address_line_1 | as_crispy_field}}
-            {{shipping_address_form.address_line_2 | as_crispy_field}}
-            {{shipping_address_form.address_line_3 | as_crispy_field}}
-            {{shipping_address_form.city | as_crispy_field}}
-            {{shipping_address_form.eircode | as_crispy_field}}
-            <div class="form-check">
-              {% if is_login %}
-              <div class="">
-                <input type="checkbox" name="save_info" value="True" checked class="form-check-input" value="">
-                <span class="">Save this delivery information to my profile</span>
+                {% csrf_token %}
+                <h4>Details:</h4>
+                {{OrderForm.as_p}}
+                <h4>Delivery Address:</h4>
+                {{shipping_address_form.address_line_1 | as_crispy_field}}
+                {{shipping_address_form.address_line_2 | as_crispy_field}}
+                {{shipping_address_form.address_line_3 | as_crispy_field}}
+                {{shipping_address_form.city | as_crispy_field}}
+                {{shipping_address_form.eircode | as_crispy_field}}
+                <div class="form-check">
+                  {% if is_login %}
+                  <div class="">
+                    <input type="checkbox" name="save_info" value="True" checked class="form-check-input" value="">
+                    <span class="">Save this delivery information to my profile</span>
+                  </div>
+
+                  {% else %}
+                  <div class="clearfix w-100">
+                    <input type="checkbox" name="save_info" value="True" checked class="form-check-input" value="">
+                    <span class="">Save this delivery information to my profile</span>
+                  </div>
+                  <div class="clearfix w-100">
+                    <input type="checkbox" name="create_account" value="True"checked class="form-check-input" value="">
+                    <span class="">Create an account</span>
+                  </div>
+
+                  {% endif %}
+
+                </div>
+
+
+              <h4 class="mt-3">Payment Details:</h4>
+              <div class="stripe-integration">
+
+                  <div class="form-row">
+                    <label for="card-element">
+
+                    </label>
+                    <div id="card-element">
+                      <!-- A Stripe Element will be inserted here. -->
+                    </div>
+
+                    <!-- Used to display form errors. -->
+                    <div id="card-errors" role="alert"></div>
+                  </div>
+
+                  <button>Complete Order</button>
+                  <a href="{% url 'all_cakes'%}" class="btn mt-3 btn-info col-12"><i class="fas fa-chevron-left"></i> Continue Shopping</a>
               </div>
+            </form>
+          </div>
+          <div class="col-sm-6">
+            <div class="col-12 bg-light">
+               <div class="row p-2">
+                  <table class="table bg-light text-right">
+                     <tbody>
+                        <tr class="">
+                           <td scope="col">Subtotal:</td>
+                           <td scope="col"><strong>€{{sub_total}}</strong></td>
+                        </tr>
+                        <tr class="">
+                           <td scope="col">Shipping Price:</td>
+                           <td scope="col"><strong>€{{shipping_charge}}</strong></td>
+                        </tr>
+                        <tr  class="text-danger h4">
+                           <td scope="col"></td>
+                           <td scope="col"><strong>Total: €{{grand_total}}</strong></td>
+                        </tr>
 
-              {% else %}
-              <div class="clearfix w-100">
-                <input type="checkbox" name="save_info" value="True" checked class="form-check-input" value="">
-                <span class="">Save this delivery information to my profile</span>
-              </div>
-              <div class="clearfix w-100">
-                <input type="checkbox" name="create_account" value="True"checked class="form-check-input" value="">
-                <span class="">Create an account</span>
-              </div>
-
-              {% endif %}
-
+                     </tbody>
+                  </table>
+               </div>
             </div>
 
 
-
-          <div class="stripe-integration">
-
-              <div class="form-row">
-                <label for="card-element">
-
-                </label>
-                <div id="card-element">
-                  <!-- A Stripe Element will be inserted here. -->
-                </div>
-
-                <!-- Used to display form errors. -->
-                <div id="card-errors" role="alert"></div>
-              </div>
-
-              <button>Submit Payment</button>
-            </form>
           </div>
-
-        {% endif%}
-        <div class="col-12 bg-light">
-           <div class="row p-2">
-              <table class="table bg-light text-right">
-                 <tbody>
-                    <tr class="">
-                       <td scope="col">Subtotal:</td>
-                       <td scope="col"><strong>€{{sub_total}}</strong></td>
-                    </tr>
-                    <tr class="">
-                       <td scope="col">Shipping Price:</td>
-                       <td scope="col"><strong>€{{shipping_charge}}</strong></td>
-                    </tr>
-                    <tr  class="text-danger h4">
-                       <td scope="col"></td>
-                       <td scope="col"><strong>Total: €{{grand_total}}</strong></td>
-                    </tr>
-
-                 </tbody>
-              </table>
-              <hr class="col">
-              <a href="{% url 'checkout'%}" class="btn btn-lg btn-warning col-12 mb-3" name="button">Complete Order <i class="fas fa-lock"></i></a>
-              <a href="{% url 'all_cakes'%}" class="btn btn-lg btn-info col-12"><i class="fas fa-chevron-left"></i> Continue Shopping</a>
-           </div>
         </div>
+        {% endif%}
       </div>
    </div>
 

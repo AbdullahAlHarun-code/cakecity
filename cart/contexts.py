@@ -8,10 +8,7 @@ class Item:
     single_product = None
     cake_size_id = None
     quantity = None
-    test_name = []
-    flavour_name = []
-    flavour_name_with_price = []
-    flavour_price_array = []
+    flavour_objects_array = []
     product_price = 0
     price = 0
     total = 0
@@ -19,9 +16,13 @@ class Item:
     def set_price(self):
         variation_select = Variation.objects.all().filter(id=self.cake_size_id)
         self.product_price = variation_select.first().price
-        self.price = self.price + self.product_price
+        self.price = self.product_price
 
     def set_total(self):
+        flavour_price_total = 0
+        for flavour in self.flavour_objects_array:
+            flavour_price_total = flavour_price_total + flavour.price
+        self.price = self.price + flavour_price_total
         self.total = self.price*int(self.quantity)
 
 
@@ -40,42 +41,23 @@ def cart_contents(request):
     delivery_charge_range = 800
     delivery_charge = 10
     shipping_charge = 0
-    print('cart: ',cart)
-    name_flavour = []
-    name_price_flavour = []
-    flavour_price_array = []
+
     if cart:
         cart_item_count = len(cart)
         for item in cart:
             single_item = Item()
-            name_flavour = []
-            name_price_flavour = []
-            flavour_price_array = []
+            flavour_objects_array = []
             single_item.single_product = get_object_or_404(Product, pk=item['item_id'])
             single_item.quantity = item['quantity']
             single_item.cake_size_id = item['cake_size_id']
             single_item.set_price()
-
-            single_item.flavour_name.clear()
-            single_item.test_name.clear()
-            single_item.flavour_name_with_price.clear()
-            single_item.flavour_price_array.clear()
-            print('item',item)
             if len(item['flavours_id'])>0:
                 for item_flavour_id in item['flavours_id']:
-
                     flavour = Flavour.objects.all().filter(id=item_flavour_id).first()
-                    name_price_flavour.append(flavour.flavour_name+'(€'+str(flavour.price)+')')
-                    name_flavour.append(flavour.flavour_name)
+                    flavour_objects_array.append(flavour)
 
-                    single_item.flavour_name = name_flavour
-                    single_item.flavour_name_with_price = name_price_flavour
 
-                    flavour_price = flavour.price
-                    single_item.price = single_item.price + flavour_price
-                    flavour_price_array.append(flavour_price)
-                    single_item.flavour_price_array = flavour_price_array
-
+            single_item.flavour_objects_array = flavour_objects_array
             single_item.set_total()
             cart_items.append(single_item)
 

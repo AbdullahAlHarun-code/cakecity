@@ -9,8 +9,10 @@ from django.contrib.auth.base_user import BaseUserManager
 from accounts.forms import ShippingAddressForm, UserRegisterForm
 from accounts.models import ShippingAddress, Customer
 from .forms import OrderForm
-from .models import Order
-from cart.contexts import cart_contents
+from .models import Order, OrderItem, OrderItemVariation
+from products.models import Variation
+from cart.contexts import *
+from accounts.order_process import *
 
 import stripe
 # Create your views here.
@@ -19,7 +21,9 @@ import stripe
 def checkout(request):
     is_login = request.user.is_authenticated
     edit_action = False
-
+    cart_content_list = cart_contents(request)
+    if not cart_content_list['cart_items']:
+        return redirect('cart')
     if request.method == 'POST':
         if 'edit' not in request.GET:
             # initial orderForm post data
@@ -91,26 +95,13 @@ def checkout(request):
 
 
                         # create new order
-                        Order.objects.create(
-                            full_name=request.POST['full_name'],
-                            email=request.POST['email'],
-                            phone_number=request.POST['phone_number'],
-                            address_line_1=request.POST['address_line_1'],
-                            address_line_2=request.POST['address_line_2'],
-                            address_line_3=request.POST['address_line_3'],
-                            city=request.POST['city'],
-                            eircode=request.POST['eircode'],
-                            delivery_cost=10,
-                            order_total=10,
-                            grand_total=10
-                        )
+                        create_order(request,is_login,cart_content_list,instance_shipping)
 
                         # thanks message and redirect
-                        messages.success(request, f'Account was created for {username}!You are now logged in.')
+                        messages.success(request, f'Account was created! You are now logged in. Your order was successfully created.')
                         # redirect success page
                         return redirect('success')
-                    else:
-                        print('not form valid')
+
         # if user already login
         if is_login:
             # get user shipping address
@@ -141,19 +132,7 @@ def checkout(request):
                     if shipping_address:
                         # if shipping address have
                         # create new order
-                        Order.objects.create(
-                            full_name=request.POST['full_name'],
-                            email=request.POST['email'],
-                            phone_number=request.POST['phone_number'],
-                            address_line_1=shipping_address.address_line_1,
-                            address_line_2=shipping_address.address_line_2 if shipping_address.address_line_2 else '',
-                            address_line_3=shipping_address.address_line_3 if shipping_address.address_line_3 else '',
-                            city=shipping_address.city,
-                            eircode=shipping_address.eircode,
-                            delivery_cost=10,
-                            order_total=10,
-                            grand_total=10
-                        )
+                        create_order(request,is_login,cart_content_list,shipping_address)
                     else:
                         # if shipping address do not have
                         # initial order form data already done in top
@@ -168,20 +147,12 @@ def checkout(request):
                                     instance_shipping.save()
 
                             # create new order
-                            Order.objects.create(
-                                full_name=request.POST['full_name'],
-                                email=request.POST['email'],
-                                phone_number=request.POST['phone_number'],
-                                address_line_1=request.POST['address_line_1'],
-                                address_line_2=request.POST['address_line_2'],
-                                address_line_3=request.POST['address_line_3'],
-                                city=request.POST['city'],
-                                eircode=request.POST['eircode'],
-                                delivery_cost=10,
-                                order_total=10,
-                                grand_total=10
-                            )
+                            create_order(request,is_login,cart_content_list,instance_shipping)
 
+                    # thanks message and redirect
+                    messages.success(request, f'Your order was successfully created.')
+                    # redirect success page
+                    return redirect('success')
     else:
         if 'edit' in request.GET:
             edit_action = True
@@ -200,14 +171,11 @@ def checkout(request):
             shipping_address_form = ShippingAddressForm()
             shipping_address = None
 
-        #print
-        #print('grand total', grand_total)
 
     # Stripe set up and integrations
     stripe_public_key = settings.STRIPE_PUBLIC_KEY
     stripe_secret_key = settings.STRIPE_SECRET_KEY
-    total = 25
-    stripe_total = round(total * 100)
+    stripe_total = round(cart_content_list['grand_total'] * 100)
     stripe.api_key = stripe_secret_key
     intent = stripe.PaymentIntent.create(
         amount = stripe_total,
@@ -230,10 +198,78 @@ def checkout(request):
     }
     return render(request, 'checkout/checkout.html',context)
 
+def create_order(request,is_login,cart_content_list,shipping_address):
+    if is_login and shipping_address:
+        new_order = Order.objects.create(
+            username=request.user.username,
+            full_name=request.POST['full_name'],
+            email=request.POST['email'],
+            phone_number=request.POST['phone_number'],
+            address_line_1=shipping_address.address_line_1,
+            address_line_2=shipping_address.address_line_2 if shipping_address.address_line_2 else '',
+            address_line_3=shipping_address.address_line_3 if shipping_address.address_line_3 else '',
+            city=shipping_address.city,
+            eircode=shipping_address.eircode,
+            delivery_cost=cart_content_list['shipping_charge'],
+            order_total=cart_content_list['sub_total'],
+            grand_total=cart_content_list['grand_total'],
+        )
+    else:
+        # create new order
+        new_order = Order.objects.create(
+            username=request.POST['email'],
+            full_name=request.POST['full_name'],
+            email=request.POST['email'],
+            phone_number=request.POST['phone_number'],
+            address_line_1=request.POST['address_line_1'],
+            address_line_2=request.POST['address_line_2'],
+            address_line_3=request.POST['address_line_3'],
+            city=request.POST['city'],
+            eircode=request.POST['eircode'],
+            delivery_cost=cart_content_list['shipping_charge'],
+            order_total=cart_content_list['sub_total'],
+            grand_total=cart_content_list['grand_total'],
+        )
+    for item in cart_content_list['cart_items']:
+        variation = Variation.objects.get(id=item.cake_size_id)
+        order_items_save = OrderItem.objects.create(
+            order=new_order,
+            product=item.single_product,
+            size=variation.size,
+            quantity=item.quantity,
+            product_price=variation.price,
+            item_total=item.total
+        )
+        for flavour in item.flavour_objects_array:
+            order_items_variations = OrderItemVariation.objects.create(
+                order=new_order,
+                order_item=order_items_save,
+                flavour=flavour,
+                price=flavour.price
+            )
+
+    request.session['order_id'] = new_order.order_id
+
+
 def success(request):
+    # get session order id
+    # get order details
+
+    # unset cart item
+    # del request.session['your key']
+    try:
+        if(request.session['order_id']):
+            order = get_order(request.session['order_id'])
+            del request.session['order_id']
+            del request.session['cart']
+    except:
+        return redirect('checkout')
+    #request.session['order_id'] = 'DA9CE76CE6814356A6456CA16B4D4563'
+    #print('Order Id: ',request.session['order_id'])
 
     context = {
-        'title':'Success',
-
+        'title':'Thanks for your shopping!',
+        'order':order['order'],
+        'items':order['order_items'],
     }
     return render(request, 'checkout/success.html',context)

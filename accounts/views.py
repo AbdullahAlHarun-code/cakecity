@@ -10,6 +10,8 @@ from .decorators import unauthenticated_user
 from .models import Customer, BillingAddress, ShippingAddress
 from .forms import  BillingAddressForm, ShippingAddressForm
 from django.contrib.auth import update_session_auth_hash
+from .order_process import *
+from cart.contexts import *
 # Create your views here.
 @unauthenticated_user
 def loginPage(request):
@@ -94,7 +96,7 @@ def edit_profile(request):
 
 @login_required(login_url='login')
 def order_history(request):
-    orders = None
+    orders = get_all_order(request)
     context = {
         'title':'View All Orders',
         'orders':orders,
