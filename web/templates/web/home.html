@@ -88,7 +88,7 @@
       <div class="card col-12 col-sm-12 col-md-3 mr-md-2 p-1 float-left">
          <div class="card-body text-center">
            <div class="image-center" style="height:250px;overflow:hidden">
-             <img style="height:100%" class="card-img-top" src="/media/{{ cake.productimage_set.all.first.image }}" alt="Card image">
+             <img style="height:100%" class="card-img-top" src="{{MEDIA_URL}}{{ cake.productimage_set.all.first.image }}" alt="Card image">
            </div>
 
             <a href="{{cake.slug}}" class="card-text">{{cake.title}}</a>
