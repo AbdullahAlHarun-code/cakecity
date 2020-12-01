@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from django.conf.urls.media import media
 #from products import views as product_view_new
 urlpatterns = [
     path('admin/', admin.site.urls),
