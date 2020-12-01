@@ -41,9 +41,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    #'allauth',
-    #'allauth.account',
-    #'allauth.socialaccount',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
     'web',
     'products',
     'cart',
@@ -89,6 +90,11 @@ TEMPLATES = [
     },
 ]
 
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend'
+)
+SITE_ID = 1
 WSGI_APPLICATION = 'cakecity.wsgi.application'
 
 
@@ -169,9 +175,22 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIAFILES_DIRS = (os.path.join(BASE_DIR, 'media'),)
 
 # Stripe key SetUP
-STRIPE_PUBLIC_KEY = 'pk_test_IsjjZmU79vK4VvuALK5XgACe'
-STRIPE_SECRET_KEY = 'sk_test_mlH3zbcV2X2jdNkpdDujYe8a'
-STRIPE_CURRENCY = 'eur'
+STRIPE_PUBLIC_KEY = os.environ.get('STRIPE_PUBLIC_KEY')
+STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY')
+STRIPE_CURRENCY = os.environ.get('STRIPE_CURRENCY')
+# email setup
+if 'DEVELOPMENT' in os.environ:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+    DEFAULT_FROM_EMAIL = 'aharun46@gmail.com'
+else:
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    EMAIL_USE_TLS = True
+    EMAIL_PORT = 587
+    EMAIL_HOST = 'smtp.gmail.com'
+    EMAIL_HOST_USER = os.environ('EMAIL_HOST_USER')
+    EMAIL_HOST_PASSWORD = os.environ('EMAIL_HOST_PASS')
+    DEFAULT_FROM_EMAIL = os.environ('EMAIL_HOST_USER')
+
 
 # aws SetUP
 if 'USE_AWS' in os.environ:
