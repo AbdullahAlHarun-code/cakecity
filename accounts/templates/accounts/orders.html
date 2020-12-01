@@ -25,7 +25,7 @@
 
                   {% for item in order.order_items%}
                     <li class="mb-0 list-group-item bg-transparent">
-                      <img style="width:8%;height:1%;" class="" src="/media/{{item.product_image}}" alt="">
+                      <img style="width:8%;height:1%;" class="" src="{{MEDIA_URL}}{{item.product_image}}" alt="">
                       {{item.product}}
                       (€{{item.total}})<br>
                       {% for flavour in item.flavour%}

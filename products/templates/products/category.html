@@ -9,7 +9,7 @@
          {% if products%}
          {% for product in products%}
          <div class="card col-sm-4 mb-2">
-            <img src="/media/{{ product.productimage_set.all.first.image }}" class="card-img-top" alt="...">
+            <img src="{{MEDIA_URL}}{{ product.productimage_set.all.first.image }}" class="card-img-top" alt="...">
             <div class="card-body">
                <h5 class="card-title">{{ product.title|capfirst }}</h5>
                <p>

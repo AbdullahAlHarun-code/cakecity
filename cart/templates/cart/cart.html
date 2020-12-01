@@ -27,7 +27,7 @@
                         <th scope="row">
                            {% for image in item.single_product.productimage_set.all %}
                            {% if image.featured %}
-                           <a href="{{ item.single_product.get_absolute_url}}"><img style="width:80px;height:80px" class="img-responsive" src="/media/{{ image.image }}" alt=""></a><br>
+                           <a href="{{ item.single_product.get_absolute_url}}"><img style="width:80px;height:80px" class="img-responsive" src="{{MEDIA_URL}}{{ image.image }}" alt=""></a><br>
                            {% endif %}
                            {% endfor %}
                         </th>

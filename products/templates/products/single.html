@@ -6,9 +6,9 @@
       <div class="col-md-5 mb-2 mt-3">
          {% for image in single_product.productimage_set.all %}
          {% if image.featured %}
-         <a target="_clank" href="/media/{{ image.image }}"><img class="img-responsive w-100" src="/media/{{ image.image }}" alt=""></a><br>
+         <a target="_clank" href="{{MEDIA_URL}}{{ image.image }}"><img class="img-responsive w-100" src="{{MEDIA_URL}}{{ image.image }}" alt=""></a><br>
          {% else %}
-         <a href="#"><img style="width:100px" class="img-responsive mt-2 mr-2" src="/media/{{ image.image }}" alt=""></a>
+         <a href="#"><img style="width:100px" class="img-responsive mt-2 mr-2" src="{{MEDIA_URL}}{{ image.image }}" alt=""></a>
          {% endif%}
          {% endfor %}
       </div>
@@ -24,7 +24,7 @@
             {% endfor %}
          </p>
          <p class="btn btn-info">Price: {{ single_product.get_price_range }}</p>
-         
+
          <form id="add_item_form" class="" action="" method="post">
             {% csrf_token %}
             <input type="hidden" id="form_url" name="form_url" value="{% url 'add_to_cart' options.id%}">
