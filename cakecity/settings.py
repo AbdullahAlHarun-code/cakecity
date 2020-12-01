@@ -41,10 +41,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 'django.contrib.sites',
-    # 'allauth',
-    # 'allauth.account',
-    # 'allauth.socialaccount',
+    #'allauth',
+    #'allauth.account',
+    #'allauth.socialaccount',
     'web',
     'products',
     'cart',
@@ -90,11 +89,6 @@ TEMPLATES = [
     },
 ]
 
-# AUTHENTICATION_BACKENDS = (
-#     'django.contrib.auth.backends.ModelBackend',
-#     'allauth.account.auth_backends.AuthenticationBackend'
-# )
-# SITE_ID = 1
 WSGI_APPLICATION = 'cakecity.wsgi.application'
 
 
@@ -190,6 +184,7 @@ else:
     EMAIL_HOST_USER = os.environ('EMAIL_HOST_USER')
     EMAIL_HOST_PASSWORD = os.environ('EMAIL_HOST_PASS')
     DEFAULT_FROM_EMAIL = os.environ('EMAIL_HOST_USER')
+    EMAIL_HOST_PASS = os.environ('EMAIL_HOST_PASS')
 
 
 # aws SetUP
