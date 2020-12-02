@@ -232,5 +232,6 @@ STATICFILES_FINDERS = [
     "django.contrib.staticfiles.finders.FileSystemFinder",
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
 ]
+django_heroku.settings(locals(), staticfiles=False)
 # heroku config:set DEBUG_COLLECTSTATIC=1
 # heroku config:set DISABLE_COLLECTSTATIC=1
