@@ -14,7 +14,7 @@ from pathlib import Path
 import dj_database_url
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-# BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+#BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
 # Quick-start development settings - unsuitable for production
@@ -29,8 +29,8 @@ DEBUG = True
 # if DEBUG:
 #     SITE_URL = 'http://127.0.0.1:8000/'
 
-#ALLOWED_HOSTS = ['*']
-ALLOWED_HOSTS = ['mat-cakecity.herokuapp.com', 'localhost']
+ALLOWED_HOSTS = ['*']
+#ALLOWED_HOSTS = ['mat-cakecity.herokuapp.com', 'localhost']
 
 
 # Application definition
@@ -58,7 +58,7 @@ INSTALLED_APPS = [
 MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    #'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -105,10 +105,10 @@ if 'DATABASE_URL' in os.environ:
     DATABASES = {
         'default': dj_database_url.parse('postgres://blxgjqeebvgjzk:84d0a744915c9c825b3a8f61a2c516f2d74f25290d8c69652f0109287c1ba324@ec2-18-203-62-227.eu-west-1.compute.amazonaws.com:5432/d57vufq2gk58ah')
     }
-# else:
-#     DATABASES = {
-#         'default': dj_database_url.parse('postgres://blxgjqeebvgjzk:84d0a744915c9c825b3a8f61a2c516f2d74f25290d8c69652f0109287c1ba324@ec2-18-203-62-227.eu-west-1.compute.amazonaws.com:5432/d57vufq2gk58ah')
-#     }
+else:
+    DATABASES = {
+        'default': dj_database_url.parse('postgres://blxgjqeebvgjzk:84d0a744915c9c825b3a8f61a2c516f2d74f25290d8c69652f0109287c1ba324@ec2-18-203-62-227.eu-west-1.compute.amazonaws.com:5432/d57vufq2gk58ah')
+    }
 
 # DATABASES = {
 #     'default': {
@@ -159,13 +159,13 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = (os.path.join(BASE_DIR, 'static'),)
-STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
+#STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 # set session timeout
 #SESSION_COOKIE_AGE = 120
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIAFILES_DIRS = (os.path.join(BASE_DIR, 'media'),)
+MEDIA_ROOT = (os.path.join(BASE_DIR, 'media'),)
+#MEDIAFILES_DIRS = (os.path.join(BASE_DIR, 'media'),)
 
 # Stripe key SetUP
 STRIPE_PUBLIC_KEY = os.environ.get('STRIPE_PUBLIC_KEY')
@@ -214,6 +214,7 @@ if 'USE_AWS' in os.environ:
     STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{STATICFILES_LOCATION}/'
     MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{MEDIAFILES_LOCATION}/'
 
+    #STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 # STATICFILES_FINDERS = [
@@ -229,3 +230,5 @@ if 'USE_AWS' in os.environ:
 #django_heroku.settings(locals(), staticfiles=False)
 # heroku config:set DEBUG_COLLECTSTATIC=1
 # heroku config:set DISABLE_COLLECTSTATIC=1
+#heroku run python manage.py collectstatic --dry-run --noinput
+#python manage.py collectstatic
