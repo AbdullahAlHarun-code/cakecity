@@ -21,10 +21,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY', '')
+SECRET_KEY = os.environ.get('SECRET_KEY', 'o53-*dc*_3)q$w#$dqhjjs)bzyo0gp*_aw!p44=pcxc+tb^^&l')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = 'DEVELOPMENT' in os.environ
+#DEBUG = 'DEVELOPMENT' in os.environ
+DEBUG = True
 # if DEBUG:
 #     SITE_URL = 'http://127.0.0.1:8000/'
 
@@ -57,6 +58,7 @@ INSTALLED_APPS = [
 MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware'
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -194,6 +196,10 @@ if 'USE_AWS' in os.environ:
         'Expires': 'Wed, 30 Dec 2080 20:00:00 GMT',
         'CacheControl': 'max-age=94608000',
     }
+    AWS_HEADERS = {
+        'x-amz-acl': 'public-read',
+        'Cache-Control': 'public, max-age=31556926'
+    }
     # Bucket config
     AWS_STORAGE_BUCKET_NAME = 'cakecity-bucket'
     AWS_S3_REGION_NAME = 'eu-west-1'
@@ -211,4 +217,5 @@ if 'USE_AWS' in os.environ:
     STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{STATICFILES_LOCATION}/'
     MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{MEDIAFILES_LOCATION}/'
 
+# heroku config:set DEBUG_COLLECTSTATIC=1
 # heroku config:set DISABLE_COLLECTSTATIC=1
