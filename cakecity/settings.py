@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 import os
 from pathlib import Path
 import dj_database_url
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -25,12 +24,12 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'o53-*dc*_3)q$w#$dqhjjs)bzyo0gp*_aw!p4
 
 # SECURITY WARNING: don't run with debug turned on in production!
 #DEBUG = 'DEVELOPMENT' in os.environ
-DEBUG = True
+DEBUG = False
 # if DEBUG:
 #     SITE_URL = 'http://127.0.0.1:8000/'
 
-ALLOWED_HOSTS = ['*']
-#ALLOWED_HOSTS = ['mat-cakecity.herokuapp.com', 'localhost']
+#ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['mat-cakecity.herokuapp.com', 'localhost']
 
 
 # Application definition
@@ -107,10 +106,7 @@ if 'DATABASE_URL' in os.environ:
     }
 else:
     DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
+        'default': dj_database_url.parse('postgres://blxgjqeebvgjzk:84d0a744915c9c825b3a8f61a2c516f2d74f25290d8c69652f0109287c1ba324@ec2-18-203-62-227.eu-west-1.compute.amazonaws.com:5432/d57vufq2gk58ah')
     }
 
 # DATABASES = {
@@ -216,22 +212,22 @@ if 'USE_AWS' in os.environ:
     # Ovverride staic and media urls in production
     STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{STATICFILES_LOCATION}/'
     MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{MEDIAFILES_LOCATION}/'
-else:
-    STATIC_URL = '/static/'
-    STATIC_ROOT = (os.path.join(BASE_DIR, 'static'),)
-    STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
+# else:
+#     STATIC_URL = '/static/'
+#     STATIC_ROOT = (os.path.join(BASE_DIR, 'static'),)
+#     STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
+#
+#     MEDIA_URL = '/media/'
+#     MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+#     MEDIAFILES_DIRS = (os.path.join(BASE_DIR, 'media'),)
 
-    MEDIA_URL = '/media/'
-    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-    MEDIAFILES_DIRS = (os.path.join(BASE_DIR, 'media'),)
 
 
-
-STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
-STATICFILES_FINDERS = [
-    "django.contrib.staticfiles.finders.FileSystemFinder",
-    "django.contrib.staticfiles.finders.AppDirectoriesFinder",
-]
-django_heroku.settings(locals(), staticfiles=False)
+# STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
+# STATICFILES_FINDERS = [
+#     "django.contrib.staticfiles.finders.FileSystemFinder",
+#     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
+# ]
+#django_heroku.settings(locals(), staticfiles=False)
 # heroku config:set DEBUG_COLLECTSTATIC=1
 # heroku config:set DISABLE_COLLECTSTATIC=1
