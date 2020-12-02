@@ -214,7 +214,11 @@ if 'USE_AWS' in os.environ:
     MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{MEDIAFILES_LOCATION}/'
 
 
-
+# STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
+# STATICFILES_FINDERS = [
+#     "django.contrib.staticfiles.finders.FileSystemFinder",
+#     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
+# ]
 
 # STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 # STATICFILES_FINDERS = [
