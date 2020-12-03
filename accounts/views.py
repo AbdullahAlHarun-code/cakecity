@@ -53,7 +53,7 @@ def registerPage(request):
             email = form.cleaned_data.get('email')
             #create new customer
             Customer.objects.create(user=user, email=email)
-            messages.success(request, f'Account was created for {username}!')
+            messages.success(request, f'Account was created for {username}. Please activate your account!!')
             return redirect('login')
         else:
             messages.error(request, form.errors)

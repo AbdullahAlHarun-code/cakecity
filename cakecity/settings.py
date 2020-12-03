@@ -157,15 +157,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
-STATIC_URL = '/static/'
-STATIC_ROOT = (os.path.join(BASE_DIR, 'static'),)
-#STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
-# set session timeout
-#SESSION_COOKIE_AGE = 120
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = (os.path.join(BASE_DIR, 'media'),)
-#MEDIAFILES_DIRS = (os.path.join(BASE_DIR, 'media'),)
 
 # Stripe key SetUP
 STRIPE_PUBLIC_KEY = os.environ.get('STRIPE_PUBLIC_KEY')
@@ -213,6 +205,16 @@ if 'USE_AWS' in os.environ:
     # Ovverride staic and media urls in production
     STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{STATICFILES_LOCATION}/'
     MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{MEDIAFILES_LOCATION}/'
+else:
+    STATIC_URL = '/static/'
+    STATIC_ROOT = (os.path.join(BASE_DIR, 'static'),)
+    #STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
+    # set session timeout
+    #SESSION_COOKIE_AGE = 120
+
+    MEDIA_URL = '/media/'
+    MEDIA_ROOT = (os.path.join(BASE_DIR, 'media'),)
+    #MEDIAFILES_DIRS = (os.path.join(BASE_DIR, 'media'),)
 
     #STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
