@@ -2,8 +2,8 @@
 {% block page_content %}
 {% load static %}
 <div class="container">
-  <div class="row m-5">
-    <div class="col-6 m-auto bg-light p-5">
+  <div class="row m-1">
+    <div class="col-sm-6 m-auto bg-light p-5">
       <p class="h2 text-center mb-4 ">Login</p>
       <form action="{% url 'login'%}" method="post">
         {% csrf_token %}
