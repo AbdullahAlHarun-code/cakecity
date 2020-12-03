@@ -1,10 +1,10 @@
 # CakeCity
 
-CakeCity cake shop is a python base framework Django application, creates storefront online cake shop for customers to for variety cakes and flavours for all categories cakes. The entire application can be created with a bootstrap template.
-You can browse and search for cakes by category or individual search . The main goal of the project is to simplify it for who store variety cake shop information. Get started with building your own below!  
+CakeCity cake shop is a python based framework Django application, creates storefront online cake shop for customers to for variety cakes and flavours for all categories cakes. The entire application can be created with a bootstrap template.
+You can browse and search for cakes by category or individual search . The main goal of the project is to simplify it for who store various cake shop information. Get started with building your own below!  
 
 # Demo
-A live demo version can be found
+A live demo version can be found [here](https://mat-cakecity.herokuapp.com/)
 
 
 ## UX
@@ -57,7 +57,7 @@ This project is developed by,
 - Bootstrap-4
 - jQuery, JavaScript
 
-**Note:** The main database system is Postgres. If you want to clone and use the project, then after cloning you have to create config.py and setting your MONGODB_SETTINGS and SECRET_KEY within your Config class. Otherwise this application will not work properly.
+**Note:** The main database system is Postgres. If you want to clone and use the project, then after cloning you have to create config.py and setting your Postgres and SECRET_KEY within your Config class. Otherwise this application will not work properly.
 
 ## Testing:
 This site was tested across multiple screen sizes on Chrome, Safari, and Internet Explorer. To ensure compatibility and responsiveness it is also tested on an android based mobile device (OnePlus5). A large amount of testing was done to ensure that all pages were linking correctly and user registration and uploading book work perfectly.
