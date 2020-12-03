@@ -21,12 +21,22 @@ def loginPage(request):
         password = request.POST.get('password')
         user = authenticate(request, username=username, password=password)
 
+
         if user is not None:
             login(request, user)
             return redirect('profile')
         else:
-            messages.error(request, 'Username or password is incorrect!')
-            return redirect('login')
+            try:
+                user_object = User.objects.get(username=username)
+                if user_object:
+                    if user_object.is_active == False:
+                        print('user: ', user_object.is_active)
+                        messages.error(request, 'Please activate your account!')
+                        return redirect('login')
+            except:
+                messages.error(request, 'Username or password is incorrect!')
+                return redirect('login')
+
     context = {
         'title':'Login',
     }
