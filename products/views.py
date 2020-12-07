@@ -221,11 +221,25 @@ class Options:
     def is_active_addToCart(self):
         if len(self.cake_flavour_id) > 0:
             if len(self.cake_size_name_array) == len(self.cake_flavour_id):
+                self.is_tier_flavour_select = True
+                print('Error Message: ',self.is_tier_flavour_select)
                 return ''
             else:
                 return 'disabled'
         else:
             return 'disabled'
+
+    def is_tier_flavour_select(self):
+        if len(self.cake_flavour_id) > 0:
+            if len(self.cake_size_name_array) == len(self.cake_flavour_id):
+                return True
+            else:
+                return False
+        else:
+            if self.cake_size_id == 0:
+                return True
+            else:
+                return False
 
 # this is single product view
 def single_product(request, slug):
@@ -260,4 +274,5 @@ def single_product(request, slug):
         'star_loop':range(1,6),
         'options':options,
     }
+
     return render(request, 'products/single.html',context)

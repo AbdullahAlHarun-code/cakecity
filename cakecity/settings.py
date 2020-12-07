@@ -207,30 +207,8 @@ if 'USE_AWS' in os.environ:
     MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{MEDIAFILES_LOCATION}/'
 else:
     STATIC_URL = '/static/'
-    STATIC_ROOT = (os.path.join(BASE_DIR, 'static'),)
-    #STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
-    # set session timeout
-    #SESSION_COOKIE_AGE = 120
+    STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+    STATIC_ROOT = os.path.join(BASE_DIR, '')
 
     MEDIA_URL = '/media/'
-    MEDIA_ROOT = (os.path.join(BASE_DIR, 'media'),)
-    #MEDIAFILES_DIRS = (os.path.join(BASE_DIR, 'media'),)
-
-    #STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
-# STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
-# STATICFILES_FINDERS = [
-#     "django.contrib.staticfiles.finders.FileSystemFinder",
-#     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
-# ]
-
-# STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
-# STATICFILES_FINDERS = [
-#     "django.contrib.staticfiles.finders.FileSystemFinder",
-#     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
-# ]
-#django_heroku.settings(locals(), staticfiles=False)
-# heroku config:set DEBUG_COLLECTSTATIC=1
-# heroku config:set DISABLE_COLLECTSTATIC=1
-#heroku run python manage.py collectstatic --dry-run --noinput
-#python manage.py collectstatic
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

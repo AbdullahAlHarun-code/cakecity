@@ -4,7 +4,6 @@ from django.contrib import messages
 #from django.db.models import Q
 from products.models import Product, ProductImage, Variation, Category, FlavourCategory, Flavour, CakeSizeCategory
 from django.contrib.auth.decorators import login_required
-
 # This all_category carry the whole products category objects
 all_category = Category.objects.all()
 

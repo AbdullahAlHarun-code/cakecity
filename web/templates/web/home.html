@@ -55,43 +55,59 @@
    </div>
 </section>
 <section class="container">
-   <div class="row p-2">
-      <div class="card col-12 col-sm-4 col-md-4 col-lg-4 m-auto" style="width:31%;margin-bottom:20px !important;">
-         <img class="card-img-top" src="{% static 'images/category/novelty-cakes.jpg'%}" alt="Card image">
-         <div class="card-img-overlay">
-            <h4 style="background-color: rgba(255, 250, 250, 0.4);" class="card-title text-monospace p-2">Novelty Cakes</h4>
-            <a href="{% url 'all_cakes'%}?category=novelty-cakes" class="btn btn-info">See All</a>
-         </div>
-      </div>
-      <div class="card col-12 col-sm-4 col-md-4 col-lg-4 m-auto" style="width:31%;margin-bottom:20px !important;">
-         <img class="card-img-top" src="{% static 'images/category/wedding-cakes.jpg'%}" alt="Card image">
-         <div class="card-img-overlay">
-            <h4 style="background-color: rgba(255, 250, 250, 0.4);" class="card-title text-monospace p-2">Wedding Cakes</h4>
-            <a href="{% url 'all_cakes'%}?category=wedding-cakes" class="btn btn-info">See All</a>
-         </div>
-      </div>
-      <div class="card col-12 col-sm-4 col-md-4 col-lg-4 m-auto" style="width:31%;margin-bottom:20px !important;">
-         <img class="card-img-top" src="{% static 'images/category/corporate-cakes.jpg'%}" alt="Card image">
-         <div class="card-img-overlay">
-            <h4 style="background-color: rgba(255, 250, 250, 0.4);" class="card-title text-monospace p-2">Corporate Cakes</h4>
-            <a href="{% url 'all_cakes'%}?category=corporate-cakes" class="btn btn-info">See All</a>
-         </div>
-      </div>
+   <div class="row p-2 card-group clearfix m-auto">
+     <div class="card col-12 col-sm-4 mr-md-2 p-1 float-left">
+        <div class="card-body text-center">
+          <div class="image-center" style="">
+            <a class="text-decoration-none" href="{% url 'all_cakes'%}?category=novelty-cakes">
+              <img style="height:100%" class="card-img-top" src="{% static 'images/category/novelty-cakes.jpg'%}" alt="Card image">
+             </a>
+          </div>
+
+           <a href="{% url 'all_cakes'%}?category=novelty-cakes" class="text-color card-text text-info text-decoration-none d-block mt-2">Novelty Cakes</a>
+        </div>
+     </div>
+     <div class="card col-12 col-sm-4 mr-md-2 p-1 float-left">
+        <div class="card-body text-center">
+          <div class="image-center" style="">
+            <a class="text-decoration-none" href="{% url 'all_cakes'%}?category=wedding-cakes">
+              <img style="height:100%" class="card-img-top" src="{% static 'images/category/wedding-cakes.jpg'%}" alt="Card image">
+             </a>
+          </div>
+
+           <a href="{% url 'all_cakes'%}?category=wedding-cakes" class="text-color card-text text-info text-decoration-none d-block mt-2">Wedding Cakes</a>
+        </div>
+     </div>
+     <div class="card col-12 col-sm-4 mr-md-2 p-1 float-left">
+        <div class="card-body text-center">
+          <div class="image-center" style="">
+            <a class="text-decoration-none" href="{% url 'all_cakes'%}?category=corporate-cakes">
+              <img style="height:100%" class="card-img-top" src="{% static 'images/category/corporate-cakes.jpg'%}" alt="Card image">
+             </a>
+          </div>
+
+           <a href="{% url 'all_cakes'%}?category=corporate-cakes" class="text-color card-text text-info text-decoration-none d-block mt-2">Corporate Cakes</a>
+        </div>
+     </div>
+
+
    </div>
 </section>
 <section class="container mb-3">
    <div class="row p-2">
-      <h1 class="display-4 m-auto">Featured Cakes</h1>
+      <h1 class="display-4 m-auto text-center">Featured Cakes</h1>
    </div>
    <div class="card-group clearfix m-auto">
       {% for cake in featured_cakes|slice:":4" %}
       <div class="card col-12 col-sm-12 col-md-3 mr-md-2 p-1 float-left">
          <div class="card-body text-center">
            <div class="image-center" style="height:250px;overflow:hidden">
-             <img style="height:100%" class="card-img-top" src="{{MEDIA_URL}}{{ cake.productimage_set.all.first.image }}" alt="Card image">
+             <a class="text-decoration-none" href="{{cake.slug}}">
+               <img style="height:100%" class="card-img-top" src="{{MEDIA_URL}}{{ cake.productimage_set.all.first.image }}" alt="Card image">
+              </a>
            </div>
 
-            <a href="{{cake.slug}}" class="card-text">{{cake.title}}</a>
+            <a href="{{cake.get_absolute_url}}" class="card-text text-info text-decoration-none d-block mt-2 text-reset text-color">{{cake.title}}</a>
          </div>
       </div>
       {% endfor %}

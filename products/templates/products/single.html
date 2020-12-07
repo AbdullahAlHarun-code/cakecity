@@ -23,7 +23,7 @@
             {% endif %}
             {% endfor %}
          </p>
-         <p class="btn btn-info">Price: {{ single_product.get_price_range }}</p>
+         <p class="product-price">Price: {{ single_product.get_price_range }}</p>
 
          <form id="add_item_form" class="" action="" method="post">
             {% csrf_token %}
@@ -36,6 +36,11 @@
                <option {% ifequal options.cake_size_id variation.id %} selected {% endifequal %} value="{{variation.id}}">{{variation.size}}</option>
                {% endfor %}
                </select>
+               {% if options.cake_size_id == 0 %}
+                 <div class="alert text-danger p-0" role="alert">
+                  *Please select your cake size.
+                 </div>
+               {% endif %}
             </div>
             <hr>
             <div class="select-price text-danger h2">
@@ -67,13 +72,17 @@
 
               {% endif %}
               <!-- end new flavour-->
-
+              {% if options.is_tier_flavour_select == False %}
+                <div class="alert text-danger" role="alert">
+                 *Please select your all tier flavour.
+                </div>
+              {% endif %}
             </div>
             {% if options.cake_size_id > 0 %}
             <hr>
             <div class="form-group col-sm-4">
                <label for="quantity">Quantity</label>{{options.quantity}}
-               <input type="number" name="item_quantity" value="{{options.quantity|add:0}}" min="1" data-single='{{options.only_single_cake_price_flavour}}' data-total='{{options.final_total}}' class="form-control quantity" id="quantity">
+               <input type="number" id="item_quantity" name="item_quantity" value="{{options.quantity|add:0}}" min="1" data-single='{{options.only_single_cake_price_flavour}}' data-total='{{options.final_total}}' class="form-control quantity" id="quantity">
                <small id="emailHelp" class="form-text text-muted">Please Enter Your quantity.</small>
             </div>
             {% endif %}

@@ -17,7 +17,7 @@
       <hr class="w-100">
       <div class="col-12">
         <form class="" action="{% url 'all_cakes'%}" method="GET">
-        <div class="form-group float-left">
+        <div class="form-group float-none float-sm-left cake-filter">
               <select class="form-control" name="category" onchange="this.form.submit()">
                  <option {% if active_category == 'all-cakes' %} selected{% endif %} value="all-cakes">All Cakes</option>
                  {% for category in all_category%}
@@ -26,7 +26,7 @@
               </select>
         </div>
 
-         <div class="form-group float-right">
+         <div class="form-group float-none float-sm-right sort-filter">
                <select class="form-control" name="order_by" onchange="this.form.submit()">
                   <option {% if order_by_active == 'date' %} selected{% endif %} value="date">Default sorting</option>
                   <option {% if order_by_active == 'title' %} selected{% endif %} value="title">Sort by: name</option>
@@ -41,14 +41,14 @@
       <div class="row col-12 mb-2 pt-4">
          {% if products%}
          {% for product in products%}
-         <div style="position:relative;min-height:395px;" class="card col-sm-3 mb-1 pb-2">
+         <div style="" class="card col-sm-6 col-md-4 col-lg-3 mb-1 pb-2 product-view">
            <div style="overflow:hidden">
-             <img style="height:220px;position:relative;" src="{{MEDIA_URL}}{{ product.productimage_set.all.first.image }}" class="card-img-top" alt="...">
+             <a href="{{ product.get_absolute_url}}"><img class="product-image mt-3" src="{{MEDIA_URL}}{{ product.productimage_set.all.first.image }}" class="card-img-top" alt="..."></a>
            </div>
 
             <div class="card-body pl-0">
-               <h6 class="h6 card-title pb-0 mb-0">{{ product.title|capfirst }}</h6>
-               <div style="position:absolute;bottom:10px" >
+               <h6 class="h6 card-title pb-0 mb-0"><a href="{{ product.get_absolute_url}}" class="product-title">{{ product.title|capfirst }}</a></h6>
+               <div class="product-price-position" >
                  <p class="h6 p-0 m-0">
                     {% for count in star_loop%}
                     {% if count <= product.rating %}

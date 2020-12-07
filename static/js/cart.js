@@ -19,6 +19,20 @@ $(".update-cart").click(function () {
 	}
 });
 
+// change quantity function
+check_quantity();
+$('#item_quantity').keyup(function(){
+	check_quantity();
+  });
+
+function check_quantity(){
+	quantity = $('#item_quantity').val();
+	if (quantity>0){
+		$('#add_to_cart').removeAttr('disabled');
+	}else{
+		$('#add_to_cart').attr('disabled','disabled');
+	}
+}
 
 
 // for (i=0; i < updateBtns.length; i++){

@@ -54,7 +54,7 @@
       <!-- start main-container-->
       <div class="container-fluid main-container">
 
-         <div class="row main-nav">
+         <div class="row main-nav fixed-top w-100">
             <div class="container">
                <div class="row text-center">
                   <nav class="navbar navbar-expand-lg navbar-light w-100 m-auto">
@@ -67,7 +67,7 @@
                         </button>
 
                      </div>
-                     <div style="flex-grow:inherit" class="collapse navbar-collapse row" id="navbarNav">
+                     <div style="flex-grow:inherit" class="mobile-nav collapse navbar-collapse row" id="navbarNav">
                         <ul class="navbar-nav nav-ul float-right">
                            <li class="nav-item">
                               <a class="nav-link text-uppercase" href="{% url 'home'%}">HOME</a>
@@ -112,39 +112,12 @@
             </div>
          </div>
          <!-- end main-nav -->
-         {% block page_content%}
-         {% endblock %}
-         <section class="row footer-nav bg-light">
-            <div class="container">
-               <div class="row">
-                  <nav class="navbar navbar-expand-lg navbar-light bg-light m-md-auto p-xs-5">
-                     <ul class="navbar-nav nav-ul">
-                        <li class="nav-item">
-                           <a class="nav-link" href="#">About</a>
-                        </li>
-                        <li class="nav-item">
-                           <a class="nav-link" href="#">Faq</a>
-                        </li>
-                        <li class="nav-item">
-                           <a class="nav-link" href="#">Contact</a>
-                        </li>
-                        <li class="nav-item">
-                           <a class="nav-link" href="#">Delivery Service</a>
-                        </li>
-                        <li class="nav-item">
-                           <a class="nav-link" href="#">Privavy Policy</a>
-                        </li>
-                        <li class="nav-item">
-                           <a class="nav-link" href="#">Terms & Conditions</a>
-                        </li>
-                        <li class="nav-item">
-                           <a class="nav-link" href="#">Sitemap</a>
-                        </li>
-                     </ul>
-                  </nav>
-               </div>
-            </div>
-         </section>
+         <div class="main-content-box">
+           {% block page_content%}
+           {% endblock %}
+         </div>
+
+
          <footer>
             <div class="container">
                <div class="row p-sm-5">

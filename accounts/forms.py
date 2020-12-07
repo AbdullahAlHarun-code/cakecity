@@ -48,6 +48,8 @@ class BillingAddressForm(ModelForm):
                 self.fields[field].widget.attrs['placeholder'] = placeholders[field]
             self.fields[field].widget.attrs['class'] = 'form-control'
             self.fields[field].label = False
+#git config --global user.email "you@example.com"
+  #git config --global user.name "Your Name"
 class ShippingAddressForm(ModelForm):
     class Meta:
         model = ShippingAddress
