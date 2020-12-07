@@ -24,6 +24,10 @@ check_quantity();
 $('#item_quantity').keyup(function(){
 	check_quantity();
   });
+$('.update_quantity').keyup(function(){
+	//alert($(this).val())
+	checkQuantity($(this).attr('input_data_id'));
+  });
 
 function check_quantity(){
 	quantity = $('#item_quantity').val();
@@ -31,6 +35,16 @@ function check_quantity(){
 		$('#add_to_cart').removeAttr('disabled');
 	}else{
 		$('#add_to_cart').attr('disabled','disabled');
+	}
+}
+function checkQuantity(id){
+	quantity_id = '#item_'+id;
+	update_id = '#update_item_'+id;
+	quantity = $(quantity_id).val();
+	if (quantity>0){
+		$(update_id).removeAttr('disabled');
+	}else{
+		$(update_id).attr('disabled','disabled');
 	}
 }
 

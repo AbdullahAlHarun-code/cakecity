@@ -7,7 +7,7 @@
       <div class="col-12">
          <h2>My Cart</h2>
       </div>
-      <div class="row col-12">
+      <div class="col-12">
          <div class="col-12 table-responsive">
             <table class="table">
                <thead>
@@ -38,8 +38,8 @@
                            {% endfor %}
                         </td>
                         <td>
-                           <input type="number" class="form-control w-50 d-inline pt-1" name="update_quantity" value="{{item.quantity|add:0}}" min="1">
-                           <input type="submit" class="btn btn-md btn-info" name="" value="Update">
+                           <input input_data_id={{ forloop.counter }} type="number" onchange="checkQuantity({{ forloop.counter }})" id="item_{{forloop.counter}}" class="form-control w-50 d-inline pt-1 update_quantity" name="update_quantity" value="{{item.quantity|add:0}}" min="1">
+                           <input type="submit" class="btn btn-md btn-info" id="update_item_{{forloop.counter}}" name="" value="Update">
                         </td>
                         <td>
                            (€{{item.product_price}}
@@ -60,29 +60,33 @@
          </div>
          <div class="col-12 bg-light">
             <div class="row p-2">
-               <table class="table bg-light text-right">
-                  <tbody>
-                     <tr class="">
-                        <td scope="col">Subtotal:</td>
-                        <td scope="col"><strong>€{{sub_total}}</strong></td>
-                     </tr>
-                     <tr class="">
-                        <td scope="col">Shipping Price:</td>
-                        <td scope="col"><strong>€{{shipping_charge}}</strong></td>
-                     </tr>
-                     <tr  class="text-danger h4">
-                        <td scope="col"><input class="form-control w-50 d-inline" id="" type="text" name="" value="">
-                        <button type="submit" class="btn btn-md btn-info" name="button">Add Coupon</button></td>
-                        <td scope="col"><strong>Total: €{{grand_total}}</strong></td>
-                     </tr>
-                     <tr  class="">
-                        <th>
+              <div class="row w-100 p-0">
+                <div class="col-9 text-right p-0">
+                    <strong>Subtotal:</strong>
+                </div>
+                <div class="col-3 p-0 pl-2">
+                  <strong class="text-danger">€{{sub_total}}</strong>
+                </div>
+              </div>
+              <div class="row w-100 p-0">
+                <div class="col-9 text-right p-0">
+                    <strong>Shipping Price:</strong>
+                </div>
+                <div class="col-3 p-0 pl-2">
+                  <strong class="text-danger">€{{shipping_charge}}</strong>
+                </div>
+              </div>
+              <div class="row w-100 p-0">
+                <div class="col-9 text-right p-0">
+                    <strong class="h5">Total:</strong>
+                </div>
+                <div class="col-3 p-0 pl-2">
+                  <strong class="h5 text-danger">€{{grand_total}}</strong>
+                </div>
+              </div>
 
-                        </th>
-                        <th></th>
-                     </tr>
-                  </tbody>
-               </table>
+
+
                <hr class="col">
                <a href="{% url 'checkout'%}" class="btn btn-lg btn-warning col-12 mb-3" name="button">Secure Checkout <i class="fas fa-lock"></i></i></a>
                <a href="{% url 'all_cakes'%}" class="btn btn-lg btn-info col-12"><i class="fas fa-chevron-left"></i> Continue Shopping</a>
