@@ -227,6 +227,7 @@ class Options:
             else:
                 return 'disabled'
         else:
+            print('no')
             return 'disabled'
 
     def is_tier_flavour_select(self):

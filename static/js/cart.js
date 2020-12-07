@@ -31,7 +31,8 @@ $('.update_quantity').keyup(function(){
 
 function check_quantity(){
 	quantity = $('#item_quantity').val();
-	if (quantity>0){
+	flavour_check = $('#is_tier_flavour_select').val()
+	if (quantity>0 && flavour_check == 'True'){
 		$('#add_to_cart').removeAttr('disabled');
 	}else{
 		$('#add_to_cart').attr('disabled','disabled');
