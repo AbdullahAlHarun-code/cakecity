@@ -56,37 +56,33 @@
                   {% endfor %}
                </tbody>
             </table>
-
          </div>
          <div class="col-12 bg-light">
             <div class="row p-2">
-              <div class="row w-100 p-0">
-                <div class="col-9 text-right p-0">
-                    <strong>Subtotal:</strong>
-                </div>
-                <div class="col-3 p-0 pl-2">
-                  <strong class="text-danger">€{{sub_total}}</strong>
-                </div>
-              </div>
-              <div class="row w-100 p-0">
-                <div class="col-9 text-right p-0">
-                    <strong>Shipping Price:</strong>
-                </div>
-                <div class="col-3 p-0 pl-2">
-                  <strong class="text-danger">€{{shipping_charge}}</strong>
-                </div>
-              </div>
-              <div class="row w-100 p-0">
-                <div class="col-9 text-right p-0">
-                    <strong class="h5">Total:</strong>
-                </div>
-                <div class="col-3 p-0 pl-2">
-                  <strong class="h5 text-danger">€{{grand_total}}</strong>
-                </div>
-              </div>
-
-
-
+               <div class="row w-100 p-0">
+                  <div class="col-9 text-right p-0">
+                     <strong>Subtotal:</strong>
+                  </div>
+                  <div class="col-3 p-0 pl-2">
+                     <strong class="text-danger">€{{sub_total}}</strong>
+                  </div>
+               </div>
+               <div class="row w-100 p-0">
+                  <div class="col-9 text-right p-0">
+                     <strong>Shipping Price:</strong>
+                  </div>
+                  <div class="col-3 p-0 pl-2">
+                     <strong class="text-danger">€{{shipping_charge}}</strong>
+                  </div>
+               </div>
+               <div class="row w-100 p-0">
+                  <div class="col-9 text-right p-0">
+                     <strong class="h5">Total:</strong>
+                  </div>
+                  <div class="col-3 p-0 pl-2">
+                     <strong class="h5 text-danger">€{{grand_total}}</strong>
+                  </div>
+               </div>
                <hr class="col">
                <a href="{% url 'checkout'%}" class="btn btn-lg btn-warning col-12 mb-3" name="button">Secure Checkout <i class="fas fa-lock"></i></i></a>
                <a href="{% url 'all_cakes'%}" class="btn btn-lg btn-info col-12"><i class="fas fa-chevron-left"></i> Continue Shopping</a>

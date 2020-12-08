@@ -12,15 +12,15 @@ from .forms import  BillingAddressForm, ShippingAddressForm
 from django.contrib.auth import update_session_auth_hash
 from .order_process import *
 from cart.contexts import *
-# Create your views here.
+
+# root for login page
+
 @unauthenticated_user
 def loginPage(request):
-
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
         user = authenticate(request, username=username, password=password)
-
 
         if user is not None:
             login(request, user)
@@ -30,7 +30,6 @@ def loginPage(request):
                 user_object = User.objects.get(username=username)
                 if user_object:
                     if user_object.is_active == False:
-                        print('user: ', user_object.is_active)
                         messages.error(request, 'Please activate your account!')
                         return redirect('login')
             except:
@@ -41,6 +40,8 @@ def loginPage(request):
         'title':'Login',
     }
     return render(request, 'accounts/login.html',context)
+
+# root for register page
 
 @unauthenticated_user
 def registerPage(request):
@@ -63,9 +64,13 @@ def registerPage(request):
     }
     return render(request, 'accounts/register.html',context)
 
+# root for user logout
+
 def logoutUser(request):
     logout(request)
     return redirect('login')
+
+#  root for user profile page
 
 @login_required(login_url='login')
 def profile(request):
@@ -79,17 +84,16 @@ def profile(request):
     }
     return render(request, 'accounts/profile.html',context)
 
+# root for user edit profile details
+
 @login_required(login_url='login')
 def edit_profile(request):
     customer = Customer.objects.all().filter(user=request.user).first()
     form = CustomerForm(instance = customer)
-
     if request.method == 'POST':
         f = CustomerForm(request.POST, instance=customer)
-
         if f.is_valid:
             new = f.save()
-            print(new)
             username = request.user
             messages.success(request, f'Account Information was saved for {username}!')
             return redirect('profile')
@@ -103,6 +107,7 @@ def edit_profile(request):
     }
     return render(request, 'accounts/edit-profile.html',context)
 
+# root for user all orders
 
 @login_required(login_url='login')
 def order_history(request):
@@ -113,6 +118,20 @@ def order_history(request):
         'active':'order-history'
     }
     return render(request, 'accounts/orders.html',context)
+
+# root for user single order details
+
+@login_required(login_url='login')
+def order(request,order_id):
+    order = get_order(order_id)
+    context = {
+        'title':f'Order Details for {order_id}',
+        'order':order,
+        'active':'none'
+    }
+    return render(request, 'accounts/single_order.html',context)
+
+# root for user billing and shipping address details and edit
 
 @login_required(login_url='login')
 def address(request):
@@ -202,6 +221,7 @@ def address(request):
     }
     return render(request, 'accounts/address.html',context)
 
+# root user change password
 
 @login_required(login_url='login')
 def change_password(request):
@@ -209,15 +229,12 @@ def change_password(request):
     if request.method == 'POST':
         form = CustomerChangePassword(data=request.POST, user=request.user)
         if form.is_valid():
-            print('yes')
             form.save()
             update_session_auth_hash(request, form.user)
             return redirect('profile')
         else:
-            print('no')
             return redirect('change_password')
     else:
-        print('not submit')
         form = CustomerChangePassword(user=request.user)
 
     context = {

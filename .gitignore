@@ -1,3 +1,4 @@
 *.sqlite3
 *.backup
+*.localhost_settings
 __pycache__/

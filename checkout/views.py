@@ -20,18 +20,24 @@ import stripe
 
 def checkout(request):
     is_login = request.user.is_authenticated
+    if is_login == False:
+        return redirect('register')
     edit_action = False
     cart_content_list = cart_contents(request)
+    order_form = OrderForm()
     if not cart_content_list['cart_items']:
         return redirect('cart')
     if request.method == 'POST':
         if 'edit' not in request.GET:
             # initial orderForm post data
-            form_data = {
-                'full_name':request.POST['full_name'],
-                'email':request.POST['email'],
-                'phone_number':request.POST['phone_number'],
-            }
+            if 'login' not in request.POST:
+                form_data = {
+                    'full_name':request.POST['full_name'],
+                    'email':request.POST['email'],
+                    'phone_number':request.POST['phone_number'],
+                }
+            else:
+                form_data = None
             order_form = OrderForm(form_data)
             # check choose save_info in profile
             try:
@@ -158,6 +164,14 @@ def checkout(request):
             edit_action = True
         # if not post and login
         if is_login:
+            #initial order form
+            customer = Customer.objects.get(user=request.user)
+            order_form_data = {
+                'full_name':customer.name,
+                'email':customer.email,
+                'phone_number':customer.phone,
+            }
+            order_form = OrderForm(initial=order_form_data)
             # get user shipping address
             try:
                 shipping_address = ShippingAddress.objects.all().filter(user=request.user).first()
@@ -177,7 +191,7 @@ def checkout(request):
     stripe_secret_key = settings.STRIPE_SECRET_KEY
     stripe_total = round(cart_content_list['grand_total'] * 100)
     stripe.api_key = stripe_secret_key
-    # create stripe payment
+    # create stripe payment token
     intent = stripe.PaymentIntent.create(
         amount = stripe_total,
         currency = settings.STRIPE_CURRENCY,
@@ -193,7 +207,7 @@ def checkout(request):
         'shipping_address_form':shipping_address_form,
         'shipping_address':shipping_address,
         'edit_action':edit_action,
-        'OrderForm':OrderForm(),
+        'OrderForm':order_form,
         'stripe_public_key':stripe_public_key,
         'client_secret':intent.client_secret,
     }
@@ -265,8 +279,6 @@ def success(request):
             del request.session['cart']
     except:
         return redirect('checkout')
-    #request.session['order_id'] = 'DA9CE76CE6814356A6456CA16B4D4563'
-    #print('Order Id: ',request.session['order_id'])
 
     context = {
         'title':'Thanks for your shopping!',

@@ -10,7 +10,6 @@ def view_cart(request):
     context = {
         'title':'My Cart',
     }
-    #request.session['cart']=[]
     return render(request, 'cart/cart.html',context)
 # this is for single product variations
 class CakeSizeVariation():
@@ -22,7 +21,6 @@ class CakeSizeVariation():
         cake_size = self.object.size.split('/')
 
         if len(cake_size)>0:
-            print('cake size: ', cake_size)
             return self.tier_multiple_flavour_id
 
 # this is for add to cart item funtiontionality
@@ -70,7 +68,7 @@ def add_to_cart(request, item_id):
             cart.append(item)
             messages.success(request, f'Added {single_product.title} to your cart')
 
-    print('cart new: ', cart)
+
     request.session['cart'] = cart
     return redirect('cart')
 

@@ -56,41 +56,36 @@
 </section>
 <section class="container">
    <div class="row p-2 card-group clearfix m-auto">
-     <div class="card col-12 col-sm-4 mr-md-2 p-1 float-left">
-        <div class="card-body text-center">
-          <div class="image-center" style="">
-            <a class="text-decoration-none" href="{% url 'all_cakes'%}?category=novelty-cakes">
-              <img style="height:100%" class="card-img-top" src="{% static 'images/category/novelty-cakes.jpg'%}" alt="Card image">
-             </a>
-          </div>
-
-           <a href="{% url 'all_cakes'%}?category=novelty-cakes" class="card-text text-info text-decoration-none d-block mt-2 text-reset text-color">Novelty Cakes</a>
-        </div>
-     </div>
-     <div class="card col-12 col-sm-4 mr-md-2 p-1 float-left">
-        <div class="card-body text-center">
-          <div class="image-center" style="">
-            <a class="text-decoration-none" href="{% url 'all_cakes'%}?category=wedding-cakes">
-              <img style="height:100%" class="card-img-top" src="{% static 'images/category/wedding-cakes.jpg'%}" alt="Card image">
-             </a>
-          </div>
-
-           <a href="{% url 'all_cakes'%}?category=wedding-cakes" class="card-text text-info text-decoration-none d-block mt-2 text-reset text-color">Wedding Cakes</a>
-        </div>
-     </div>
-     <div class="card col-12 col-sm-4 mr-md-2 p-1 float-left">
-        <div class="card-body text-center">
-          <div class="image-center" style="">
-            <a class="text-decoration-none" href="{% url 'all_cakes'%}?category=corporate-cakes">
-              <img style="height:100%" class="card-img-top" src="{% static 'images/category/corporate-cakes.jpg'%}" alt="Card image">
-             </a>
-          </div>
-
-           <a href="{% url 'all_cakes'%}?category=corporate-cakes" class="card-text text-info text-decoration-none d-block mt-2 text-reset text-color">Corporate Cakes</a>
-        </div>
-     </div>
-
-
+      <div class="card col-12 col-sm-4 mr-md-2 p-1 float-left">
+         <div class="card-body text-center">
+            <div class="image-center" style="">
+               <a class="text-decoration-none" href="{% url 'all_cakes'%}?category=novelty-cakes">
+               <img style="height:100%" class="card-img-top" src="{% static 'images/category/novelty-cakes.jpg'%}" alt="Card image">
+               </a>
+            </div>
+            <a href="{% url 'all_cakes'%}?category=novelty-cakes" class="card-text text-info text-decoration-none d-block mt-2 text-reset text-color">Novelty Cakes</a>
+         </div>
+      </div>
+      <div class="card col-12 col-sm-4 mr-md-2 p-1 float-left">
+         <div class="card-body text-center">
+            <div class="image-center" style="">
+               <a class="text-decoration-none" href="{% url 'all_cakes'%}?category=wedding-cakes">
+               <img style="height:100%" class="card-img-top" src="{% static 'images/category/wedding-cakes.jpg'%}" alt="Card image">
+               </a>
+            </div>
+            <a href="{% url 'all_cakes'%}?category=wedding-cakes" class="card-text text-info text-decoration-none d-block mt-2 text-reset text-color">Wedding Cakes</a>
+         </div>
+      </div>
+      <div class="card col-12 col-sm-4 mr-md-2 p-1 float-left">
+         <div class="card-body text-center">
+            <div class="image-center" style="">
+               <a class="text-decoration-none" href="{% url 'all_cakes'%}?category=corporate-cakes">
+               <img style="height:100%" class="card-img-top" src="{% static 'images/category/corporate-cakes.jpg'%}" alt="Card image">
+               </a>
+            </div>
+            <a href="{% url 'all_cakes'%}?category=corporate-cakes" class="card-text text-info text-decoration-none d-block mt-2 text-reset text-color">Corporate Cakes</a>
+         </div>
+      </div>
    </div>
 </section>
 <section class="container mb-3">
@@ -101,12 +96,11 @@
       {% for cake in featured_cakes|slice:":4" %}
       <div class="card col-12 col-sm-12 col-md-3 mr-md-2 p-1 float-left">
          <div class="card-body text-center">
-           <div class="image-center" style="height:250px;overflow:hidden">
-             <a class="text-decoration-none" href="{{cake.slug}}">
+            <div class="image-center" style="height:250px;overflow:hidden">
+               <a class="text-decoration-none" href="{{cake.slug}}">
                <img style="height:100%" class="card-img-top" src="{{MEDIA_URL}}{{ cake.productimage_set.all.first.image }}" alt="Card image">
-              </a>
-           </div>
-
+               </a>
+            </div>
             <a href="{{cake.get_absolute_url}}" class="card-text text-info text-decoration-none d-block mt-2 text-reset text-color">{{cake.title}}</a>
          </div>
       </div>

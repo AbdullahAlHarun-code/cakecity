@@ -5,12 +5,8 @@ from django import forms
 from products.models import Product, Flavour
 from django.db.models import Sum
 from django.conf import settings
-# Create your models here.
-STATUS_CHIOCES = (
-    ("Process",'Process'),
-    ("Shipment",'Shipment'),
-    ("Delivered",'Delivered'),
-)
+
+
 class Order(models.Model):
     order_id        = models.CharField(max_length=32, null=False, editable=False)
     username        = models.CharField(max_length=254, null=False, blank=False)

@@ -4,6 +4,7 @@ from django.shortcuts import render, get_object_or_404
 from products.models import Product, Category, ProductImage, Flavour, Variation, Flavour, FlavourCategory
 from checkout.models import Order, OrderItem, OrderItemVariation
 
+# order single item details
 
 class Item:
     product = None
@@ -14,6 +15,8 @@ class Item:
     quantity = 0
     total = 0
 
+# get all orders for single user
+
 def get_all_order(request):
     all_order_list = []
     all_orders = Order.objects.all().filter(username=request.user.username).order_by('-date')
@@ -21,9 +24,11 @@ def get_all_order(request):
         order = get_order(order.order_id)
         all_order_list.append(order)
     return all_order_list
+
+# get single order by order_id
+
 def get_order(order_id):
     order_items_array = []
-
     order = get_object_or_404(Order, order_id=order_id)
     order_items = OrderItem.objects.all().filter(order=order)
 
@@ -38,7 +43,6 @@ def get_order(order_id):
         single_item.unit_price = item.product_price
         item_variations = OrderItemVariation.objects.all().filter(order_item=item,order=order)
 
-        #product = Product.objects.get(id=items.product.id)
         for variation in item_variations:
             flavour = Flavour.objects.get(id=variation.flavour.id)
             order_items_flavour.append(flavour)

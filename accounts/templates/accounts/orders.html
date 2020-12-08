@@ -3,12 +3,10 @@
 {% load static %}
 <div class="container">
   <div class="row m-sm-5 bg-light pt-4 pb-4">
-    <div class="col-sm-3">
-      {% include 'accounts/account-nav.html'%}
-
-    </div>
+    <div class="col-sm-3">{% include 'accounts/account-nav.html'%}</div>
     <div class="col-sm-9">
-      <h3> {{title}}</h3><hr>
+      <h3>{{title}}</h3>
+      <hr />
       {% if orders %}
       <table class="table-responsive">
         <tbody>
@@ -18,41 +16,31 @@
             <th>Grand Total</th>
           </tr>
           {% for order in orders%}
-            <tr class="border-bottom border-primary">
-              <td><a href="#">{{order.order.order_id|truncatechars_html:10}}</a></td>
-              <td>
-                <ul class="list-group list-group-flush bg-transparent">
-
-                  {% for item in order.order_items%}
-                    <li class="mb-0 list-group-item bg-transparent">
-                      <img style="width:8%;height:1%;" class="" src="{{MEDIA_URL}}{{item.product_image}}" alt="">
-                      {{item.product}}
-                      (€{{item.total}})<br>
-                      {% for flavour in item.flavour%}
-                        <ol class="font-italic mb-0">{{flavour}}(€{{flavour.price}})</ol>
-                      {% endfor %}
-                    </li>
-                  {% endfor %}
-                  </ul>
-              </td>
-              <td class="text-right">€{{order.order.grand_total}}</td>
-            </tr>
+          <tr class="border-bottom border-primary">
+            <td>
+              <a href="{% url 'single_order' order_id=order.order.order_id%}"
+                >{{order.order.order_id|truncatechars_html:10}}</a>
+            </td>
+            <td>
+              <ul class="list-group list-group-flush bg-transparent">
+                {% for item in order.order_items%}
+                <li class="mb-0 list-group-item bg-transparent">
+                  {{item.product}}
+                </li>
+                {% endfor %}
+              </ul>
+            </td>
+            <td class="text-right">€{{order.order.grand_total}}</td>
+          </tr>
           {% endfor %}
-
         </tbody>
       </table>
 
       {% else %}
-        <p>No records found!</p>
+      <p>No records found!</p>
       {% endif %}
-
-
-
     </div>
-
-
   </div>
-
 </div>
 
 {% endblock %}

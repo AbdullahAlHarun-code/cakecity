@@ -17,22 +17,20 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-#from products import views as product_view_new
-urlpatterns = [
-    path('admin/', admin.site.urls),
-    #path('accounts/', include('allauth.urls')),
-    path('', include('web.urls')),
-    path('cakes/', include('products.urls')),
-    path('cart/', include('cart.urls')),
-    path('checkout/', include('checkout.urls')),
-    path('accounts/', include('accounts.urls')),
 
+# from products import views as product_view_new
+urlpatterns = [
+    path("admin/", admin.site.urls),
+    # path('accounts/', include('allauth.urls')),
+    path("", include("web.urls")),
+    path("cakes/", include("products.urls")),
+    path("cart/", include("cart.urls")),
+    path("checkout/", include("checkout.urls")),
+    path("accounts/", include("accounts.urls")),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) \
  + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
 # This is custom made 404 page
 # python manage.py runserver
 
-handler404 = 'web.views.error_404_view'
-# if settings.DEBUG:
-#     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-#     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+handler404 = "web.views.error_404_view"

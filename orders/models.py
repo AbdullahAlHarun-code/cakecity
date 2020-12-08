@@ -2,22 +2,8 @@ from django.db import models
 from products.models import Product, CakeCategory, Variation, Flavour
 #from .utils import id_generator
 # Create your models here.
-"""
-CartItem===============
-cart
-product
-variation_set
-quantity
-notes
-timestamp
-updated
 
-Cart==============
-total
-timestamp
-updated
-active
-"""
+# order status options array 
 STATUS_CHIOCES = (
     ("Process",'Process'),
     ("Shipment",'Shipment'),

@@ -62,22 +62,31 @@ class Flavour(models.Model):
     def __str__(self):
         return self.flavour_name
 
+# select all category size
+# and then make an array options for select input
+
 size_choices_object = CakeSizeCategory.objects.all().values_list('size','size')
 size_choice_list = []
 for item in size_choices_object:
     size_choice_list.append(item)
+
+# select all category
+# and then make an array options for select input
 
 category_list_objects = Category.objects.all().values_list('category_name','category_name')
 category_choice_list = []
 for item in category_list_objects:
     category_choice_list.append(item)
 
+# select all flavour category
+# and then make an array options for select input
+
 flavour_category_list_objects = FlavourCategory.objects.all().values_list('category_name','category_name')
 flavour_category_choice_list = []
 for item in flavour_category_list_objects:
     flavour_category_choice_list.append(item)
 
-
+# product review star options
 RATING = (
     (1,1),
     (2,2),
@@ -85,6 +94,7 @@ RATING = (
     (4,4),
     (5,5),
 )
+
 class Product(models.Model):
     title = models.CharField(max_length=120)
     description = models.TextField(null=True, blank=True)
@@ -150,12 +160,4 @@ class VariationManager(models.Manager):
         return super(VariationManager, self).filter(active=True)
     def sizes(self):
         return self.all().filter(size='size')
-    # def colors(self):
-    #     return self.all().filter(category='color')
-#
-#
-#
-# # python manage.py makemigrations products
-#
-
-#
+    

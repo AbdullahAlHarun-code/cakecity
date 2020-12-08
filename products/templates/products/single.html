@@ -24,7 +24,6 @@
             {% endfor %}
          </p>
          <p class="product-price">Price: {{ single_product.get_price_range }}</p>
-
          <form id="add_item_form" class="" action="" method="post">
             {% csrf_token %}
             <input type="hidden" id="form_url" name="form_url" value="{% url 'add_to_cart' options.id%}">
@@ -37,9 +36,9 @@
                {% endfor %}
                </select>
                {% if options.cake_size_id == 0 %}
-                 <div class="alert text-danger p-0" role="alert">
+               <div class="alert text-danger p-0" role="alert">
                   *Please select your cake size.
-                 </div>
+               </div>
                {% endif %}
             </div>
             <hr>
@@ -49,34 +48,33 @@
                {% endif %}
             </div>
             <div class="select_flavour">
-              {% if options.is_falvour %}
-              {% for x in options.cake_size_name_array%}
-              {% with index=forloop.counter %}
-              <div class="form-group col-10 pl-0">
-                 <label class="h4" for="exampleFormControlSelect1">{{x}} Tier Flavour</label>
-                 <select onchange="this.form.submit()" class="form-control" id="exampleFormControlSelect1" name="{{x}}_tier_flavour_variation">
-                 <option {% ifequal y 0 %} selected {% endifequal %} value="0">No (€0)</option>
-                 {% for item in options.flavours %}
-                 {% if index == 1 %}
-                 <option  {% ifequal options.cake_flavour_id.0 item.id %} selected {% endifequal %} value="{{item.id}}">{{item.flavour_name}}(€{{item.price}})</option>
-                 {% elif index == 2 %}
-                 <option  {% ifequal options.cake_flavour_id.1 item.id %} selected {% endifequal %} value="{{item.id}}">{{item.flavour_name}}(€{{item.price}})</option>
-                 {% else  %}
-                 <option  {% ifequal options.cake_flavour_id.2 item.id %} selected {% endifequal %} value="{{item.id}}">{{item.flavour_name}}(€{{item.price}})</option>
-                 {% endif %}
-                 {% endfor %}
-                 </select>
-              </div>
-              {% endwith %}
-              {% endfor %}
-
-              {% endif %}
-              <!-- end new flavour-->
-              {% if options.is_tier_flavour_select == False %}
-                <div class="alert text-danger p-0" role="alert">
-                 *Please select your all tier flavour.
-                </div>
-              {% endif %}
+               {% if options.is_falvour %}
+               {% for x in options.cake_size_name_array%}
+               {% with index=forloop.counter %}
+               <div class="form-group col-10 pl-0">
+                  <label class="h4" for="exampleFormControlSelect1">{{x}} Tier Flavour</label>
+                  <select onchange="this.form.submit()" class="form-control" id="exampleFormControlSelect1" name="{{x}}_tier_flavour_variation">
+                  <option {% ifequal y 0 %} selected {% endifequal %} value="0">No (€0)</option>
+                  {% for item in options.flavours %}
+                  {% if index == 1 %}
+                  <option  {% ifequal options.cake_flavour_id.0 item.id %} selected {% endifequal %} value="{{item.id}}">{{item.flavour_name}}(€{{item.price}})</option>
+                  {% elif index == 2 %}
+                  <option  {% ifequal options.cake_flavour_id.1 item.id %} selected {% endifequal %} value="{{item.id}}">{{item.flavour_name}}(€{{item.price}})</option>
+                  {% else  %}
+                  <option  {% ifequal options.cake_flavour_id.2 item.id %} selected {% endifequal %} value="{{item.id}}">{{item.flavour_name}}(€{{item.price}})</option>
+                  {% endif %}
+                  {% endfor %}
+                  </select>
+               </div>
+               {% endwith %}
+               {% endfor %}
+               {% endif %}
+               <!-- end new flavour-->
+               {% if options.is_tier_flavour_select == False %}
+               <div class="alert text-danger p-0" role="alert">
+                  *Please select your all tier flavour.
+               </div>
+               {% endif %}
             </div>
             {% if options.cake_size_id > 0 %}
             <hr>

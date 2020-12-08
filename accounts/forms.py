@@ -4,6 +4,8 @@ from django.contrib.auth.models import User
 from .models import Customer, BillingAddress, ShippingAddress
 from django import forms
 
+# form for register account
+
 class UserRegisterForm(UserCreationForm):
     class Meta:
         model = User
@@ -14,6 +16,8 @@ class UserRegisterForm(UserCreationForm):
             raise forms.ValidationError("This email already used")
         return data
 
+# user account change password form
+
 class CustomerChangePassword(PasswordChangeForm):
     old_password = forms.CharField(widget=forms.PasswordInput(attrs={'class':'form-control', 'type':'password'}))
     new_password1 = forms.CharField(max_length=100, widget=forms.PasswordInput(attrs={'class':'form-control', 'type':'password'}))
@@ -22,10 +26,15 @@ class CustomerChangePassword(PasswordChangeForm):
         model = User
         fields = ['old_password', 'new_password1', 'new_password2']
 
+
+# purchage order form
+
 class CustomerForm(ModelForm):
     class Meta:
         model = Customer
         fields = ['name', 'email', 'phone']
+
+# user billing address form
 
 class BillingAddressForm(ModelForm):
     class Meta:
@@ -42,14 +51,14 @@ class BillingAddressForm(ModelForm):
         }
         for field in self.fields:
             if self.fields[field].required:
-                #placeholder = self.fields[field]
                 self.fields[field].widget.attrs['placeholder'] = f' {placeholders[field]} *'
             else:
                 self.fields[field].widget.attrs['placeholder'] = placeholders[field]
             self.fields[field].widget.attrs['class'] = 'form-control'
             self.fields[field].label = False
-#git config --global user.email "you@example.com"
-  #git config --global user.name "Your Name"
+
+# user shipping address form
+
 class ShippingAddressForm(ModelForm):
     class Meta:
         model = ShippingAddress
@@ -65,7 +74,6 @@ class ShippingAddressForm(ModelForm):
         }
         for field in self.fields:
             if self.fields[field].required:
-                #placeholder = self.fields[field]
                 self.fields[field].widget.attrs['placeholder'] = f' {placeholders[field]} *'
             else:
                 self.fields[field].widget.attrs['placeholder'] = placeholders[field]

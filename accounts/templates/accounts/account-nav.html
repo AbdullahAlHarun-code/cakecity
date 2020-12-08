@@ -1,20 +1,19 @@
 <div class="card">
-  <ul class="nav flex-column p-2">
-      <li class="nav-item">
-        <a class="nav-link {% if active == 'profile'%} disabled {% endif %}" href="{% url 'profile'%}">Profile</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link  {% if active == 'order-history'%} disabled {% endif %}" href="{% url 'order_history'%}">Order History</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link  {% if active == 'address'%} disabled {% endif %}" href="{% url 'address'%}">Address</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link  {% if active == 'change-password'%} disabled {% endif %}" href="{% url 'change_password'%}">Change Password</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="{% url 'logout'%}">Logout</a>
-      </li>
-
-    </ul>
+	<ul class="nav flex-column p-2">
+		<li class="nav-item">
+			<a class="nav-link {% if active == 'profile'%} disabled {% endif %}" href="{% url 'profile'%}">Profile</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link  {% if active == 'order-history'%} disabled {% endif %}" href="{% url 'order_history'%}">Order History</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link  {% if active == 'address'%} disabled {% endif %}" href="{% url 'address'%}">Address</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link  {% if active == 'change-password'%} disabled {% endif %}" href="{% url 'change_password'%}">Change Password</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" href="{% url 'logout'%}">Logout</a>
+		</li>
+	</ul>
 </div>

@@ -1,0 +1,69 @@
+{% extends "base.html"%}
+{% block page_content %}
+{% load static %}
+
+<div class="container">
+	<div class="row m-sm-5 bg-light pt-4 pb-4">
+		<div class="col-sm-3">{% include 'accounts/account-nav.html'%}</div>
+		<div class="col-sm-9">
+			<h3 style="word-wrap: break-word;" class="text-wrap">{{title}}</h3>
+			<hr />
+      {% if order %}
+      
+			<table class="table-responsive">
+				<tbody>
+					<tr class="row p-0">
+						<th class="col-3">Product</th>
+						<th class="col-6">Description</th>
+						<th class="col-3">Total</th>
+					</tr>
+          {% for item in order.order_items%}
+
+					<tr class="border-bottom border-primary row p-0">
+						<td class="col-3">
+							<img
+                style="width:70%"
+                class=""
+                src="{{MEDIA_URL}}{{item.product_image}}"
+                alt=""
+              />
+						</td>
+						<td class="text-left col-6">
+              {{item.product}} (€{{item.unit_price}})
+							<br />
+							<strong>Flavours: </strong>
+							<br />
+							<ol>
+                {% for flavour in item.flavour%}
+
+								<li class="font-italic mb-0 p-0">
+                  {{flavour}}(€{{flavour.price}})
+                </li>
+                {% endfor %}
+
+							</ol>
+						</td>
+						<td class="text-left col-3">€{{item.total}}</td>
+					</tr>
+          {% endfor %}
+
+					<tr class="row p-0 mb-3 text-danger">
+						<td class="col-3"></td>
+						<td class="col-6 text-right">
+							<strong>Grand Total:</strong>
+						</td>
+						<td class="col-3">€{{order.order.grand_total}}</td>
+					</tr>
+				</tbody>
+			</table>
+
+      {% else %}
+
+			<p>No records found!</p>
+      {% endif %}
+
+		</div>
+	</div>
+</div>
+
+{% endblock %}

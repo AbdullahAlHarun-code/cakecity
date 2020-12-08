@@ -1,7 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django import forms
-# Create your models here.
+
+# Create new user or customer
 
 class Customer(models.Model):
     user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
@@ -16,6 +17,8 @@ class Customer(models.Model):
         else:
             return ''
 
+# user billing address
+
 class BillingAddress(models.Model):
     user = models.ForeignKey(User, default=None, on_delete=models.CASCADE)
     address_line_1 = models.CharField(max_length=200, null=True)
@@ -26,6 +29,7 @@ class BillingAddress(models.Model):
     updated = models.DateTimeField(auto_now_add=True)
 
 
+# user shipping address
 
 class ShippingAddress(models.Model):
     user = models.ForeignKey(User, default=None, on_delete=models.CASCADE)

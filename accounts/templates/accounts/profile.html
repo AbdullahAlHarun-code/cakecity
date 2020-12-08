@@ -3,46 +3,34 @@
 {% load static %}
 <div class="container">
   <div class="row m-sm-5 bg-light pt-4 pb-4">
-    <div class="col-sm-3">
-      {% include 'accounts/account-nav.html'%}
-
-    </div>
+    <div class="col-sm-3">{% include 'accounts/account-nav.html'%}</div>
     <div class="col-sm-9">
-      <h3> Account Information</h3><hr>
+      <h3>Account Information</h3>
+      <hr />
       <form class="" action="{% url 'edit_profile'%}" method="post">
         {% csrf_token %}
         <div class="form-group row">
           <label for="name" class="col-sm-2 col-form-label">Username</label>
           <div class="col-sm-10">
-            <input type="text" disabled name="" value="{{user.username}}">
+            <input type="text" disabled name="" value="{{user.username}}" />
           </div>
         </div>
         <div class="form-group row">
           <label for="name" class="col-sm-2 col-form-label">Name</label>
-          <div class="col-sm-10">
-            {{form.name}}
-          </div>
+          <div class="col-sm-10">{{form.name}}</div>
         </div>
         <div class="form-group row">
           <label for="email" class="col-sm-2 col-form-label">Email</label>
-          <div class="col-sm-10">
-            {{form.email}}
-          </div>
+          <div class="col-sm-10">{{form.email}}</div>
         </div>
         <div class="form-group row">
           <label for="phone" class="col-sm-2 col-form-label">Phone</label>
-          <div class="col-sm-10">
-            {{form.phone}}
-          </div>
-        </div><hr>
+          <div class="col-sm-10">{{form.phone}}</div>
+        </div>
+        <hr />
         <a href="{% url 'edit_profile'%}" class="btn btn-info">Edit</a>
       </form>
-
-
     </div>
-
-
-
   </div>
   <script type="text/javascript">
     var form_fields = document.getElementsByTagName('input');
