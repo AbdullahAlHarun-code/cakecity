@@ -43,6 +43,7 @@ A live demo version can be found [here](https://mat-cakecity.herokuapp.com/)
         11. As a customer about to make a purchase, user need to be able to submit my credit card details and get authorization so that user can complete their checkout
         12. When the user enters the credit-card-number, year-and-month-of-expiry and cvv and selects and authorization is successful. Then display “payment confirmation” message and persist order number for future reference.
         13. When the user enters incorrect credit-card-number or year-and-month-of-expiry or cvv and selects and authorization fails. Then display “payment failed” error-message and reset the payment fields.
+        14. The online payments gateway we use Stripe [here](https://stripe.com/ie)
 
     -   #### Admin and Store Management:
         1. Add a product
