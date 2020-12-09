@@ -5,50 +5,63 @@ You can browse and search for cakes by category or individual search . The main 
 
 # Demo
 A live demo version can be found [here](https://mat-cakecity.herokuapp.com/)
-
+![alt text](https://cakecity-bucket.s3-eu-west-1.amazonaws.com/static/images/screen-shot-github.png")
 
 ## UX
-Simplicity is often referred to as one of the fundamental principles of UX design. I try to make this website as clear as possible to the user can easily understand to use it. Although it is a online book store site, be simple layout with the main focus on this, user can easily register account and login system, user can also upload book and view this book.
+-   ### User stories
+    -   #### shopper
+        1. View a list of products
+        2. View a specific category of products
+        3. View a individual product details and product variations
+        4. Shopper can easily add one or more products by add to cart button
+        5. Shopper can easily view their cart products before checkout
+        6. Shopper have register and login system
+    -   #### Registration and User Accounts:
+        1. Easily user can register for an account
+        2. Easily user can login or logout
+        3. Easily user can view and edit personalized the profile
+        6. Easily user can add/edit their billing and shipping address
+        7. Easily user can change their password
 
-## Key Features:
-### User
-Viewing and Navigation:
-1. Shopper
-  - View a list of products
-  - View a specific category of products
-  - View individual product details and product variation
-  - Easily view the total of my purchases at any time mobile.
-  - Interactive elements
-Registration and User Accounts:
-1. Site User
-  - Easily register for an account
-  - Easily login or logout
-  - Easily recover my password in case I forget it
-  - Receive an email confirmation after registering
-  - Have a personalized user profile
+    -   #### Sorting and Searching:
+        1. Sort the list of a available products
+        2. Sort a specific category of product
+        3. Search for a product by name of description
+        4. Easily see what I've searched for and the number of results
 
-Sorting and Searching
-1. Shopper
-  - Sort the list of a available products
-  - Sort a specific category of product
-  - sort multiple categories of products simultaneously
-  - Search for a product by name of description
-  - Easily see what I've searched for and the number of results
+    -   #### Purchasing and Checkout:
+        1. Order placed by a registered user
+        2. Order with multiple items
+        3. Order with at least one item with quantity >1
+        4. Order with payment via credit card
+        5. Order where shipping and billing address are same
+        6. Order where shipping and billing address are not the same
+        7. Order with multiple shipping addresses
+        8. Order with standard shipping
+        9. Order with free shipping when order total amount over specific amount
+        10. Order with free shipping
+        11. As a customer about to make a purchase, user need to be able to submit my credit card details and get authorization so that user can complete their checkout
+        12. When the user enters the credit-card-number, year-and-month-of-expiry and cvv and selects and authorization is successful. Then display “payment confirmation” message and persist order number for future reference.
+        13. When the user enters incorrect credit-card-number or year-and-month-of-expiry or cvv and selects and authorization fails. Then display “payment failed” error-message and reset the payment fields.
 
-Purchasing and Checkout:
-1. shopper
-  - Easily the cake size and cake flavour and quantity of a cake when purchasing it
-  - View items in my cart to be purchased
-  - Adjust the quantity of individual items in my bag
-  - Easily enter my payment information
-  - Feel my personal and payment information is safe and secure
-  - View and order confirmation after Checkout
-  - Review an email confirmation after checking out
-Admin and Store Management:
-1. Store Owner:
-  - Add a product
-  - Edit/update a product
-  - Delete a product
+    -   #### Admin and Store Management:
+        1. Add a product
+        2. Edit/update a product
+        3. Delete a product
+
+        Admin and Store Management:
+        1. Store Owner:
+          - Add a product
+          - Edit/update a product
+          - Delete a product
+
+-   ### Design
+    -   #### Colour Scheme
+        -   The two main colours used are Code Institute Blue, and pink.
+    -   #### Typography
+        -   The Helvetica  font is the main font used throughout the whole website with Sans Serif as the fall back font in case for any reason the font isn't being imported into the site correctly. Helvetica  is a clean font used frequently in programming, so it is both attractive and appropriate.
+
+
 ## Technologies Used
 This project is developed by,
 - Python framework (Django)
@@ -57,21 +70,74 @@ This project is developed by,
 - Bootstrap-4
 - jQuery, JavaScript
 
-**Note:** The main database system is Postgres. If you want to clone and use the project, then after cloning you have to create config.py and setting your Postgres and SECRET_KEY within your Config class. Otherwise this application will not work properly.
 
 ## Testing:
-This site was tested across multiple screen sizes on Chrome, Safari, and Internet Explorer. To ensure compatibility and responsiveness it is also tested on an android based mobile device (OnePlus5). A large amount of testing was done to ensure that all pages were linking correctly and user registration and uploading book work perfectly.
+-   The Website was tested on Google Chrome, Internet Explorer, Microsoft Edge and Safari browsers.
+-   The website was viewed on a variety of devices such as Desktop, Laptop, iPhone7, iPhone 8 & iPhoneX.
+-   A large amount of testing was done to ensure that all pages were linking correctly.
+-   Friends and family members were asked to review the site and documentation to point out any bugs and/or user experience issues.
 
 ## Deployment:
+### GitHub Pages
 
+The project was deployed to GitHub Pages using the following steps...
 
-## Credits:
+1. Log in to GitHub and locate the [GitHub Repository](https://github.com/AbdullahAlHarun-code/cakecity)
+2. At the top of the Repository (not top of page), locate the "Settings" Button on the menu.
+3. Scroll down the Settings page until you locate the "GitHub Pages" Section.
+4. Under "Source", click the dropdown called "None" and select "Master Branch".
+5. The page will automatically refresh.
+6. Scroll back down through the page to locate the now published site [link](https://github.com/AbdullahAlHarun-code/cakecity) in the "GitHub Pages" section.
+
+### Forking the GitHub Repository
+
+By forking the GitHub Repository we make a copy of the original repository on our GitHub account to view and/or make changes without affecting the original repository by using the following steps...
+
+1. Log in to GitHub and locate the [GitHub Repository](https://github.com/AbdullahAlHarun-code/cakecity)
+2. At the top of the Repository (not top of page) just above the "Settings" Button on the menu, locate the "Fork" Button.
+3. You should now have a copy of the original repository in your GitHub account.
+### Making a Local Clone
+
+1. Log in to GitHub and locate the [GitHub Repository](https://github.com/AbdullahAlHarun-code/cakecity)
+2. Under the repository name, click "Clone or download".
+3. To clone the repository using HTTPS, under "Clone with HTTPS", copy the link.
+4. Open Git Bash
+5. Change the current working directory to the location where you want the cloned directory to be made.
+6. Type `git clone`, and then paste the URL you copied in Step 3.
+
+```
+$ git clone https://github.com/AbdullahAlHarun-code/cakecity
+```
+
+7. Press Enter. Your local clone will be created.
+
+```
+$ git clone https://github.com/AbdullahAlHarun-code/cakecity
+> Cloning into `CI-Clone`...
+> remote: Counting objects: 10, done.
+> remote: Compressing objects: 100% (8/8), done.
+> remove: Total 10 (delta 1), reused 10 (delta 1)
+> Unpacking objects: 100% (10/10), done.
+```
+## Credits
+
+### Code
+
+-   The full-screen hero image code came from this [StackOverflow post](https://stackoverflow.com)
+
+-   [Bootstrap4](https://getbootstrap.com/docs/4.4/getting-started/introduction/): Bootstrap Library used throughout the project mainly to make site responsive using the Bootstrap Grid System.
+
+-   [MDN Web Docs](https://developer.mozilla.org/) : For Pattern Validation code. Code was modified to better fit my needs and to match an Irish phone number layout to ensure correct validation. Tutorial Found [Here](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/tel#Pattern_validation)
+
 ### Content
+
+-   All content was collected from Creative Cakes [here](https://www.creativecakes.ie/)
 
 -   
 
 ### Media:
--   
+-   All images was collected from Creative Cakes [here](https://www.creativecakes.ie/)
+-   All static and media file upload in Amazon AWS [here](https://aws.amazon.com/)
 
 ## Credits:
 -   My Mentor for continuous helpful feedback.
