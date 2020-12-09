@@ -123,8 +123,6 @@ $ git clone https://github.com/AbdullahAlHarun-code/cakecity
 
 -   All content was collected from Creative Cakes [here](https://www.creativecakes.ie/)
 
--   
-
 ### Media:
 -   All images was collected from Creative Cakes [here](https://www.creativecakes.ie/)
 -   All static and media file upload in Amazon AWS [here](https://aws.amazon.com/)
