@@ -5,7 +5,7 @@ You can browse and search for cakes by category or individual search . The main 
 
 # Demo
 A live demo version can be found [here](https://mat-cakecity.herokuapp.com/)
-![alt text](https://cakecity-bucket.s3-eu-west-1.amazonaws.com/static/images/screen-shot-github.png")
+<h2 align="center"><img src="https://cakecity-bucket.s3-eu-west-1.amazonaws.com/static/images/screen-shot-github.png"></h2>
 
 ## UX
 -   ### User stories
@@ -109,16 +109,6 @@ By forking the GitHub Repository we make a copy of the original repository on ou
 $ git clone https://github.com/AbdullahAlHarun-code/cakecity
 ```
 
-7. Press Enter. Your local clone will be created.
-
-```
-$ git clone https://github.com/AbdullahAlHarun-code/cakecity
-> Cloning into `CI-Clone`...
-> remote: Counting objects: 10, done.
-> remote: Compressing objects: 100% (8/8), done.
-> remove: Total 10 (delta 1), reused 10 (delta 1)
-> Unpacking objects: 100% (10/10), done.
-```
 ## Credits
 
 ### Code
